@@ -22,4 +22,9 @@ public class Ellipse extends Command {
     public boolean isCommandFinished() {
         return false;
     }
+
+    @Override
+    public void setCommandFinished() {
+
+    }
 }

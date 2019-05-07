@@ -3,9 +3,11 @@ package Commands;
 import java.awt.*;
 
 public class Rectangle extends Command {
+    private boolean commandFinished;
 
     public Rectangle(int x1, int y1, Color penColor, Color fillColor) {
         super(x1, y1, penColor, fillColor, CommandEnum.RECTANGLE);
+        commandFinished = false;
     }
 
     @Override
@@ -20,6 +22,11 @@ public class Rectangle extends Command {
 
     @Override
     public boolean isCommandFinished() {
-        return false;
+        return commandFinished;
+    }
+
+    @Override
+    public void setCommandFinished() {
+        if(getXPoint() != 0 && getYPoint() != 0) commandFinished = true;
     }
 }

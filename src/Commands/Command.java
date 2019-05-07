@@ -102,4 +102,6 @@ import java.awt.*;
      public abstract void draw(Graphics graphics);
 
      public abstract boolean isCommandFinished();
+
+     public abstract void setCommandFinished();
 }
