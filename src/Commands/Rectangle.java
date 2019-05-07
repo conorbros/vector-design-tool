@@ -3,21 +3,70 @@ package Commands;
 import java.awt.*;
 
 public class Rectangle extends Command {
+    private Integer x1, y1, x2, y2;
     private boolean commandFinished;
 
     public Rectangle(int x1, int y1, Color penColor, Color fillColor) {
-        super(x1, y1, penColor, fillColor, CommandEnum.RECTANGLE);
+        super(penColor, fillColor, CommandEnum.RECTANGLE);
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = null;
+        this.y2 = null;
         commandFinished = false;
+    }
+
+    @Override
+    public void addStartXPoint(int x) {
+        if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
+        this.x1 = x;
+    }
+
+    @Override
+    public void addStartYPoint(int y) {
+        if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
+        this.y1 = y;
+    }
+
+    @Override
+    public void addXPoint(int x) {
+        if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
+        this.x2 = x;
+    }
+
+    @Override
+    public void addYPoint(int y) {
+        if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
+        this.y2 = y;
+    }
+
+    @Override
+    public int getStartX() {
+        return x1;
+    }
+
+    @Override
+    public int getStartY() {
+        return y1;
+    }
+
+    @Override
+    public int getXPoint() {
+        return x2;
+    }
+
+    @Override
+    public int getYPoint() {
+        return y2;
     }
 
     @Override
     public void draw(Graphics graphics) {
         if(getFillColor() != null){
             graphics.setColor(getFillColor());
-            graphics.fillRect(getStartX(), getStartY(), getXPoint()- getStartX(), getYPoint()- getStartY());
+            graphics.fillRect(x1, y1, x2-x1, y2-y1);
         }
         graphics.setColor(getPenColor());
-        graphics.drawRect(getStartX(), getStartY(), getXPoint()- getStartX(), getYPoint()- getStartY());
+        graphics.drawRect(x1, y1, x2-x1, y2-y1);
     }
 
     @Override
@@ -27,6 +76,10 @@ public class Rectangle extends Command {
 
     @Override
     public void setCommandFinished() {
-        if(getXPoint() != 0 && getYPoint() != 0) commandFinished = true;
+        if(x2 != null && y2 != null){
+            commandFinished = true;
+        }else{
+            throw new CommandException(CommandEnum.RECTANGLE, "cannot be set finished until all coordinates supplied.");
+        }
     }
 }

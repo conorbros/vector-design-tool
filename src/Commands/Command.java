@@ -3,8 +3,8 @@ package Commands;
 import java.awt.*;
 
  abstract public class Command {
-     private int x1, y1, x2, y2;
-     private Color penColor, fillColor;
+     private Color penColor;
+     private Color fillColor;
      private CommandEnum commandType;
 
      /**
@@ -15,11 +15,9 @@ import java.awt.*;
       * @param fillColor the fill color of the command (if any)
       * @param commandType the type of command
       */
-    public Command(int x1, int y1, Color penColor, Color fillColor, CommandEnum commandType){
+    public Command(Color penColor, Color fillColor, CommandEnum commandType){
         this.penColor = penColor;
         this.fillColor = fillColor;
-        this.x1 = x1;
-        this.y1 = y1;
         this.commandType = commandType;
     }
 
@@ -30,58 +28,6 @@ import java.awt.*;
     public CommandEnum getCommandType(){
         return commandType;
     }
-
-     /**
-      * sets the start x point of the command object
-      * @param x the new start x point
-      */
-     public void addStartXPoint(int x){
-        this.x1 = x;
-     }
-
-     /**
-      * sets the start y point of the command object
-      * @param y
-      */
-     public void addStartYPoint(int y){
-         this.y1 = y;
-     }
-
-     /**
-      * adds an x point to the command
-      * @param x the x point to add
-      */
-     public void addXPoint(int x){
-         this.x2 = x;
-     }
-
-     /**
-      * adds a y point to the command
-      * @param y the y point to add
-      */
-     public void addYPoint(int y){
-         this.y2 = y;
-     }
-
-     /**
-      * Getter methods
-      */
-
-     public int getStartX(){
-         return x1;
-     }
-
-     public int getStartY(){
-         return y1;
-     }
-
-     public int getXPoint(){
-         return x2;
-     }
-
-     public int getYPoint(){
-         return  y2;
-     }
 
      public Color getPenColor() {
          return penColor;
@@ -98,6 +44,41 @@ import java.awt.*;
      public void setFillColor(Color fillColor) {
          this.fillColor = fillColor;
      }
+
+     /**
+      * sets the start x point of the command object
+      * @param x the new start x point
+      */
+     public abstract void addStartXPoint(int x);
+
+     /**
+      * sets the start y point of the command object
+      * @param y
+      */
+     public abstract void addStartYPoint(int y);
+
+     /**
+      * adds an x point to the command
+      * @param x the x point to add
+      */
+     public abstract void addXPoint(int x);
+     /**
+      * adds a y point to the command
+      * @param y the y point to add
+      */
+     public abstract void addYPoint(int y);
+
+     /**
+      * Getter methods
+      */
+
+     public abstract int getStartX();
+
+     public abstract int getStartY();
+
+     public abstract int getXPoint();
+
+     public abstract int getYPoint();
 
      public abstract void draw(Graphics graphics);
 

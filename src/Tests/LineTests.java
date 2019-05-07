@@ -13,7 +13,7 @@ public class LineTests {
     @BeforeEach
     public void beforeEach(){
         line = null;
-        line = new Line(0, 0, Color.BLACK, Color.WHITE);
+        line = new Line(0, 0, Color.BLACK);
     }
 
 

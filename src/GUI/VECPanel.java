@@ -61,7 +61,7 @@ public class VECPanel extends JPanel {
                     repaint();
                     break;
                 case LINE:
-                    currentCommand = new Line(e.getX(), e.getY(), penColor, fillColor);
+                    currentCommand = new Line(e.getX(), e.getY(), penColor);
                     break;
                 case RECTANGLE:
                     currentCommand = new Rectangle(e.getX(), e.getY(), penColor, fillColor);

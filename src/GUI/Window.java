@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.jar.JarEntry;
+
 
 public class Window extends JFrame implements ActionListener, Runnable {
     private static final int WIDTH = 1030;
