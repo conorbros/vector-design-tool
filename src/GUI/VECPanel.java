@@ -2,7 +2,6 @@ package GUI;
 
 import Commands.*;
 import Commands.Rectangle;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
