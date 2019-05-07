@@ -20,6 +20,7 @@ public class VECPanel extends JPanel {
         fillColor = null;
 
         setLayout(new BorderLayout());
+        setSize(new Dimension(1000, 1000));
         setBackground(Color.WHITE);
 
         MouseController mouseController = new MouseController();
@@ -76,9 +77,9 @@ public class VECPanel extends JPanel {
         }
 
         public void mouseReleased(MouseEvent e){
-            if(selectedCommand == CommandEnum.LINE || selectedCommand == CommandEnum.RECTANGLE || selectedCommand == CommandEnum.ELLIPSE){
-                currentCommand.setX2(e.getX());
-                currentCommand.setY2(e.getY());
+            if(currentCommand.getCommandType() == CommandEnum.LINE || currentCommand.getCommandType() == CommandEnum.RECTANGLE || currentCommand.getCommandType() == CommandEnum.ELLIPSE){
+                currentCommand.addXPoint(e.getX());
+                currentCommand.addYPoint(e.getY());
             }
             clearCommand();
             repaint();
@@ -86,8 +87,8 @@ public class VECPanel extends JPanel {
 
         public void mouseDragged(MouseEvent e){
             if(currentCommand != null){
-                currentCommand.setX2(e.getX());
-                currentCommand.setY2(e.getY());
+                currentCommand.addXPoint(e.getX());
+                currentCommand.addYPoint(e.getY());
                 repaint();
             }
         }
