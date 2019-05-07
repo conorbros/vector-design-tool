@@ -6,11 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.jar.JarEntry;
 
 public class Window extends JFrame implements ActionListener, Runnable {
-    private static final int WIDTH = 1000;
+    private static final int WIDTH = 1030;
     private static final int HEIGHT = 1000;
-    private static final int MIN_WIDTH = 1000;
+    private static final int MIN_WIDTH = 1030;
     private static final int MIN_HEIGHT = 1000;
 
     private VECPanel vecPanel = new VECPanel();
@@ -49,7 +50,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
         setLayout(new BorderLayout());
 
         add(vecPanel, BorderLayout.CENTER);
-
+        add(toolPanel(), BorderLayout.WEST);
         setJMenuBar(menuBar());
 
         repaint();
@@ -135,16 +136,74 @@ public class Window extends JFrame implements ActionListener, Runnable {
         return colorMenu;
     }
 
-    private JPanel createPanel(Color c){
+    private JPanel toolPanel(){
+        JPanel toolPanel = createPanel(Color.LIGHT_GRAY);
+        toolPanel.setSize(new Dimension(30, 1000));
+        toolPanel.setLayout(new BoxLayout(toolPanel, BoxLayout.Y_AXIS));
+
+        ButtonGroup penColors = new ButtonGroup();
+        JLabel penLabel = new JLabel("Pen color:");
+        JRadioButton penBlack = createRadioButton("", Color.BLACK, e -> vecPanel.setPenColor(Color.BLACK));
+        penBlack.setSelected(true);
+        JRadioButton penRed = createRadioButton("", Color.RED, e -> vecPanel.setPenColor(Color.RED));
+        JRadioButton penBlue = createRadioButton("", Color.BLUE, e -> vecPanel.setPenColor(Color.BLUE));
+        penColors.add(penBlack);
+        penColors.add(penRed);
+        penColors.add(penBlue);
+
+        toolPanel.add(penLabel);
+        toolPanel.add(penBlack);
+        toolPanel.add(penRed);
+        toolPanel.add(penBlue);
+
+        ButtonGroup fillColors = new ButtonGroup();
+        JLabel fillLabel = new JLabel("Fill color:");
+        JRadioButton fillWhite = createRadioButton("", Color.WHITE, e -> vecPanel.setFillColor(Color.WHITE));
+        fillWhite.setSelected(true);
+        JRadioButton fillRed = createRadioButton("", Color.RED, e -> vecPanel.setFillColor(Color.RED));
+        JRadioButton fillBlue = createRadioButton("", Color.BLUE, e -> vecPanel.setFillColor(Color.BLUE));
+        fillColors.add(fillWhite);
+        fillColors.add(fillRed);
+        fillColors.add(fillBlue);
+
+        toolPanel.add(fillLabel);
+        toolPanel.add(fillWhite);
+        toolPanel.add(fillRed);
+        toolPanel.add(fillBlue);
+
+        ButtonGroup commands = new ButtonGroup();
+        JLabel commandsLabel = new JLabel("Commands:");
+        JRadioButton plot = createRadioButton("PLOT", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.PLOT));
+        plot.setSelected(true);
+        JRadioButton line = createRadioButton("LINE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.LINE));
+        JRadioButton rectangle = createRadioButton("RECTANGLE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.RECTANGLE));
+        JRadioButton ellipse = createRadioButton("ELLIPSE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.ELLIPSE));
+        commands.add(plot);
+        commands.add(line);
+        commands.add(rectangle);
+        commands.add(ellipse);
+
+        toolPanel.add(commandsLabel);
+        toolPanel.add(plot);
+        toolPanel.add(line);
+        toolPanel.add(rectangle);
+        toolPanel.add(ellipse);
+
+        return toolPanel;
+    }
+
+    private JPanel createPanel(Color color){
         JPanel pnl = new JPanel();
-        pnl.setBackground(c);
+        pnl.setBackground(color);
         return pnl;
     }
 
-    private JButton createButton(String text){
-        JButton btn = new JButton();
+    private JRadioButton createRadioButton(String text, Color color, ActionListener actionListener){
+        JRadioButton btn = new JRadioButton();
+        btn.setBackground(color);
         btn.setText(text);
-        btn.addActionListener(this);
+        btn.setSize(20,10);
+        btn.addActionListener(actionListener);
         return btn;
     }
 }

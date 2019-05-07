@@ -19,18 +19,18 @@ public class LineTests {
 
     @Test
     public void testSetX(){
-        line.setX1(1);
-        line.setX2(1);
-        assertEquals(1, line.getX1());
-        assertEquals(1, line.getX2());
+        line.addStartXPoint(1);
+        line.addXPoint(1);
+        assertEquals(1, line.getStartX());
+        assertEquals(1, line.getXPoint());
     }
 
     @Test
     public void testSetY(){
-        line.setY1(3);
-        line.setY2(4);
-        assertEquals(3, line.getY1());
-        assertEquals(4, line.getY2());
+        line.addStartYPoint(3);
+        line.addYPoint(4);
+        assertEquals(3, line.getStartY());
+        assertEquals(4, line.getYPoint());
     }
 
     @Test

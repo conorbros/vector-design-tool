@@ -18,18 +18,18 @@ public class RectangleTests {
 
     @Test
     public void testSetX(){
-        rec.setX1(1);
-        rec.setX2(1);
-        assertEquals(1, rec.getX1());
-        assertEquals(1, rec.getX2());
+        rec.addStartXPoint(1);
+        rec.addXPoint(1);
+        assertEquals(1, rec.getStartX());
+        assertEquals(1, rec.getXPoint());
     }
 
     @Test
     public void testSetY(){
-        rec.setY1(3);
-        rec.setY2(4);
-        assertEquals(3, rec.getY1());
-        assertEquals(4, rec.getY2());
+        rec.addStartYPoint(3);
+        rec.addYPoint(4);
+        assertEquals(3, rec.getStartY());
+        assertEquals(4, rec.getYPoint());
     }
 
     @Test

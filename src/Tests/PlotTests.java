@@ -20,12 +20,12 @@ public class PlotTests {
     public void testSetX(){
         plot = new Plot(1, 1, Color.BLACK);
 
-        assertEquals(1, plot.getX1());
+        assertEquals(1, plot.getStartX());
     }
 
     @Test
     public void testSetY(){
         plot = new Plot(1, 1, Color.BLACK);
-        assertEquals(1, plot.getY1());
+        assertEquals(1, plot.getStartY());
     }
 }
