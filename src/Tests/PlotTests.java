@@ -56,6 +56,7 @@ public class PlotTests {
     @Test
     public void testFillColor() {
         assertThrows(CommandException.class, () -> plot.setFillColor(Color.WHITE), "PLOT cannot have a fill color");
+        assertThrows(CommandException.class, () -> plot.getFillColor(), "PLOT cannot have a fill color");
     }
 
     @Test

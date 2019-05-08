@@ -8,7 +8,6 @@ public class Polygon extends Command {
     private int startX, startY;
     private ArrayList<Integer> xPoints = new ArrayList<>();
     private ArrayList<Integer> yPoints = new ArrayList<>();
-    private int endX, endY;
     private boolean commandFinished;
 
     public Polygon(int startX, int startY, Color penColor, Color fillColor){
@@ -18,16 +17,6 @@ public class Polygon extends Command {
         xPoints.add(startX);
         yPoints.add(startY);
         commandFinished = false;
-    }
-
-    @Override
-    public void addStartXPoint(int x) {
-        this.startX = x;
-    }
-
-    @Override
-    public void addStartYPoint(int y) {
-        this.startY = y;
     }
 
     @Override
@@ -53,11 +42,13 @@ public class Polygon extends Command {
 
     @Override
     public int getXPoint() {
+        //returns the last x point added to the polygon
         return xPoints.get(xPoints.size()-1);
     }
 
     @Override
     public int getYPoint() {
+        //returns the last y point added to the polygon
         return yPoints.get(yPoints.size()-1);
     }
 
@@ -65,7 +56,10 @@ public class Polygon extends Command {
     public void draw(Graphics graphics) {
         int[] x_points = arrayListToIntArray(xPoints);
         int[] y_points = arrayListToIntArray(yPoints);
-        if(x_points.length != y_points.length) throw new CommandException(CommandEnum.POLYGON, "has unequal numbers of x and y points");
+        if(x_points.length != y_points.length) {
+            throw new CommandException(CommandEnum.POLYGON, "has unequal numbers of x and y points");
+        }
+
         if(!commandFinished){
             drawPolyline(graphics, x_points, y_points);
         }else{
@@ -73,11 +67,23 @@ public class Polygon extends Command {
         }
     }
 
+    /**
+     * draws the uncompleted polygon's polyline
+     * @param graphics the graphics component to the draw the polyline on
+     * @param x_points the x points of the polyline
+     * @param y_points the y points of the polyline
+     */
     private void drawPolyline(Graphics graphics, int[] x_points, int[] y_points){
         graphics.setColor(getPenColor());
         graphics.drawPolyline(x_points, y_points, x_points.length);
     }
 
+    /**
+     * draws the completed polygon
+     * @param graphics the graphics component to draw the polyline on
+     * @param x_points the x points of the polygon
+     * @param y_points the y points of the polygon
+     */
     private void drawPolygon(Graphics graphics, int[] x_points, int[] y_points){
         graphics.setColor(getFillColor());
         graphics.drawPolyline(x_points, y_points, x_points.length);
@@ -85,6 +91,11 @@ public class Polygon extends Command {
         graphics.drawPolygon(x_points, y_points, x_points.length);
     }
 
+    /**
+     * helper method to convert an arraylist of integer to an array of primitive ints
+     * @param arrayList the arraylist to convert
+     * @return an int array of the elements of the supplied arraylist
+     */
     private int[] arrayListToIntArray(ArrayList<Integer> arrayList){
         int[] array = new int[arrayList.size()];
         Iterator<Integer> iterator = arrayList.iterator();

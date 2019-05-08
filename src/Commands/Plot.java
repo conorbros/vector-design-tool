@@ -12,16 +12,6 @@ public class Plot extends Command {
     }
 
     @Override
-    public void addStartXPoint(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public void addStartYPoint(int y) {
-        this.y = y;
-    }
-
-    @Override
     public void addXPoint(int x) {
         throw new CommandException(CommandEnum.PLOT, "cannot add more than one point");
     }
@@ -49,6 +39,11 @@ public class Plot extends Command {
     @Override
     public int getYPoint() {
         throw new CommandException(CommandEnum.PLOT, "cannot have more than one point");
+    }
+
+    @Override
+    public Color getFillColor(){
+        throw new CommandException(CommandEnum.LINE, "cannot have a fill color");
     }
 
     @Override

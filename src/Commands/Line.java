@@ -10,19 +10,9 @@ public class Line extends Command {
         super(penColor, null, CommandEnum.LINE);
         this.x1 = x;
         this.y1 = y;
+        this.x2 = null;
+        this.y2 = null;
         commandFinished = false;
-    }
-
-    @Override
-    public void addStartXPoint(int x) {
-        if(commandFinished) throw new CommandException(CommandEnum.LINE, "cannot change coordinates after command finished");
-        this.x1 = x;
-    }
-
-    @Override
-    public void addStartYPoint(int y) {
-        if(commandFinished) throw new CommandException(CommandEnum.LINE, "cannot change coordinates after command finished");
-        this.y1 = y;
     }
 
     @Override
@@ -55,6 +45,11 @@ public class Line extends Command {
     @Override
     public int getYPoint() {
         return y2;
+    }
+
+    @Override
+    public Color getFillColor(){
+        throw new CommandException(CommandEnum.LINE, "cannot have a fill color");
     }
 
     @Override

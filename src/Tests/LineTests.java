@@ -20,9 +20,8 @@ public class LineTests {
 
     @Test
     public void testSetX(){
-        line.addStartXPoint(1);
         line.addXPoint(1);
-        assertEquals(1, line.getStartX());
+        assertEquals(0, line.getStartX());
         assertEquals(1, line.getXPoint());
     }
 
@@ -36,9 +35,8 @@ public class LineTests {
 
     @Test
     public void testSetY(){
-        line.addStartYPoint(3);
         line.addYPoint(4);
-        assertEquals(3, line.getStartY());
+        assertEquals(0, line.getStartY());
         assertEquals(4, line.getYPoint());
     }
 
@@ -59,6 +57,7 @@ public class LineTests {
     @Test
     public void testFillColor() {
         assertThrows(CommandException.class, () -> line.setFillColor(Color.WHITE), "LINE cannot have a fill color");
+        assertThrows(CommandException.class, () -> line.getFillColor(), "LINE cannot have a fill color");
     }
 
     @Test

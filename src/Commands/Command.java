@@ -27,14 +27,26 @@ import java.awt.*;
         return commandType;
     }
 
+     /**
+      * gets the pen color of the object
+      * @return
+      */
      public Color getPenColor() {
          return penColor;
      }
 
+     /**
+      * sets the pen color of the command object
+      * @param penColor
+      */
      public void setPenColor(Color penColor) {
          this.penColor = penColor;
      }
 
+     /**
+      * gets the fill color of the object
+      * @return
+      */
      public Color getFillColor() {
          return fillColor;
      }
@@ -42,18 +54,6 @@ import java.awt.*;
      public void setFillColor(Color fillColor) {
          this.fillColor = fillColor;
      }
-
-     /**
-      * sets the start x point of the command object
-      * @param x the new start x point
-      */
-     public abstract void addStartXPoint(int x);
-
-     /**
-      * sets the start y point of the command object
-      * @param y
-      */
-     public abstract void addStartYPoint(int y);
 
      /**
       * adds an x point to the command
@@ -78,9 +78,20 @@ import java.awt.*;
 
      public abstract int getYPoint();
 
+     /**
+      * draws the command as it currently is on the graphics componenet provided
+      * @param graphics
+      */
      public abstract void draw(Graphics graphics);
 
+     /**
+      * returns whether the command has finished being drawn or not
+      * @return
+      */
      public abstract boolean isCommandFinished();
 
+     /**
+      * sets the command as being finished drawing
+      */
      public abstract void setCommandFinished();
 }

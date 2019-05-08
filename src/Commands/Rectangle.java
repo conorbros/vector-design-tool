@@ -16,18 +16,6 @@ public class Rectangle extends Command {
     }
 
     @Override
-    public void addStartXPoint(int x) {
-        if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
-        this.x1 = x;
-    }
-
-    @Override
-    public void addStartYPoint(int y) {
-        if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
-        this.y1 = y;
-    }
-
-    @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandEnum.RECTANGLE, "cannot change coordinates after command finished");
         this.x2 = x;

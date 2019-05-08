@@ -20,9 +20,8 @@ public class RectangleTests {
 
     @Test
     public void addXPoint(){
-        rec.addStartXPoint(1);
         rec.addXPoint(1);
-        assertEquals(1, rec.getStartX());
+        assertEquals(0, rec.getStartX());
         assertEquals(1, rec.getXPoint());
     }
 
@@ -36,9 +35,8 @@ public class RectangleTests {
 
     @Test
     public void addYPoint(){
-        rec.addStartYPoint(3);
         rec.addYPoint(4);
-        assertEquals(3, rec.getStartY());
+        assertEquals(0, rec.getStartY());
         assertEquals(4, rec.getYPoint());
     }
 
