@@ -1,5 +1,6 @@
 package Tests;
 
+import Commands.CommandException;
 import Commands.Plot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,14 +19,48 @@ public class PlotTests {
 
     @Test
     public void testSetX(){
-        plot = new Plot(1, 1, Color.BLACK);
-
         assertEquals(1, plot.getStartX());
     }
 
     @Test
     public void testSetY(){
-        plot = new Plot(1, 1, Color.BLACK);
         assertEquals(1, plot.getStartY());
     }
+
+    @Test
+    public void addXPointException() {
+        assertThrows(CommandException.class, () -> plot.addXPoint(1), "PLOT cannot add more than one point");
+    }
+
+    @Test
+    public void addYPointException() {
+        assertThrows(CommandException.class, () -> plot.addYPoint(1), "PLOT cannot add more than one point");
+    }
+
+    @Test
+    public void getXPointException() {
+        assertThrows(CommandException.class, () -> plot.getXPoint(), "PLOT cannot have more than one point");
+    }
+
+    @Test
+    public void getYPointException() {
+        assertThrows(CommandException.class, () -> plot.getYPoint(), "PLOT cannot have more than one point");
+    }
+
+    @Test
+    public void testSetPenColor() {
+        plot.setPenColor(Color.WHITE);
+        assertEquals(Color.WHITE, plot.getPenColor());
+    }
+
+    @Test
+    public void testFillColor() {
+        assertThrows(CommandException.class, () -> plot.setFillColor(Color.WHITE), "PLOT cannot have a fill color");
+    }
+
+    @Test
+    public void testIsCommandFinished() {
+        assertEquals(true, plot.isCommandFinished());
+    }
+
 }
