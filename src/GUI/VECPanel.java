@@ -5,7 +5,6 @@ import Commands.Polygon;
 import Commands.Rectangle;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import CommandList.CommandList;
@@ -47,23 +46,41 @@ public class VECPanel extends JPanel {
         }
     }
 
+    /**
+     * sets the selectedCommand
+     * @param selectedCommand the CommandType to set the selected command to
+     */
     public void setSelectedCommand(CommandType selectedCommand) {
         this.selectedCommand = selectedCommand;
     }
 
+    /**
+     * sets the penColor
+     * @param penColor the Color to set the penColor to
+     */
     public void setPenColor(Color penColor){
         this.penColor = penColor;
     }
 
+    /**
+     * sets the fillColor
+     * @param fillColor the Color to set the fillColor
+     */
     public void setFillColor(Color fillColor){
         this.fillColor = fillColor;
     }
 
+    /**
+     * finishes the current command
+     */
     private void finishCommand(){
         drawnCommands.addCommand(currentCommand);
         currentCommand = null;
     }
 
+    /**
+     * undoes the last drawn command by removing it from the drawnCommands and adding to the clearedCommands
+     */
     public void undoCommand(){
         if(drawnCommands.getLastCommand() != null){
             clearedCommands.addCommand(drawnCommands.getLastCommand());
@@ -72,6 +89,9 @@ public class VECPanel extends JPanel {
         }
     }
 
+    /**
+     * redoes the last undone command by removing it from the clearedCommands and adding to the drawnCommands
+     */
     public void redoCommand(){
         if(clearedCommands.getLastCommand() != null){
             drawnCommands.addCommand(clearedCommands.getLastCommand());
@@ -104,13 +124,19 @@ public class VECPanel extends JPanel {
             repaint();
         }
 
+        /**
+         * handler method for polygon
+         * @param e the MouseEvent pressed
+         */
         private void polygonHandler(MouseEvent e){
+            //finish the poly if the mouse is right clicked
             if(e.getButton() == MouseEvent.BUTTON3 && currentCommand != null){
                 currentCommand.setCommandFinished();
                 finishCommand();
                 return;
             }
 
+            //create a new polygon if currentCommand is null
             if(currentCommand != null){
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
@@ -134,7 +160,6 @@ public class VECPanel extends JPanel {
             if(currentCommand != null && currentCommand.getCommandType() != CommandType.POLYGON){
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
-
             }
             repaint();
         }
