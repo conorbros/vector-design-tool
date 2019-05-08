@@ -6,19 +6,19 @@ public class Plot extends Command {
     private Integer x, y;
 
     public Plot(int x, int y, Color penColor) {
-        super(penColor, null, CommandEnum.PLOT);
+        super(penColor, null, CommandType.PLOT);
         this.x = x;
         this.y =  y;
     }
 
     @Override
     public void addXPoint(int x) {
-        throw new CommandException(CommandEnum.PLOT, "cannot add more than one point");
+        throw new CommandException(CommandType.PLOT, "cannot add more than one point");
     }
 
     @Override
     public void addYPoint(int y) {
-        throw new CommandException(CommandEnum.PLOT, "cannot add more than one point");
+        throw new CommandException(CommandType.PLOT, "cannot add more than one point");
     }
 
     @Override
@@ -33,28 +33,28 @@ public class Plot extends Command {
 
     @Override
     public int getXPoint() {
-        throw new CommandException(CommandEnum.PLOT, "cannot have more than one point");
+        throw new CommandException(CommandType.PLOT, "cannot have more than one point");
     }
 
     @Override
     public int getYPoint() {
-        throw new CommandException(CommandEnum.PLOT, "cannot have more than one point");
+        throw new CommandException(CommandType.PLOT, "cannot have more than one point");
     }
 
     @Override
     public Color getFillColor(){
-        throw new CommandException(CommandEnum.LINE, "cannot have a fill color");
+        throw new CommandException(CommandType.LINE, "cannot have a fill color");
     }
 
     @Override
     public void setFillColor(Color fillColor) {
-        throw new CommandException(CommandEnum.PLOT, "cannot have a fill color");
+        throw new CommandException(CommandType.PLOT, "cannot have a fill color");
     }
 
     @Override
     public void draw(Graphics graphics) {
         graphics.setColor(getPenColor());
-        graphics.drawLine(getStartX(), getStartY(), getStartX(), getYPoint());
+        graphics.drawLine(x, y, x, y);
     }
 
     @Override

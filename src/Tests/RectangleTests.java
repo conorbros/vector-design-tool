@@ -2,7 +2,7 @@ package Tests;
 
 import java.awt.*;
 
-import Commands.CommandEnum;
+import Commands.CommandType;
 import Commands.CommandException;
 import Commands.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,7 +62,7 @@ public class RectangleTests {
 
     @Test
     public void testGetCommandType(){
-        assertEquals(CommandEnum.RECTANGLE, rec.getCommandType());
+        assertEquals(CommandType.RECTANGLE, rec.getCommandType());
     }
 
     @Test

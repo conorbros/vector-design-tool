@@ -1,6 +1,6 @@
 package Tests;
 
-import Commands.CommandEnum;
+import Commands.CommandType;
 import Commands.CommandException;
 import Commands.Ellipse;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +65,7 @@ public class EllipseTests {
 
     @Test
     public void testGetCommandType(){
-        assertEquals(CommandEnum.ELLIPSE, ell.getCommandType());
+        assertEquals(CommandType.ELLIPSE, ell.getCommandType());
     }
 
     @Test

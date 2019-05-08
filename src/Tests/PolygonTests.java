@@ -3,10 +3,8 @@ import java.awt.*;
 import Commands.Polygon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import Commands.CommandEnum;
-import Commands.CommandException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import Commands.CommandType;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PolygonTests {
@@ -29,7 +27,7 @@ public class PolygonTests {
 
     @Test
     public void getCommandType(){
-        assertEquals(CommandEnum.POLYGON, poly.getCommandType());
+        assertEquals(CommandType.POLYGON, poly.getCommandType());
     }
 
     @Test

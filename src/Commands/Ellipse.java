@@ -7,7 +7,7 @@ public class Ellipse extends Command {
     private boolean commandFinished;
 
     public Ellipse(int x1, int y1, Color penColor, Color fillColor) {
-        super(penColor, fillColor, CommandEnum.ELLIPSE);
+        super(penColor, fillColor, CommandType.ELLIPSE);
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = null;
@@ -17,13 +17,13 @@ public class Ellipse extends Command {
 
     @Override
     public void addXPoint(int x) {
-        if(commandFinished) throw new CommandException(CommandEnum.ELLIPSE, "cannot change coordinates after command finished");
+        if(commandFinished) throw new CommandException(CommandType.ELLIPSE, "cannot change coordinates after command finished");
         this.x2 = x;
     }
 
     @Override
     public void addYPoint(int y) {
-        if(commandFinished) throw new CommandException(CommandEnum.ELLIPSE, "cannot change coordinates after command finished");
+        if(commandFinished) throw new CommandException(CommandType.ELLIPSE, "cannot change coordinates after command finished");
         this.y2 = y;
     }
 
@@ -49,6 +49,7 @@ public class Ellipse extends Command {
 
     @Override
     public void draw(Graphics graphics) {
+        if(y2 == null || x2 == null) return;
         if(getFillColor() != null){
             graphics.setColor(getFillColor());
             graphics.fillOval(x1, y1, x2-x1, y2-y1);
@@ -67,7 +68,7 @@ public class Ellipse extends Command {
         if(x2 != null && y2 != null) {
             commandFinished = true;
         } else {
-            throw new CommandException(CommandEnum.ELLIPSE, "cannot be set finished until all coordinates supplied.");
+            throw new CommandException(CommandType.ELLIPSE, "cannot be set finished until all coordinates supplied.");
         }
     }
 }

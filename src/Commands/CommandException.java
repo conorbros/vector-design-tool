@@ -9,7 +9,7 @@ public class CommandException extends RuntimeException {
         super(message);
     }
 
-    public CommandException(CommandEnum command, String message){
+    public CommandException(CommandType command, String message){
         super(command.toString() + " command " + message);
     }
 }

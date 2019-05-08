@@ -1,11 +1,13 @@
 package GUI;
 
-import Commands.CommandEnum;
+import Commands.CommandType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
 public class Window extends JFrame implements ActionListener, Runnable {
@@ -38,6 +40,8 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
     }
 
+
+
     @Override
     public void run() {
         createGUI();
@@ -64,6 +68,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
         menuBar.add(fileMenu());
         menuBar.add(commmandMenu());
         menuBar.add(colorMenu());
+        menuBar.add(historyMenu());
         //more menu items to go here
 
         return menuBar;
@@ -109,11 +114,11 @@ public class Window extends JFrame implements ActionListener, Runnable {
         commandMenu.add(ellipse);
         commandMenu.add(polygon);
 
-        line.addActionListener(e -> vecPanel.setSelectedCommand(CommandEnum.LINE));
-        plot.addActionListener(e -> vecPanel.setSelectedCommand(CommandEnum.PLOT));
-        rectangle.addActionListener(e -> vecPanel.setSelectedCommand(CommandEnum.RECTANGLE));
-        ellipse.addActionListener(e -> vecPanel.setSelectedCommand(CommandEnum.ELLIPSE));
-        polygon.addActionListener(e -> vecPanel.setSelectedCommand(CommandEnum.POLYGON));
+        line.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.LINE));
+        plot.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.PLOT));
+        rectangle.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE));
+        ellipse.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE));
+        polygon.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.POLYGON));
 
         return commandMenu;
     }
@@ -134,6 +139,21 @@ public class Window extends JFrame implements ActionListener, Runnable {
         fill.addActionListener(e -> vecPanel.setFillColor(JColorChooser.showDialog(null, "Choose a color", null)));
 
         return colorMenu;
+    }
+
+    private JMenu historyMenu(){
+        JMenu historyMenu = new JMenu("History");
+
+        JMenuItem undo = new JMenuItem("undo");
+        JMenuItem redo = new JMenuItem("redo");
+
+        historyMenu.add(undo);
+        historyMenu.add(redo);
+
+        undo.addActionListener(e -> vecPanel.undoCommand());
+        redo.addActionListener(e -> vecPanel.redoCommand());
+
+        return historyMenu;
     }
 
     private JPanel toolPanel(){
@@ -158,36 +178,42 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         ButtonGroup fillColors = new ButtonGroup();
         JLabel fillLabel = new JLabel("Fill color:");
+        JRadioButton fillNull = createRadioButton("no fill", Color.LIGHT_GRAY, e -> vecPanel.setFillColor(null));
+        fillNull.setSelected(true);
         JRadioButton fillWhite = createRadioButton("", Color.WHITE, e -> vecPanel.setFillColor(Color.WHITE));
-        fillWhite.setSelected(true);
         JRadioButton fillRed = createRadioButton("", Color.RED, e -> vecPanel.setFillColor(Color.RED));
         JRadioButton fillBlue = createRadioButton("", Color.BLUE, e -> vecPanel.setFillColor(Color.BLUE));
+        fillColors.add(fillNull);
         fillColors.add(fillWhite);
         fillColors.add(fillRed);
         fillColors.add(fillBlue);
 
         toolPanel.add(fillLabel);
+        toolPanel.add(fillNull);
         toolPanel.add(fillWhite);
         toolPanel.add(fillRed);
         toolPanel.add(fillBlue);
 
         ButtonGroup commands = new ButtonGroup();
         JLabel commandsLabel = new JLabel("Commands:");
-        JRadioButton plot = createRadioButton("PLOT", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.PLOT));
+        JRadioButton plot = createRadioButton("PLOT", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.PLOT));
         plot.setSelected(true);
-        JRadioButton line = createRadioButton("LINE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.LINE));
-        JRadioButton rectangle = createRadioButton("RECTANGLE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.RECTANGLE));
-        JRadioButton ellipse = createRadioButton("ELLIPSE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandEnum.ELLIPSE));
+        JRadioButton line = createRadioButton("LINE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.LINE));
+        JRadioButton rectangle = createRadioButton("RECTANGLE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE));
+        JRadioButton ellipse = createRadioButton("ELLIPSE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE));
+        JRadioButton polygon = createRadioButton("POLYGON", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.POLYGON));
         commands.add(plot);
         commands.add(line);
         commands.add(rectangle);
         commands.add(ellipse);
+        commands.add(polygon);
 
         toolPanel.add(commandsLabel);
         toolPanel.add(plot);
         toolPanel.add(line);
         toolPanel.add(rectangle);
         toolPanel.add(ellipse);
+        toolPanel.add(polygon);
 
         return toolPanel;
     }

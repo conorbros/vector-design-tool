@@ -5,19 +5,26 @@ import Commands.Polygon;
 import Commands.Rectangle;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import CommandList.CommandList;
 
 public class VECPanel extends JPanel {
 
-    private CommandEnum selectedCommand;
+    private CommandType selectedCommand;
     private Command currentCommand;
     private Color penColor;
     private Color fillColor;
 
+    private CommandList drawnCommands;
+    private CommandList clearedCommands;
+
     public VECPanel(){
         penColor = Color.BLACK;
         fillColor = null;
+        drawnCommands = new CommandList();
+        clearedCommands = new CommandList();
 
         setLayout(new BorderLayout());
         setSize(new Dimension(1000, 1000));
@@ -30,12 +37,17 @@ public class VECPanel extends JPanel {
 
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
+
+        for(Command cmd : drawnCommands){
+            cmd.draw(graphics);
+        }
+
         if (currentCommand != null){
             currentCommand.draw(graphics);
         }
     }
 
-    public void setSelectedCommand(CommandEnum selectedCommand) {
+    public void setSelectedCommand(CommandType selectedCommand) {
         this.selectedCommand = selectedCommand;
     }
 
@@ -47,8 +59,25 @@ public class VECPanel extends JPanel {
         this.fillColor = fillColor;
     }
 
-    private void clearCommand(){
+    private void finishCommand(){
+        drawnCommands.addCommand(currentCommand);
         currentCommand = null;
+    }
+
+    public void undoCommand(){
+        if(drawnCommands.getLastCommand() != null){
+            clearedCommands.addCommand(drawnCommands.getLastCommand());
+            drawnCommands.removeLastCommand();
+            repaint();
+        }
+    }
+
+    public void redoCommand(){
+        if(clearedCommands.getLastCommand() != null){
+            drawnCommands.addCommand(clearedCommands.getLastCommand());
+            clearedCommands.removeLastCommand();
+            repaint();
+        }
     }
 
     private class MouseController extends MouseAdapter{
@@ -58,7 +87,6 @@ public class VECPanel extends JPanel {
                 case PLOT:
                     currentCommand = new Plot(e.getX(), e.getY(), penColor);
                     currentCommand = null;
-                    repaint();
                     break;
                 case LINE:
                     currentCommand = new Line(e.getX(), e.getY(), penColor);
@@ -73,9 +101,16 @@ public class VECPanel extends JPanel {
                     polygonHandler(e);
                     break;
             }
+            repaint();
         }
 
         private void polygonHandler(MouseEvent e){
+            if(e.getButton() == MouseEvent.BUTTON3 && currentCommand != null){
+                currentCommand.setCommandFinished();
+                finishCommand();
+                return;
+            }
+
             if(currentCommand != null){
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
@@ -85,20 +120,23 @@ public class VECPanel extends JPanel {
         }
 
         public void mouseReleased(MouseEvent e){
-            if(currentCommand.getCommandType() == CommandEnum.LINE || currentCommand.getCommandType() == CommandEnum.RECTANGLE || currentCommand.getCommandType() == CommandEnum.ELLIPSE){
-                currentCommand.addXPoint(e.getX());
-                currentCommand.addYPoint(e.getY());
-                clearCommand();
+            if(currentCommand != null) {
+                if (currentCommand.getCommandType() == CommandType.LINE || currentCommand.getCommandType() == CommandType.RECTANGLE || currentCommand.getCommandType() == CommandType.ELLIPSE) {
+                    currentCommand.addXPoint(e.getX());
+                    currentCommand.addYPoint(e.getY());
+                    finishCommand();
+                }
+                repaint();
             }
-            repaint();
         }
 
         public void mouseDragged(MouseEvent e){
-            if(currentCommand != null && currentCommand.getCommandType() != CommandEnum.POLYGON){
+            if(currentCommand != null && currentCommand.getCommandType() != CommandType.POLYGON){
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
-                repaint();
+
             }
+            repaint();
         }
     }
 }

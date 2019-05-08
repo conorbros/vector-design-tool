@@ -1,6 +1,6 @@
 package Commands;
 
-public enum CommandEnum {
+public enum CommandType {
         PLOT,
         LINE,
         RECTANGLE,

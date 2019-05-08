@@ -2,7 +2,6 @@ package Commands;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.XMLFormatter;
 
 public class Polygon extends Command {
     private int startX, startY;
@@ -11,7 +10,7 @@ public class Polygon extends Command {
     private boolean commandFinished;
 
     public Polygon(int startX, int startY, Color penColor, Color fillColor){
-        super(penColor, fillColor, CommandEnum.POLYGON);
+        super(penColor, fillColor, CommandType.POLYGON);
         this.startX = startX;
         this.startY = startY;
         xPoints.add(startX);
@@ -21,11 +20,13 @@ public class Polygon extends Command {
 
     @Override
     public void addXPoint(int x) {
+        if(commandFinished) throw new CommandException(CommandType.POLYGON, "cannot add more x points after command finished");
         xPoints.add(x);
     }
 
     @Override
     public void addYPoint(int y) {
+        if(commandFinished) throw new CommandException(CommandType.POLYGON, "cannot add more y points after the command has finished");
         if (xPoints.get(xPoints.size()-1) == startX && y == startY) commandFinished = true;
         yPoints.add(y);
     }
@@ -57,7 +58,7 @@ public class Polygon extends Command {
         int[] x_points = arrayListToIntArray(xPoints);
         int[] y_points = arrayListToIntArray(yPoints);
         if(x_points.length != y_points.length) {
-            throw new CommandException(CommandEnum.POLYGON, "has unequal numbers of x and y points");
+            throw new CommandException(CommandType.POLYGON, "has unequal numbers of x and y points");
         }
 
         if(!commandFinished){
@@ -85,16 +86,18 @@ public class Polygon extends Command {
      * @param y_points the y points of the polygon
      */
     private void drawPolygon(Graphics graphics, int[] x_points, int[] y_points){
-        graphics.setColor(getFillColor());
-        graphics.drawPolyline(x_points, y_points, x_points.length);
+        if(getFillColor() != null){
+            graphics.setColor(getFillColor());
+            graphics.fillPolygon(x_points, y_points, x_points.length);
+        }
         graphics.setColor(getPenColor());
         graphics.drawPolygon(x_points, y_points, x_points.length);
     }
 
     /**
-     * helper method to convert an arraylist of integer to an array of primitive ints
-     * @param arrayList the arraylist to convert
-     * @return an int array of the elements of the supplied arraylist
+     * helper method to convert an ArrayList of integer to an array of primitive ints
+     * @param arrayList the ArrayList to convert
+     * @return an int array of the elements of the supplied ArrayList
      */
     private int[] arrayListToIntArray(ArrayList<Integer> arrayList){
         int[] array = new int[arrayList.size()];

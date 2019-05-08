@@ -7,7 +7,7 @@ public class Line extends Command {
     private boolean commandFinished;
 
     public Line(int x, int y, Color penColor) {
-        super(penColor, null, CommandEnum.LINE);
+        super(penColor, null, CommandType.LINE);
         this.x1 = x;
         this.y1 = y;
         this.x2 = null;
@@ -17,13 +17,13 @@ public class Line extends Command {
 
     @Override
     public void addXPoint(int x) {
-        if(commandFinished) throw new CommandException(CommandEnum.LINE, "cannot change coordinates after command finished");
+        if(commandFinished) throw new CommandException(CommandType.LINE, "cannot change coordinates after command finished");
         this.x2 = x;
     }
 
     @Override
     public void addYPoint(int y) {
-        if(commandFinished) throw new CommandException(CommandEnum.LINE, "cannot change coordinates after command finished");
+        if(commandFinished) throw new CommandException(CommandType.LINE, "cannot change coordinates after command finished");
         this.y2 = y;
     }
 
@@ -49,16 +49,17 @@ public class Line extends Command {
 
     @Override
     public Color getFillColor(){
-        throw new CommandException(CommandEnum.LINE, "cannot have a fill color");
+        throw new CommandException(CommandType.LINE, "cannot have a fill color");
     }
 
     @Override
     public void setFillColor(Color fillColor) {
-        throw new CommandException(CommandEnum.LINE, "cannot have a fill color");
+        throw new CommandException(CommandType.LINE, "cannot have a fill color");
     }
 
     @Override
     public void draw(Graphics graphics) {
+        if(y2 == null || x2 == null) return;
         graphics.setColor(getPenColor());
         graphics.drawLine(x1, y1, x2, y2);
     }
@@ -73,7 +74,7 @@ public class Line extends Command {
         if(x2 != null && y2 != null) {
             commandFinished = true;
         } else {
-            throw new CommandException(CommandEnum.LINE, "cannot be set finished until all coordinates supplied.");
+            throw new CommandException(CommandType.LINE, "cannot be set finished until all coordinates supplied.");
         }
     }
 }

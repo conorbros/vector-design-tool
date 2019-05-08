@@ -5,7 +5,7 @@ import java.awt.*;
  abstract public class Command {
      private Color penColor;
      private Color fillColor;
-     private CommandEnum commandType;
+     private CommandType commandType;
 
      /**
       * Generic command constructor
@@ -13,7 +13,7 @@ import java.awt.*;
       * @param fillColor the fill color of the command (if any)
       * @param commandType the type of command
       */
-    public Command(Color penColor, Color fillColor, CommandEnum commandType){
+    public Command(Color penColor, Color fillColor, CommandType commandType){
         this.penColor = penColor;
         this.fillColor = fillColor;
         this.commandType = commandType;
@@ -23,7 +23,7 @@ import java.awt.*;
       *
       * @return the command type of the object
       */
-    public CommandEnum getCommandType(){
+    public CommandType getCommandType(){
         return commandType;
     }
 
