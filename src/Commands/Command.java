@@ -9,8 +9,6 @@ import java.awt.*;
 
      /**
       * Generic command constructor
-      * @param x1 the starting x position
-      * @param y1 the starting y position
       * @param penColor the pen color of the command
       * @param fillColor the fill color of the command (if any)
       * @param commandType the type of command

@@ -1,6 +1,7 @@
 package GUI;
 
 import Commands.*;
+import Commands.Polygon;
 import Commands.Rectangle;
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,6 @@ public class VECPanel extends JPanel {
 
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
-
         if (currentCommand != null){
             currentCommand.draw(graphics);
         }
@@ -70,8 +70,17 @@ public class VECPanel extends JPanel {
                     currentCommand = new Ellipse(e.getX(), e.getY(), penColor, fillColor);
                     break;
                 case POLYGON:
-
+                    polygonHandler(e);
                     break;
+            }
+        }
+
+        private void polygonHandler(MouseEvent e){
+            if(currentCommand != null){
+                currentCommand.addXPoint(e.getX());
+                currentCommand.addYPoint(e.getY());
+            }else{
+                currentCommand = new Polygon(e.getX(), e.getY(), penColor, fillColor);
             }
         }
 
@@ -79,13 +88,13 @@ public class VECPanel extends JPanel {
             if(currentCommand.getCommandType() == CommandEnum.LINE || currentCommand.getCommandType() == CommandEnum.RECTANGLE || currentCommand.getCommandType() == CommandEnum.ELLIPSE){
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
+                clearCommand();
             }
-            clearCommand();
             repaint();
         }
 
         public void mouseDragged(MouseEvent e){
-            if(currentCommand != null){
+            if(currentCommand != null && currentCommand.getCommandType() != CommandEnum.POLYGON){
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
                 repaint();
