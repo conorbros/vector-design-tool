@@ -17,8 +17,8 @@ public class CommandList implements Iterable<Command> {
      * the count of the commands in the CommandList object
      * @return int of the count
      */
-    public int count(){
-        return commands.size()-1;
+    public int Count(){
+        return commands.size();
     }
 
     /**
