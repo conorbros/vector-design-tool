@@ -75,6 +75,7 @@ public class VECPanel extends JPanel {
      */
     private void finishCommand(){
         drawnCommands.addCommand(currentCommand);
+        currentCommand.setCommandFinished();
         currentCommand = null;
     }
 
@@ -106,7 +107,7 @@ public class VECPanel extends JPanel {
             switch(selectedCommand){
                 case PLOT:
                     currentCommand = new Plot(e.getX(), e.getY(), penColor);
-                    currentCommand = null;
+                    finishCommand();
                     break;
                 case LINE:
                     currentCommand = new Line(e.getX(), e.getY(), penColor);
@@ -137,10 +138,14 @@ public class VECPanel extends JPanel {
             }
 
             //create a new polygon if currentCommand is null
-            if(currentCommand != null){
+            if(currentCommand != null && !currentCommand.isCommandFinished()) {
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
+                //if polygon is finished will set the current command in the vec window finished
+            }else if (currentCommand != null){
+                finishCommand();
             }else{
+                //draw a new polygon if polygon is selected and there is not current command
                 currentCommand = new Polygon(e.getX(), e.getY(), penColor, fillColor);
             }
         }
