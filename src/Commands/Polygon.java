@@ -27,7 +27,6 @@ public class Polygon extends Command {
     @Override
     public void addYPoint(int y) {
         if(commandFinished) throw new CommandException(CommandType.POLYGON, "cannot add more y points after the command has finished");
-        if (xPoints.get(xPoints.size()-1) == startX && y == startY) commandFinished = true;
         yPoints.add(y);
     }
 

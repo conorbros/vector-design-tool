@@ -77,6 +77,7 @@ public class VECPanel extends JPanel {
         drawnCommands.addCommand(currentCommand);
         currentCommand.setCommandFinished();
         currentCommand = null;
+        repaint();
     }
 
     /**
@@ -131,8 +132,9 @@ public class VECPanel extends JPanel {
          */
         private void polygonHandler(MouseEvent e){
             //finish the poly if the mouse is right clicked
-            if(e.getButton() == MouseEvent.BUTTON3 && currentCommand != null){
-                currentCommand.setCommandFinished();
+            if(e.getButton() == MouseEvent.BUTTON3 && currentCommand == null){
+                return;
+            }else if(e.getButton() == MouseEvent.BUTTON3){
                 finishCommand();
                 return;
             }
@@ -142,8 +144,6 @@ public class VECPanel extends JPanel {
                 currentCommand.addXPoint(e.getX());
                 currentCommand.addYPoint(e.getY());
                 //if polygon is finished will set the current command in the vec window finished
-            }else if (currentCommand != null){
-                finishCommand();
             }else{
                 //draw a new polygon if polygon is selected and there is not current command
                 currentCommand = new Polygon(e.getX(), e.getY(), penColor, fillColor);
@@ -151,7 +151,7 @@ public class VECPanel extends JPanel {
         }
 
         public void mouseReleased(MouseEvent e){
-            if(currentCommand != null) {
+            if(currentCommand != null && !currentCommand.isCommandFinished()) {
                 if (currentCommand.getCommandType() == CommandType.LINE || currentCommand.getCommandType() == CommandType.RECTANGLE || currentCommand.getCommandType() == CommandType.ELLIPSE) {
                     currentCommand.addXPoint(e.getX());
                     currentCommand.addYPoint(e.getY());
