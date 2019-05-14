@@ -46,6 +46,22 @@ public class Polygon extends Command {
         return xPoints.get(xPoints.size()-1);
     }
 
+    /**
+     * Returns an array of all the xPoints of the polygon
+     * @return
+     */
+    public ArrayList<Integer> getxPoints() {
+        return xPoints;
+    }
+
+    /**
+     * Returns an array of all the yPoints of the polygon
+     * @return
+     */
+    public ArrayList<Integer> getyPoints() {
+        return yPoints;
+    }
+
     @Override
     public int getYPoint() {
         //returns the last y point added to the polygon
