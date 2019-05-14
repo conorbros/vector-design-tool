@@ -7,7 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+
 import CommandList.CommandList;
+import VecFile.VecOutput;
+
+import static VecFile.VecOutput.CommandsToVecFile;
 
 public class VECPanel extends JPanel {
 
@@ -44,6 +49,22 @@ public class VECPanel extends JPanel {
         if (currentCommand != null){
             currentCommand.draw(graphics);
         }
+    }
+
+    public void saveFile() throws FileNotFoundException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select a directory to save the file in");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+
+        if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            String folderPath = String.valueOf(chooser.getSelectedFile());
+            String directoryPath = String.valueOf(chooser.getCurrentDirectory());
+            CommandsToVecFile(drawnCommands, folderPath);
+        }
+
     }
 
     /**

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
 
 
 public class Window extends JFrame implements ActionListener, Runnable {
@@ -85,6 +86,14 @@ public class Window extends JFrame implements ActionListener, Runnable {
         openFile.setMnemonic('O');
         saveFile.setMnemonic('S');
         exitFile.setMnemonic('X');
+
+        saveFile.addActionListener(e -> {
+            try {
+                vecPanel.saveFile();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         fileMenu.add(openFile);
         fileMenu.add(saveFile);

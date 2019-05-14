@@ -1,7 +1,8 @@
+package VecFile;
+
 import CommandList.CommandList;
 import Commands.Command;
 import Commands.Polygon;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -13,42 +14,49 @@ public class CommandToVec {
 
     public static ArrayList<String> ConvertToVec(CommandList commandList){
         VecCommands = new ArrayList<>();
+        penColor = Color.BLACK;
+        fillColor = null;
 
         for(Command cmd : commandList){
             penColorHandler(cmd);
             switch(cmd.getCommandType()){
                 case PLOT:
                     VecCommands.add(getPlotString(cmd));
+                    break;
                 case LINE:
                     VecCommands.add(getLineString(cmd));
+                    break;
                 case RECTANGLE:
                     fillColorHandler(cmd);
                     VecCommands.add(getRectangleString(cmd));
+                    break;
                 case ELLIPSE:
                     fillColorHandler(cmd);
                     VecCommands.add(getEllipseString(cmd));
+                    break;
                 case POLYGON:
                     fillColorHandler(cmd);
                     VecCommands.add(getPolygonString(cmd));
+                    break;
             }
         }
         return VecCommands;
     }
 
     private static String getPlotString(Command plot){
-        return "PLOT " + (plot.getStartX() + " " + plot.getStartY());
+        return "PLOT " + (IntToDecimalConvert(plot.getStartX()) + " " + IntToDecimalConvert(plot.getStartY()));
     }
 
     private static String getLineString(Command line){
-        return "LINE " + (line.getStartX() + " " + line.getStartY()) + (" " + line.getXPoint() + " " + line.getYPoint());
+        return "LINE " + (IntToDecimalConvert(line.getStartX()) + " " + IntToDecimalConvert(line.getStartY()) + " " + IntToDecimalConvert(line.getXPoint()) + " " + IntToDecimalConvert(line.getYPoint()));
     }
 
     private static String getRectangleString(Command rect){
-        return "RECTANGLE " + (rect.getStartX() + " " + rect.getStartY()) + (" " + rect.getXPoint() + " " + rect.getStartY());
+        return "RECTANGLE " + IntToDecimalConvert(rect.getStartX()) + " " + IntToDecimalConvert(rect.getStartY()) + " " + IntToDecimalConvert(rect.getXPoint()) + " " + IntToDecimalConvert(rect.getStartY());
     }
 
     private static String getEllipseString(Command ell){
-        return "ELLIPSE " + (ell.getStartX() + " " + ell.getStartY()) + (" " + ell.getXPoint() + " " + ell.getStartY());
+        return "ELLIPSE " + IntToDecimalConvert(ell.getStartX()) + " " + IntToDecimalConvert(ell.getStartY()) + " " + IntToDecimalConvert(ell.getXPoint()) + " " + IntToDecimalConvert(ell.getStartY());
     }
 
     private static String getPolygonString(Command poly){
@@ -58,7 +66,7 @@ public class CommandToVec {
 
         StringBuilder result = new StringBuilder("POLYGON");
         for(int i = 0; i < pointCount; i++){
-            result.append(" ").append(xPoints.get(i)).append(" ").append(yPoints.get(i));
+            result.append(" ").append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
         }
         return result.toString();
     }
@@ -72,19 +80,34 @@ public class CommandToVec {
 
         if(penColor != cmdColor){
             penColor = cmdColor;
-            VecCommands.add("PEN " + penColor.toString());
+            VecCommands.add("PEN " + getHTMLColorString(penColor));
         }
     }
 
     private static void fillColorHandler(Command cmd){
         Color cmdColor = cmd.getFillColor();
 
-        if(cmdColor == null){
-            fillColor = null;
-            VecCommands.add("FILL OFF");
-        }else if (fillColor != cmdColor){
+        if (fillColor != cmdColor){
+            if(cmdColor == null){
+                fillColor = null;
+                VecCommands.add("FILL OFF");
+                return;
+            }
+
             fillColor = cmdColor;
-            VecCommands.add("FILL " + fillColor.toString());
+            VecCommands.add("FILL " + getHTMLColorString(fillColor));
         }
     }
+
+    private static String getHTMLColorString(Color color) {
+        String red = Integer.toHexString(color.getRed());
+        String green = Integer.toHexString(color.getGreen());
+        String blue = Integer.toHexString(color.getBlue());
+
+        return "#" +
+                (red.length() == 1? "0" + red : red) +
+                (green.length() == 1? "0" + green : green) +
+                (blue.length() == 1? "0" + blue : blue);
+    }
 }
+
