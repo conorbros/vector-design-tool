@@ -89,6 +89,14 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         openFile.addActionListener(e -> vecPanel.openFile());
 
+        saveFile.addActionListener(e -> {
+            try {
+                vecPanel.saveFile();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         saveNewFile.addActionListener(e -> {
             try {
                 vecPanel.saveNewFile();
@@ -98,6 +106,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
         });
 
         fileMenu.add(openFile);
+        fileMenu.add(saveFile);
         fileMenu.add(saveNewFile);
         fileMenu.add(exitFile);
 

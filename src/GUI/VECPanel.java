@@ -15,7 +15,8 @@ import java.io.IOException;
 import CommandList.CommandList;
 
 import static VecFile.VecFileInput.LoadVecFile;
-import static VecFile.VecFileOutput.CommandsToVecFile;
+import static VecFile.VecFileOutput.CommandsToExistingVecFile;
+import static VecFile.VecFileOutput.CommandsToNewVecFile;
 
 public class VECPanel extends JPanel {
 
@@ -26,12 +27,14 @@ public class VECPanel extends JPanel {
 
     private CommandList drawnCommands;
     private CommandList clearedCommands;
+    private File loadedFile;
 
     public VECPanel(){
         penColor = Color.BLACK;
         fillColor = null;
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
+        loadedFile = null;
 
         setLayout(new BorderLayout());
         setSize(new Dimension(1000, 1000));
@@ -66,6 +69,7 @@ public class VECPanel extends JPanel {
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             File vecFile = chooser.getSelectedFile();
             LoadVecFile(vecFile, this);
+            loadedFile = vecFile;
         }
     }
 
@@ -74,6 +78,18 @@ public class VECPanel extends JPanel {
         clearedCommands = new CommandList();
         drawnCommands = commands;
         repaint();
+    }
+
+    public void saveFile() throws FileNotFoundException {
+        if(loadedFile == null){
+            JOptionPane.showMessageDialog(this,
+                    "You must save this file as a new file.",
+                    "This file was not imported",
+                    JOptionPane.ERROR_MESSAGE);
+        }else {
+            CommandsToExistingVecFile(drawnCommands, loadedFile);
+        }
+
     }
 
     public void saveNewFile() throws FileNotFoundException {
@@ -87,7 +103,7 @@ public class VECPanel extends JPanel {
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             String folderPath = String.valueOf(chooser.getSelectedFile());
             String fileName = getFileName();
-            CommandsToVecFile(drawnCommands, folderPath, fileName);
+            CommandsToNewVecFile(drawnCommands, folderPath, fileName);
         }
 
     }
@@ -177,6 +193,8 @@ public class VECPanel extends JPanel {
             repaint();
         }
     }
+
+
 
     private class MouseController extends MouseAdapter{
 
