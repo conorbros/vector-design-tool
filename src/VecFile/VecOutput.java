@@ -9,9 +9,8 @@ import static VecFile.CommandToVec.ConvertToVec;
 
 public class VecOutput {
 
-    public static void CommandsToVecFile(CommandList commands, String path) throws FileNotFoundException {
+    public static void CommandsToVecFile(CommandList commands, String path, String fileName) throws FileNotFoundException {
         ArrayList<String> commandsOutput = ConvertToVec(commands);
-        String name = "test";
 
         StringBuilder stringBuilder = new StringBuilder();
         for (String str : commandsOutput) {
@@ -20,7 +19,7 @@ public class VecOutput {
         }
         String outputString = stringBuilder.toString();
 
-        File file = new File(path + "/" + name + ".vec");
+        File file = new File(path + "/" + fileName + ".vec");
         file.getParentFile().mkdirs();
         PrintWriter out = new PrintWriter(file);
 

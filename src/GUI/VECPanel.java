@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import CommandList.CommandList;
 import VecFile.VecOutput;
@@ -53,7 +55,7 @@ public class VECPanel extends JPanel {
 
     public void saveFile() throws FileNotFoundException {
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File("../"));
         chooser.setDialogTitle("Select a directory to save the file in");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
@@ -61,10 +63,42 @@ public class VECPanel extends JPanel {
 
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             String folderPath = String.valueOf(chooser.getSelectedFile());
-            String directoryPath = String.valueOf(chooser.getCurrentDirectory());
-            CommandsToVecFile(drawnCommands, folderPath);
+            String fileName = getFileName();
+
+            CommandsToVecFile(drawnCommands, folderPath, fileName);
         }
 
+    }
+
+    private String getFileName(){
+        String fileName;
+        boolean inputValid = false;
+
+        do{
+            fileName = JOptionPane.showInputDialog("Type a name for your file:");
+
+            if(isFilenameValid(fileName)){
+                inputValid = true;
+            }else{
+                JOptionPane.showMessageDialog(this,
+                        "Your file name is not valid, type another.",
+                        "File name error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        }while(!inputValid);
+
+        return fileName;
+    }
+
+    private boolean isFilenameValid(String file) {
+        File f = new File(file);
+        try {
+            f.getCanonicalPath();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**
