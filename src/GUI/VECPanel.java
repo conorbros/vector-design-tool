@@ -4,6 +4,7 @@ import Commands.*;
 import Commands.Polygon;
 import Commands.Rectangle;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,9 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import CommandList.CommandList;
-import VecFile.VecOutput;
 
-import static VecFile.VecOutput.CommandsToVecFile;
+import static VecFile.VecFileInput.LoadVecFile;
+import static VecFile.VecFileOutput.CommandsToVecFile;
 
 public class VECPanel extends JPanel {
 
@@ -53,7 +54,29 @@ public class VECPanel extends JPanel {
         }
     }
 
-    public void saveFile() throws FileNotFoundException {
+    public void openFile(){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("../"));
+        chooser.setDialogTitle("Select a file to load.");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("VEC FILES", "vec");
+        chooser.setFileFilter(filter);
+
+        if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            File vecFile = chooser.getSelectedFile();
+            LoadVecFile(vecFile, this);
+        }
+    }
+
+    public void loadCommandList(CommandList commands){
+        drawnCommands = null;
+        clearedCommands = new CommandList();
+        drawnCommands = commands;
+        repaint();
+    }
+
+    public void saveNewFile() throws FileNotFoundException {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
         chooser.setDialogTitle("Select a directory to save the file in");
@@ -64,7 +87,6 @@ public class VECPanel extends JPanel {
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             String folderPath = String.valueOf(chooser.getSelectedFile());
             String fileName = getFileName();
-
             CommandsToVecFile(drawnCommands, folderPath, fileName);
         }
 
@@ -85,7 +107,6 @@ public class VECPanel extends JPanel {
                         "File name error",
                         JOptionPane.ERROR_MESSAGE);
             }
-
         }while(!inputValid);
 
         return fileName;

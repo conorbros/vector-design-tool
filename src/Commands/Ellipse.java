@@ -15,6 +15,15 @@ public class Ellipse extends Command {
         commandFinished = false;
     }
 
+    public Ellipse(int x1, int y1, int x2, int y2, Color penColor, Color fillColor){
+        super(penColor, fillColor, CommandType.ELLIPSE);
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        commandFinished = true;
+    }
+
     @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandType.ELLIPSE, "cannot change coordinates after command finished");

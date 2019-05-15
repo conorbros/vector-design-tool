@@ -12,7 +12,7 @@ public class CommandToVec {
     private static Color fillColor;
     private static ArrayList<String> VecCommands;
 
-    public static ArrayList<String> ConvertToVec(CommandList commandList){
+    public static ArrayList<String> ConvertCommandListToVec(CommandList commandList){
         VecCommands = new ArrayList<>();
         penColor = Color.BLACK;
         fillColor = null;

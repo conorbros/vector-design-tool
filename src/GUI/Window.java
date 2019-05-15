@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 
 
@@ -80,23 +78,27 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         JMenuItem openFile = new JMenuItem("Open");
         JMenuItem saveFile = new JMenuItem("Save");
+        JMenuItem saveNewFile = new JMenuItem("Save As New");
         JMenuItem exitFile = new JMenuItem("Exit");
 
         fileMenu.setMnemonic('F');
         openFile.setMnemonic('O');
         saveFile.setMnemonic('S');
+        saveNewFile.setMnemonic('N');
         exitFile.setMnemonic('X');
 
-        saveFile.addActionListener(e -> {
+        openFile.addActionListener(e -> vecPanel.openFile());
+
+        saveNewFile.addActionListener(e -> {
             try {
-                vecPanel.saveFile();
+                vecPanel.saveNewFile();
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
 
         fileMenu.add(openFile);
-        fileMenu.add(saveFile);
+        fileMenu.add(saveNewFile);
         fileMenu.add(exitFile);
 
         return fileMenu;

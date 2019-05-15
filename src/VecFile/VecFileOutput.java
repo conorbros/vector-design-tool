@@ -5,17 +5,17 @@ import CommandList.CommandList;
 import java.io.*;
 import java.util.ArrayList;
 
-import static VecFile.CommandToVec.ConvertToVec;
+import static VecFile.CommandToVec.ConvertCommandListToVec;
 
-public class VecOutput {
+public class VecFileOutput {
 
     public static void CommandsToVecFile(CommandList commands, String path, String fileName) throws FileNotFoundException {
-        ArrayList<String> commandsOutput = ConvertToVec(commands);
+        ArrayList<String> commandsOutput = ConvertCommandListToVec(commands);
 
         StringBuilder stringBuilder = new StringBuilder();
         for (String str : commandsOutput) {
             stringBuilder.append(str);
-            stringBuilder.append(" ");
+            stringBuilder.append("\r\n");
         }
         String outputString = stringBuilder.toString();
 

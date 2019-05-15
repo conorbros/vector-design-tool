@@ -7,6 +7,11 @@ import java.awt.*;
      private Color fillColor;
      private CommandType commandType;
 
+
+     public Command(){
+
+     }
+
      /**
       * Generic command constructor
       * @param penColor the pen color of the command

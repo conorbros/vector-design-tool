@@ -5,17 +5,26 @@ import java.util.Iterator;
 
 public class Polygon extends Command {
     private int startX, startY;
-    private ArrayList<Integer> xPoints = new ArrayList<>();
-    private ArrayList<Integer> yPoints = new ArrayList<>();
+    private ArrayList<Integer> xPoints;
+    private ArrayList<Integer> yPoints;
     private boolean commandFinished;
 
     public Polygon(int startX, int startY, Color penColor, Color fillColor){
         super(penColor, fillColor, CommandType.POLYGON);
         this.startX = startX;
         this.startY = startY;
+        xPoints = new ArrayList<>();
+        yPoints = new ArrayList<>();
         xPoints.add(startX);
         yPoints.add(startY);
         commandFinished = false;
+    }
+
+    public Polygon(ArrayList<Integer> xPoints, ArrayList<Integer> yPoints, Color penColor, Color fillColor){
+        super(penColor, fillColor, CommandType.POLYGON);
+        this.xPoints = xPoints;
+        this.yPoints = yPoints;
+        commandFinished = true;
     }
 
     @Override
