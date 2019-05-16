@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 
@@ -77,6 +76,8 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
     private JMenu fileMenu() {
         JMenu fileMenu = new JMenu("File");
+
+        JMenuItem newFile = new JMenuItem("New");
         JMenuItem openFile = new JMenuItem("Open");
         JMenuItem saveFile = new JMenuItem("Save");
         JMenuItem saveNewFile = new JMenuItem("Save As New");
@@ -87,13 +88,20 @@ public class Window extends JFrame implements ActionListener, Runnable {
         saveNewFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         exitFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 
-        fileMenu.setMnemonic('F');
-        openFile.setMnemonic('O');
-        saveFile.setMnemonic('S');
-        saveNewFile.setMnemonic('N');
-        exitFile.setMnemonic('X');
-
-        openFile.addActionListener(e -> vecPanel.openFile());
+        newFile.addActionListener(e -> {
+            try {
+                vecPanel.newFile();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        openFile.addActionListener(e -> {
+            try {
+                vecPanel.openFile();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         saveFile.addActionListener(e -> {
             try {
@@ -111,8 +119,15 @@ public class Window extends JFrame implements ActionListener, Runnable {
             }
         });
 
-        exitFile.addActionListener(e -> System.exit(0));
+        exitFile.addActionListener(e -> {
+            try {
+                exitProgram();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
 
+        fileMenu.add(newFile);
         fileMenu.add(openFile);
         fileMenu.add(saveFile);
         fileMenu.add(saveNewFile);
@@ -120,6 +135,12 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         return fileMenu;
     }
+
+    private void exitProgram() throws FileNotFoundException {
+        vecPanel.saveBeforeClosing();
+        System.exit(0);
+    }
+
 
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
@@ -189,7 +210,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         ImageIcon undoIcon = new ImageIcon(getClass().getResource("undo.png"));
         ImageIcon redoIcon = new ImageIcon(getClass().getResource("redo.png"));
-        //ImageIcon undoIcon = new ImageIcon(new ImageIcon(getClass().getResource("undo.png")).getImage().getScaledInstance(10, 10, Image.SCALE_DEFAULT));
+
         JMenuItem undo = new JMenuItem("undo", undoIcon);
         JMenuItem redo = new JMenuItem("redo", redoIcon);
 
@@ -295,7 +316,6 @@ public class Window extends JFrame implements ActionListener, Runnable {
         btn.setSize(20,10);
         btn.addActionListener(actionListener);
         btn.setIcon(icon);
-        //btn.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Married?"));
         return btn;
     }
 }

@@ -57,7 +57,28 @@ public class VECPanel extends JPanel {
         }
     }
 
-    public void openFile(){
+    public void saveBeforeClosing() throws FileNotFoundException {
+        if(drawnCommands.Count() != 0) {
+            int saveFileResult = JOptionPane.showConfirmDialog(this, "The current file has not been saved, would you like to save before closing?");
+            if (saveFileResult == JOptionPane.YES_OPTION) {
+                if (loadedFile != null) {
+                    saveFile();
+                } else {
+                    saveNewFile();
+                }
+            }
+        }
+    }
+
+    public void newFile() throws FileNotFoundException {
+        saveBeforeClosing();
+        drawnCommands = new CommandList();
+        clearedCommands = new CommandList();
+        repaint();
+    }
+
+    public void openFile() throws FileNotFoundException {
+        saveBeforeClosing();
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
         chooser.setDialogTitle("Select a file to load.");
@@ -74,7 +95,6 @@ public class VECPanel extends JPanel {
     }
 
     public void loadCommandList(CommandList commands){
-        drawnCommands = null;
         clearedCommands = new CommandList();
         drawnCommands = commands;
         repaint();
@@ -193,8 +213,6 @@ public class VECPanel extends JPanel {
             repaint();
         }
     }
-
-
 
     private class MouseController extends MouseAdapter{
 
