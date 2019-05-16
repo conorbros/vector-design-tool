@@ -41,6 +41,10 @@ public class CommandList implements Iterable<Command> {
         }
     }
 
+    public Command get(int index){
+        return commands.get(index);
+    }
+
     /**
      * removes the last command from the CommandList object
      */

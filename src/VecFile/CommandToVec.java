@@ -12,7 +12,7 @@ public class CommandToVec {
     private static Color fillColor;
     private static ArrayList<String> VecCommands;
 
-    public static ArrayList<String> ConvertCommandListToVec(CommandList commandList){
+    public static String ConvertCommandListToVec(CommandList commandList){
         VecCommands = new ArrayList<>();
         penColor = Color.BLACK;
         fillColor = null;
@@ -40,7 +40,17 @@ public class CommandToVec {
                     break;
             }
         }
-        return VecCommands;
+
+        return convertToString(VecCommands);
+    }
+
+    private static String convertToString(ArrayList<String> commands) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String str : commands) {
+            stringBuilder.append(str);
+            stringBuilder.append("\r\n");
+        }
+        return stringBuilder.toString();
     }
 
     private static String getPlotString(Command plot){
@@ -52,11 +62,11 @@ public class CommandToVec {
     }
 
     private static String getRectangleString(Command rect){
-        return "RECTANGLE " + IntToDecimalConvert(rect.getStartX()) + " " + IntToDecimalConvert(rect.getStartY()) + " " + IntToDecimalConvert(rect.getXPoint()) + " " + IntToDecimalConvert(rect.getStartY());
+        return "RECTANGLE " + IntToDecimalConvert(rect.getStartX()) + " " + IntToDecimalConvert(rect.getStartY()) + " " + IntToDecimalConvert(rect.getXPoint()) + " " + IntToDecimalConvert(rect.getYPoint());
     }
 
     private static String getEllipseString(Command ell){
-        return "ELLIPSE " + IntToDecimalConvert(ell.getStartX()) + " " + IntToDecimalConvert(ell.getStartY()) + " " + IntToDecimalConvert(ell.getXPoint()) + " " + IntToDecimalConvert(ell.getStartY());
+        return "ELLIPSE " + IntToDecimalConvert(ell.getStartX()) + " " + IntToDecimalConvert(ell.getStartY()) + " " + IntToDecimalConvert(ell.getXPoint()) + " " + IntToDecimalConvert(ell.getYPoint());
     }
 
     private static String getPolygonString(Command poly){
