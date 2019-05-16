@@ -77,6 +77,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu fileMenu() {
         JMenu fileMenu = new JMenu("File");
 
+        JMenuItem newFile = new JMenuItem("New");
         JMenuItem openFile = new JMenuItem("Open");
         JMenuItem saveFile = new JMenuItem("Save");
         JMenuItem saveNewFile = new JMenuItem("Save As New");
@@ -87,12 +88,13 @@ public class Window extends JFrame implements ActionListener, Runnable {
         saveNewFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         exitFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 
-        fileMenu.setMnemonic('F');
-        openFile.setMnemonic('O');
-        saveFile.setMnemonic('S');
-        saveNewFile.setMnemonic('N');
-        exitFile.setMnemonic('X');
-
+        newFile.addActionListener(e -> {
+            try {
+                vecPanel.newFile();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         openFile.addActionListener(e -> vecPanel.openFile());
 
         saveFile.addActionListener(e -> {
@@ -111,8 +113,15 @@ public class Window extends JFrame implements ActionListener, Runnable {
             }
         });
 
-        exitFile.addActionListener(e -> System.exit(0));
+        exitFile.addActionListener(e -> {
+            try {
+                exitProgram();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
 
+        fileMenu.add(newFile);
         fileMenu.add(openFile);
         fileMenu.add(saveFile);
         fileMenu.add(saveNewFile);
@@ -120,6 +129,12 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         return fileMenu;
     }
+
+    private void exitProgram() throws FileNotFoundException {
+        vecPanel.saveBeforeClosing();
+        System.exit();
+    }
+
 
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
