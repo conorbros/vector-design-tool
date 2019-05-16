@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 
 
@@ -81,6 +82,11 @@ public class Window extends JFrame implements ActionListener, Runnable {
         JMenuItem saveNewFile = new JMenuItem("Save As New");
         JMenuItem exitFile = new JMenuItem("Exit");
 
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+        saveNewFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+        exitFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+
         fileMenu.setMnemonic('F');
         openFile.setMnemonic('O');
         saveFile.setMnemonic('S');
@@ -105,6 +111,8 @@ public class Window extends JFrame implements ActionListener, Runnable {
             }
         });
 
+        exitFile.addActionListener(e -> System.exit(0));
+
         fileMenu.add(openFile);
         fileMenu.add(saveFile);
         fileMenu.add(saveNewFile);
@@ -116,26 +124,32 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
 
-        JMenuItem line = new JMenuItem("LINE");
         JMenuItem plot = new JMenuItem("PLOT");
+        JMenuItem line = new JMenuItem("LINE");
         JMenuItem rectangle = new JMenuItem("RECTANGLE");
         JMenuItem ellipse = new JMenuItem("ELLIPSE");
         JMenuItem polygon = new JMenuItem("POLYGON");
 
-        line.setMnemonic('L');
+        plot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+        line.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+        rectangle.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
+        ellipse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+        polygon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
+
         plot.setMnemonic('P');
+        line.setMnemonic('L');
         rectangle.setMnemonic('R');
         ellipse.setMnemonic('E');
         polygon.setMnemonic('G');
 
-        commandMenu.add(line);
         commandMenu.add(plot);
+        commandMenu.add(line);
         commandMenu.add(rectangle);
         commandMenu.add(ellipse);
         commandMenu.add(polygon);
 
-        line.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.LINE));
         plot.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.PLOT));
+        line.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.LINE));
         rectangle.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE));
         ellipse.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE));
         polygon.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.POLYGON));
@@ -149,7 +163,10 @@ public class Window extends JFrame implements ActionListener, Runnable {
         JMenuItem pen = new JMenuItem("Pen Color");
         JMenuItem fill = new JMenuItem("Fill Color");
 
-        pen.setMnemonic('P');
+        pen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+        fill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
+
+        pen.setMnemonic('C');
         fill.setMnemonic('F');
 
         colorMenu.add(pen);
@@ -166,6 +183,9 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         JMenuItem undo = new JMenuItem("undo");
         JMenuItem redo = new JMenuItem("redo");
+
+        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+        redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
 
         historyMenu.add(undo);
         historyMenu.add(redo);
