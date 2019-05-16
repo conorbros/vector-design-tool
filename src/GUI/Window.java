@@ -145,11 +145,17 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
 
-        JMenuItem plot = new JMenuItem("PLOT");
-        JMenuItem line = new JMenuItem("LINE");
-        JMenuItem rectangle = new JMenuItem("RECTANGLE");
-        JMenuItem ellipse = new JMenuItem("ELLIPSE");
-        JMenuItem polygon = new JMenuItem("POLYGON");
+        ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
+        ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
+        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("rectangle.png"));
+        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("ellipse.png"));
+        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
+
+        JMenuItem plot = new JMenuItem("PLOT", plotIcon);
+        JMenuItem line = new JMenuItem("LINE", lineIcon);
+        JMenuItem rectangle = new JMenuItem("RECTANGLE", rectangleIcon);
+        JMenuItem ellipse = new JMenuItem("ELLIPSE", ellipseIcon);
+        JMenuItem polygon = new JMenuItem("POLYGON", polygonIcon);
 
         plot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         line.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
@@ -202,8 +208,11 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu historyMenu(){
         JMenu historyMenu = new JMenu("History");
 
-        JMenuItem undo = new JMenuItem("undo");
-        JMenuItem redo = new JMenuItem("redo");
+        ImageIcon undoIcon = new ImageIcon(getClass().getResource("undo.png"));
+        ImageIcon redoIcon = new ImageIcon(getClass().getResource("redo.png"));
+
+        JMenuItem undo = new JMenuItem("undo", undoIcon);
+        JMenuItem redo = new JMenuItem("redo", redoIcon);
 
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
@@ -255,14 +264,20 @@ public class Window extends JFrame implements ActionListener, Runnable {
         toolPanel.add(fillRed);
         toolPanel.add(fillBlue);
 
+        ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
+        ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
+        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("rectangle.png"));
+        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("ellipse.png"));
+        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
+
         ButtonGroup commands = new ButtonGroup();
         JLabel commandsLabel = new JLabel("Commands:");
-        JRadioButton plot = createRadioButton("PLOT", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.PLOT));
+        JRadioButton plot = createRadioButton("PLOT", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.PLOT), plotIcon);
         plot.setSelected(true);
-        JRadioButton line = createRadioButton("LINE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.LINE));
-        JRadioButton rectangle = createRadioButton("RECTANGLE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE));
-        JRadioButton ellipse = createRadioButton("ELLIPSE", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE));
-        JRadioButton polygon = createRadioButton("POLYGON", Color.WHITE, e -> vecPanel.setSelectedCommand(CommandType.POLYGON));
+        JRadioButton line = createRadioButton("LINE", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.LINE), lineIcon);
+        JRadioButton rectangle = createRadioButton("RECTANGLE", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE), rectangleIcon);
+        JRadioButton ellipse = createRadioButton("ELLIPSE", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE), ellipseIcon);
+        JRadioButton polygon = createRadioButton("POLYGON", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.POLYGON), polygonIcon);
         commands.add(plot);
         commands.add(line);
         commands.add(rectangle);
@@ -291,6 +306,16 @@ public class Window extends JFrame implements ActionListener, Runnable {
         btn.setText(text);
         btn.setSize(20,10);
         btn.addActionListener(actionListener);
+        return btn;
+    }
+
+    private JRadioButton createRadioButton(String text, Color color, ActionListener actionListener, Icon icon){
+        JRadioButton btn = new JRadioButton();
+        btn.setBackground(color);
+        btn.setText(text);
+        btn.setSize(20,10);
+        btn.addActionListener(actionListener);
+        btn.setIcon(icon);
         return btn;
     }
 }
