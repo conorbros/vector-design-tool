@@ -111,6 +111,8 @@ public class Window extends JFrame implements ActionListener, Runnable {
             }
         });
 
+        exitFile.addActionListener(e -> System.exit(0));
+
         fileMenu.add(openFile);
         fileMenu.add(saveFile);
         fileMenu.add(saveNewFile);
@@ -122,32 +124,32 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
 
-        JMenuItem line = new JMenuItem("LINE");
         JMenuItem plot = new JMenuItem("PLOT");
+        JMenuItem line = new JMenuItem("LINE");
         JMenuItem rectangle = new JMenuItem("RECTANGLE");
         JMenuItem ellipse = new JMenuItem("ELLIPSE");
         JMenuItem polygon = new JMenuItem("POLYGON");
 
-        line.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         plot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+        line.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         rectangle.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         ellipse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
         polygon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
 
-        line.setMnemonic('L');
         plot.setMnemonic('P');
+        line.setMnemonic('L');
         rectangle.setMnemonic('R');
         ellipse.setMnemonic('E');
         polygon.setMnemonic('G');
 
-        commandMenu.add(line);
         commandMenu.add(plot);
+        commandMenu.add(line);
         commandMenu.add(rectangle);
         commandMenu.add(ellipse);
         commandMenu.add(polygon);
 
-        line.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.LINE));
         plot.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.PLOT));
+        line.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.LINE));
         rectangle.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE));
         ellipse.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE));
         polygon.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.POLYGON));
