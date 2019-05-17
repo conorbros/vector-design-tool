@@ -5,6 +5,7 @@ import Commands.Ellipse;
 import Commands.Line;
 import Commands.Plot;
 import Commands.Rectangle;
+import VecFile.VecFileException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class CommandToVecTests {
     }
 
     @Test
-    public void testCommands(){
+    public void testCommands() throws VecFileException {
         initCommands();
         String result = ConvertCommandListToVec(commands);
 

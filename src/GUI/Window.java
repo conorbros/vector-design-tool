@@ -1,6 +1,7 @@
 package GUI;
 
 import Commands.CommandType;
+import VecFile.VecFileException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -93,12 +94,16 @@ public class Window extends JFrame implements ActionListener, Runnable {
                 vecPanel.newFile();
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
+            } catch (VecFileException ex) {
+                ex.printStackTrace();
             }
         });
         openFile.addActionListener(e -> {
             try {
                 vecPanel.openFile();
             } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (VecFileException ex) {
                 ex.printStackTrace();
             }
         });
@@ -107,6 +112,8 @@ public class Window extends JFrame implements ActionListener, Runnable {
             try {
                 vecPanel.saveFile();
             } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (VecFileException ex) {
                 ex.printStackTrace();
             }
         });
@@ -124,6 +131,8 @@ public class Window extends JFrame implements ActionListener, Runnable {
                 exitProgram();
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
+            } catch (VecFileException ex) {
+                ex.printStackTrace();
             }
         });
 
@@ -136,7 +145,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
         return fileMenu;
     }
 
-    private void exitProgram() throws FileNotFoundException {
+    private void exitProgram() throws FileNotFoundException, VecFileException {
         vecPanel.saveBeforeClosing();
         System.exit(0);
     }

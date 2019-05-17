@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import CommandList.CommandList;
+import VecFile.VecFileException;
 
 import static VecFile.VecFileInput.LoadVecFile;
 import static VecFile.VecFileOutput.CommandsToExistingVecFile;
@@ -57,7 +58,7 @@ public class VECPanel extends JPanel {
         }
     }
 
-    public void saveBeforeClosing() throws FileNotFoundException {
+    public void saveBeforeClosing() throws FileNotFoundException, VecFileException {
         if(drawnCommands.Count() != 0) {
             int saveFileResult = JOptionPane.showConfirmDialog(this, "The current file has not been saved, would you like to save before closing?");
             if (saveFileResult == JOptionPane.YES_OPTION) {
@@ -70,14 +71,14 @@ public class VECPanel extends JPanel {
         }
     }
 
-    public void newFile() throws FileNotFoundException {
+    public void newFile() throws FileNotFoundException, VecFileException {
         saveBeforeClosing();
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
         repaint();
     }
 
-    public void openFile() throws FileNotFoundException {
+    public void openFile() throws FileNotFoundException, VecFileException {
         saveBeforeClosing();
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
@@ -100,7 +101,7 @@ public class VECPanel extends JPanel {
         repaint();
     }
 
-    public void saveFile() throws FileNotFoundException {
+    public void saveFile() throws FileNotFoundException, VecFileException {
         if(loadedFile == null){
             JOptionPane.showMessageDialog(this,
                     "You must save this file as a new file.",

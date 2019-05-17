@@ -3,8 +3,6 @@ package VecFile;
 import CommandList.CommandList;
 
 import java.io.*;
-import java.util.ArrayList;
-
 import static VecFile.CommandToVec.ConvertCommandListToVec;
 
 public class VecFileOutput {
@@ -17,7 +15,13 @@ public class VecFileOutput {
      * @throws FileNotFoundException
      */
     public static void CommandsToNewVecFile(CommandList commands, String path, String fileName) throws FileNotFoundException {
-        String commandsOutput = ConvertCommandListToVec(commands);
+        String commandsOutput;
+        try {
+            commandsOutput = ConvertCommandListToVec(commands);
+        } catch (VecFileException e) {
+            e.printStackTrace();
+            return;
+        }
 
         File file = new File(path + "/" + fileName + ".vec");
         file.getParentFile().mkdirs();
@@ -33,8 +37,10 @@ public class VecFileOutput {
      * @param file the file to write the command list object to
      * @throws FileNotFoundException
      */
-    public static void CommandsToExistingVecFile(CommandList commands, File file) throws FileNotFoundException {
-        String commandsOutput = ConvertCommandListToVec(commands);
+    public static void CommandsToExistingVecFile(CommandList commands, File file) throws FileNotFoundException, VecFileException {
+        String commandsOutput = null;
+        commandsOutput = ConvertCommandListToVec(commands);
+
 
         PrintWriter out = new PrintWriter(file);
         out.println(commandsOutput);

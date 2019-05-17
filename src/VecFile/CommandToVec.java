@@ -15,9 +15,9 @@ public class CommandToVec {
     /**
      * Converts a command list to vec commands in a string, ready to be inputted into the file
      * @param commandList the command list to be converted
-     * @return a string of the commands in the commandlist as vec file ready commands
+     * @return a string of the commands in the command list as vec file ready commands
      */
-    public static String ConvertCommandListToVec(CommandList commandList){
+    public static String ConvertCommandListToVec(CommandList commandList) throws VecFileException {
         VecCommands = new ArrayList<>();
         penColor = Color.BLACK;
         fillColor = null;
@@ -68,7 +68,7 @@ public class CommandToVec {
      * @param plot the Plot object to convert
      * @return the vec command for the object as a string
      */
-    private static String getPlotString(Command plot){
+    private static String getPlotString(Command plot) throws VecFileException {
         return "PLOT " + (IntToDecimalConvert(plot.getStartX()) + " " + IntToDecimalConvert(plot.getStartY()));
     }
 
@@ -77,7 +77,7 @@ public class CommandToVec {
      * @param line the Line object to convert
      * @return the vec command for the object as a string
      */
-    private static String getLineString(Command line){
+    private static String getLineString(Command line) throws VecFileException {
         return "LINE " + (IntToDecimalConvert(line.getStartX()) + " " + IntToDecimalConvert(line.getStartY()) + " " + IntToDecimalConvert(line.getXPoint()) + " " + IntToDecimalConvert(line.getYPoint()));
     }
 
@@ -86,7 +86,7 @@ public class CommandToVec {
      * @param rect the Rectangle object to convert
      * @return the vec command for the object as a string
      */
-    private static String getRectangleString(Command rect){
+    private static String getRectangleString(Command rect) throws VecFileException {
         return "RECTANGLE " + IntToDecimalConvert(rect.getStartX()) + " " + IntToDecimalConvert(rect.getStartY()) + " " + IntToDecimalConvert(rect.getXPoint()) + " " + IntToDecimalConvert(rect.getYPoint());
     }
 
@@ -95,7 +95,7 @@ public class CommandToVec {
      * @param ell the ellipse object to convert
      * @return a string of the vec command for the ellipse object
      */
-    private static String getEllipseString(Command ell){
+    private static String getEllipseString(Command ell) throws VecFileException {
         return "ELLIPSE " + IntToDecimalConvert(ell.getStartX()) + " " + IntToDecimalConvert(ell.getStartY()) + " " + IntToDecimalConvert(ell.getXPoint()) + " " + IntToDecimalConvert(ell.getYPoint());
     }
 
@@ -104,10 +104,13 @@ public class CommandToVec {
      * @param poly the polygon object to convert
      * @return a string of the vec command for the polygon object
      */
-    private static String getPolygonString(Command poly){
+    private static String getPolygonString(Command poly) throws VecFileException {
         ArrayList<Integer> xPoints = ((Polygon)poly).getxPoints();
         ArrayList<Integer> yPoints = ((Polygon)poly).getyPoints();
         int pointCount = xPoints.size();
+
+        //if there is not an even number of points the polygon is invalid
+        if((xPoints.size() % 2 != 0) || (yPoints.size() % 2 != 0)) throw new VecFileException("Invalid number of polygon coordinates.");
 
         StringBuilder result = new StringBuilder("POLYGON");
         for(int i = 0; i < pointCount; i++){
@@ -121,8 +124,12 @@ public class CommandToVec {
      * @param number The coordinate to convert
      * @return a double between 0.0 and 1.0
      */
-    private static double IntToDecimalConvert(int number){
-        return (double)number / screenSize;
+    private static double IntToDecimalConvert(int number) throws VecFileException {
+        double result = (double)number / screenSize;
+
+        if(result > 1.0 || result < 0.0) throw new VecFileException("Invalid coordinate.");
+
+        return result;
     }
 
     /**

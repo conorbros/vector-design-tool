@@ -4,6 +4,7 @@ import CommandList.CommandList;
 import Commands.Polygon;
 import Commands.Rectangle;
 import Commands.*;
+import VecFile.VecFileException;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class VecToCommandTests {
 
     @Test
-    public void testPlot() {
+    public void testPlot() throws VecFileException {
         String VecString = "PLOT 0.0 0.0\r\n";
         CommandList plot = ConvertVecStrToCommandList(VecString);
         Command res = plot.getLastCommand();
@@ -32,7 +33,7 @@ public class VecToCommandTests {
     }
 
     @Test
-    public void testLine(){
+    public void testLine() throws VecFileException {
         String VecString = "LINE 1.0 1.0 0.0 0.0\r\n";
         CommandList line = ConvertVecStrToCommandList(VecString);
         Command res = line.getLastCommand();
@@ -50,7 +51,7 @@ public class VecToCommandTests {
     }
 
     @Test
-    public void testRectangle(){
+    public void testRectangle() throws VecFileException {
         String VecString = "RECTANGLE 0.5 0.5 1.0 1.0\r\n";
         CommandList rec = ConvertVecStrToCommandList(VecString);
         Command res = rec.getLastCommand();
@@ -69,7 +70,7 @@ public class VecToCommandTests {
     }
 
     @Test
-    public void testEllipse(){
+    public void testEllipse() throws VecFileException {
         String VecString = "ELLIPSE 0.0 0.0 0.5 0.5\r\n";
         CommandList ell = ConvertVecStrToCommandList(VecString);
         Command res = ell.getLastCommand();
@@ -88,7 +89,7 @@ public class VecToCommandTests {
     }
 
     @Test
-    public void testPolygon(){
+    public void testPolygon() throws VecFileException {
         String VecString = "POLYGON 0.0 0.0 1.0 1.0 0.5 0.5 0.0 0.5\r\n";
         CommandList poly = ConvertVecStrToCommandList(VecString);
         Command res = poly.getLastCommand();
@@ -113,7 +114,7 @@ public class VecToCommandTests {
     }
 
     @Test
-    public void testPen(){
+    public void testPen() throws VecFileException {
         String VecString = "PEN #ff0000\r\n";
         VecString += "PLOT 1.0 1.0\r\n";
 
@@ -123,7 +124,7 @@ public class VecToCommandTests {
     }
 
     @Test
-    public void testFill(){
+    public void testFill() throws VecFileException {
         String VecString = "FILL #ff0000\r\n";
         VecString += "RECTANGLE 0.0 0.0 1.0 1.0\r\n";
 

@@ -18,7 +18,7 @@ public class VecToCommand {
      * @param VecFileStr the vec command string to convert
      * @return a command list object converted from the vec command string
      */
-    public static CommandList ConvertVecStrToCommandList(String VecFileStr){
+    public static CommandList ConvertVecStrToCommandList(String VecFileStr) throws VecFileException {
         CommandList commands = new CommandList();
         String[] vecCommands = VecFileStr.split("\r\n");
         penColor = Color.BLACK;
@@ -54,7 +54,7 @@ public class VecToCommand {
      * @param cmdStr the full command string, including the first word
      * @return a command object converted from the inputted string
      */
-    private static Command convertToCommand(String cmdTypeStr, String cmdStr){
+    private static Command convertToCommand(String cmdTypeStr, String cmdStr) throws VecFileException {
         String[] inputs = cmdStr.split(" ");
         switch (cmdTypeStr){
             case "PLOT":
@@ -76,7 +76,7 @@ public class VecToCommand {
      * @param inputs an array of the vec plot command
      * @return a Plot command made from the string array
      */
-    private static Command plotHandler(String[] inputs){
+    private static Command plotHandler(String[] inputs) throws VecFileException {
         int x = IntConvert(inputs[1]);
         int y = IntConvert(inputs[2]);
 
@@ -89,7 +89,7 @@ public class VecToCommand {
      * @param inputs an array of the vec line command
      * @return a Line command made from the string array
      */
-    private static Command lineHandler(String[] inputs){
+    private static Command lineHandler(String[] inputs) throws VecFileException {
         int x1 = IntConvert(inputs[1]);
         int y1 = IntConvert(inputs[2]);
         int x2 = IntConvert(inputs[3]);
@@ -104,7 +104,7 @@ public class VecToCommand {
      * @param inputs an array of the vec rectangle command
      * @return a Rectangle command made from the string array
      */
-    private static Command rectangleHandler(String[] inputs){
+    private static Command rectangleHandler(String[] inputs) throws VecFileException {
         int x1 = IntConvert(inputs[1]);
         int y1 = IntConvert(inputs[2]);
         int x2 = IntConvert(inputs[3]);
@@ -119,7 +119,7 @@ public class VecToCommand {
      * @param inputs a string array of the vec ellipse command
      * @return an Ellipse command object
      */
-    private static Command ellipseHandler(String[] inputs){
+    private static Command ellipseHandler(String[] inputs) throws VecFileException {
         int x1 = IntConvert(inputs[1]);
         int y1 = IntConvert(inputs[2]);
         int x2 = IntConvert(inputs[3]);
@@ -134,7 +134,7 @@ public class VecToCommand {
      * @param inputs a string array of the vec polygon command
      * @return a Polygon command object
      */
-    private static Command polygonHandler(String[] inputs){
+    private static Command polygonHandler(String[] inputs) throws VecFileException {
         ArrayList<Integer> xPoints = new ArrayList<>();
         ArrayList<Integer> yPoints = new ArrayList<>();
 
@@ -175,8 +175,9 @@ public class VecToCommand {
      * @param value the vec coordinate, a string of a double between 0.0 and 1.0
      * @return the inputted double converted to an int between 0 and 1000
      */
-    private static int IntConvert(String value){
+    private static int IntConvert(String value) throws VecFileException {
         double dec = Double.parseDouble(value);
+        if(dec < 0 || dec > 1000) throw new VecFileException("Coordinate is outside of vecPanel bounds");
         return (int) (dec * screenSize);
     }
 }

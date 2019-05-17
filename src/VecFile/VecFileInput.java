@@ -21,7 +21,7 @@ public class VecFileInput {
             String vecFileStr = readFile(vecFile);
             CommandList commands = ConvertVecStrToCommandList(vecFileStr);
             vecPanel.loadCommandList(commands);
-        } catch (IOException e) {
+        } catch (IOException | VecFileException e) {
             e.printStackTrace();
         }
     }
