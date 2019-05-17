@@ -78,11 +78,17 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu fileMenu() {
         JMenu fileMenu = new JMenu("File");
 
-        JMenuItem newFile = new JMenuItem("New");
-        JMenuItem openFile = new JMenuItem("Open");
-        JMenuItem saveFile = new JMenuItem("Save");
-        JMenuItem saveNewFile = new JMenuItem("Save As New");
-        JMenuItem exitFile = new JMenuItem("Exit");
+        ImageIcon newIcon = new ImageIcon(getClass().getResource("new.png"));
+        ImageIcon openIcon = new ImageIcon(getClass().getResource("open.png"));
+        ImageIcon saveIcon = new ImageIcon(getClass().getResource("save.png"));
+        ImageIcon saveNewIcon = new ImageIcon(getClass().getResource("saveNew.png"));
+        ImageIcon exitIcon = new ImageIcon(getClass().getResource("exit.png"));
+
+        JMenuItem newFile = new JMenuItem("New", newIcon);
+        JMenuItem openFile = new JMenuItem("Open", openIcon);
+        JMenuItem saveFile = new JMenuItem("Save", saveIcon);
+        JMenuItem saveNewFile = new JMenuItem("Save As New", saveNewIcon);
+        JMenuItem exitFile = new JMenuItem("Exit", exitIcon);
 
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
@@ -196,8 +202,11 @@ public class Window extends JFrame implements ActionListener, Runnable {
     private JMenu colorMenu(){
         JMenu colorMenu = new JMenu("Colors");
 
-        JMenuItem pen = new JMenuItem("Pen Color");
-        JMenuItem fill = new JMenuItem("Fill Color");
+        ImageIcon penIcon = new ImageIcon(getClass().getResource("pen.png"));
+        ImageIcon fillIcon = new ImageIcon(getClass().getResource("fill.png"));
+
+        JMenuItem pen = new JMenuItem("Pen Color", penIcon);
+        JMenuItem fill = new JMenuItem("Fill Color", fillIcon);
 
         pen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
         fill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
@@ -219,10 +228,11 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         ImageIcon undoIcon = new ImageIcon(getClass().getResource("undo.png"));
         ImageIcon redoIcon = new ImageIcon(getClass().getResource("redo.png"));
+        ImageIcon undoHistIcon = new ImageIcon(getClass().getResource("undoHist.png"));
 
         JMenuItem undo = new JMenuItem("undo", undoIcon);
         JMenuItem redo = new JMenuItem("redo", redoIcon);
-        JMenuItem undoHistory = new JMenuItem("undo history");
+        JMenuItem undoHistory = new JMenuItem("undo history", undoHistIcon);
 
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
