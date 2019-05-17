@@ -52,7 +52,7 @@ public class Plot extends Command {
     }
 
     @Override
-    public String toString() {
+    public String toVEC() {
         return "PLOT " + (IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()));
     }
 
@@ -71,6 +71,4 @@ public class Plot extends Command {
     public void setCommandFinished() {
 
     }
-
-
 }

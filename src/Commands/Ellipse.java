@@ -25,7 +25,7 @@ public class Ellipse extends Command {
     }
 
     @Override
-    public String toString() {
+    public String toVEC() {
         return "ELLIPSE " + IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()) + " " + IntToDecimalConvert(getXPoint()) + " " + IntToDecimalConvert(getYPoint());
     }
 

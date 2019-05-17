@@ -27,11 +27,11 @@ public class CommandToVec {
         for(Command cmd : commandList){
             penColorHandler(cmd);
 
-            if(cmd.getCommandType() != LINE || cmd.getCommandType() != PLOT){
+            if(cmd.getCommandType() != LINE && cmd.getCommandType() != PLOT){
                 fillColorHandler(cmd);
             }
 
-            VecCommands.add(cmd.toString());
+            VecCommands.add(cmd.toVEC());
         }
 
         return convertToString(VecCommands);

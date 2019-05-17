@@ -24,8 +24,9 @@ public class Rectangle extends Command {
         commandFinished = true;
     }
 
+
     @Override
-    public String toString() {
+    public String toVEC() {
         return "RECTANGLE " + IntToDecimalConvert(x1) + " " + IntToDecimalConvert(y1) + " " + IntToDecimalConvert(x2) + " " + IntToDecimalConvert(y2);
     }
 

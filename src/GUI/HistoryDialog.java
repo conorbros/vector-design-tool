@@ -35,8 +35,8 @@ public class HistoryDialog {
         setupButtons();
         JPanel pane = layoutComponents();
         optionPane = new JOptionPane(pane);
-        optionPane.setOptions(new Object[]{revertButton, selectedCmdButton, cancelButton});
-        dialog = optionPane.createDialog("Select option");
+        optionPane.setOptions(new Object[] {revertButton, selectedCmdButton, cancelButton});
+        dialog = optionPane.createDialog("undo History");
     }
 
     private void setupButtons(){
@@ -54,7 +54,7 @@ public class HistoryDialog {
         centerListElements();
         JPanel panel = new JPanel(new BorderLayout(5,5));
         panel.add(label, BorderLayout.NORTH);
-        panel.add(list, BorderLayout.CENTER);
+        panel.add(new JScrollPane(list), BorderLayout.CENTER);
         return panel;
     }
 

@@ -63,8 +63,12 @@ import java.awt.*;
          this.fillColor = fillColor;
      }
 
-     @Override
-     public abstract String toString();
+
+     public abstract String toVEC();
+
+     public String toString(){
+         return toVEC();
+     }
 
      /**
       * Scales the vecPanel coordinate to a vec coordinate 0.0-1.0

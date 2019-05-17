@@ -67,7 +67,7 @@ public class Line extends Command {
     }
 
     @Override
-    public String toString() {
+    public String toVEC() {
         return "LINE " + (IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()) + " " + IntToDecimalConvert(getXPoint()) + " " + IntToDecimalConvert(getYPoint()));
     }
 

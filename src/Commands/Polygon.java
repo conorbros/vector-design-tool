@@ -30,21 +30,24 @@ public class Polygon extends Command {
     }
 
     @Override
-    public String toString() {
+    public String toVEC() {
         int pointCount = xPoints.size();
 
-        //if there is not an even number of points the polygon is invalid
-        if((xPoints.size() % 2 != 0) || (yPoints.size() % 2 != 0)) try {
-            throw new VecFileException("Invalid number of polygon coordinates.");
-        } catch (VecFileException e) {
-            e.printStackTrace();
-        }
-
-        StringBuilder result = new StringBuilder("POLYGON");
+        StringBuilder result = new StringBuilder("POLYGON ");
         for(int i = 0; i < pointCount; i++){
-            result.append(" ").append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
+            result.append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
         }
         return result.toString();
+    }
+
+    @Override
+    public String toString(){
+        ArrayList<Integer> xpos = xPoints;
+        ArrayList<Integer> ypos = yPoints;
+
+        return "POLYGON" + " start x,y: " +
+                IntToDecimalConvert(xpos.get(0)) + ", " + IntToDecimalConvert(ypos.get(0)) +
+                " end x,y: " + IntToDecimalConvert(xpos.get(xpos.size()-1)) + ", " + IntToDecimalConvert(ypos.get(ypos.size()-1));
     }
 
     @Override
