@@ -222,15 +222,18 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         JMenuItem undo = new JMenuItem("undo", undoIcon);
         JMenuItem redo = new JMenuItem("redo", redoIcon);
+        JMenuItem undoHistory = new JMenuItem("undo history");
 
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
 
         historyMenu.add(undo);
         historyMenu.add(redo);
+        historyMenu.add(undoHistory);
 
         undo.addActionListener(e -> vecPanel.undoCommand());
         redo.addActionListener(e -> vecPanel.redoCommand());
+        undoHistory.addActionListener(e -> vecPanel.openUndoHistory());
 
         return historyMenu;
     }

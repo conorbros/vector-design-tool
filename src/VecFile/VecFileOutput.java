@@ -14,13 +14,13 @@ public class VecFileOutput {
      * @param fileName the name of the new file
      * @throws FileNotFoundException
      */
-    public static void CommandsToNewVecFile(CommandList commands, String path, String fileName) throws FileNotFoundException {
+    public static File CommandsToNewVecFile(CommandList commands, String path, String fileName) throws FileNotFoundException {
         String commandsOutput;
         try {
             commandsOutput = ConvertCommandListToVec(commands);
         } catch (VecFileException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
 
         File file = new File(path + "/" + fileName + ".vec");
@@ -29,6 +29,7 @@ public class VecFileOutput {
 
         out.println(commandsOutput);
         out.close();
+        return file;
     }
 
     /**
