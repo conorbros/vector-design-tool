@@ -1,11 +1,14 @@
 package Commands;
 
+import VecFile.VecFileException;
+
 import java.awt.*;
 
  abstract public class Command {
      private Color penColor;
      private Color fillColor;
      private CommandType commandType;
+     private static final int screenSize = 1000;
 
 
      public Command(){
@@ -58,6 +61,26 @@ import java.awt.*;
 
      public void setFillColor(Color fillColor) {
          this.fillColor = fillColor;
+     }
+
+     @Override
+     public abstract String toString();
+
+     /**
+      * Scales the vecPanel coordinate to a vec coordinate 0.0-1.0
+      * @param number The coordinate to convert
+      * @return a double between 0.0 and 1.0
+      */
+     public double IntToDecimalConvert(int number){
+         double result = (double)number / screenSize;
+
+         if(result > 1.0 || result < 0.0) try {
+             throw new VecFileException("Invalid coordinate.");
+         } catch (VecFileException e) {
+             e.printStackTrace();
+         }
+
+         return result;
      }
 
      /**

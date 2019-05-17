@@ -1,4 +1,6 @@
 package Commands;
+import VecFile.VecFileException;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +27,24 @@ public class Polygon extends Command {
         this.xPoints = xPoints;
         this.yPoints = yPoints;
         commandFinished = true;
+    }
+
+    @Override
+    public String toString() {
+        int pointCount = xPoints.size();
+
+        //if there is not an even number of points the polygon is invalid
+        if((xPoints.size() % 2 != 0) || (yPoints.size() % 2 != 0)) try {
+            throw new VecFileException("Invalid number of polygon coordinates.");
+        } catch (VecFileException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder result = new StringBuilder("POLYGON");
+        for(int i = 0; i < pointCount; i++){
+            result.append(" ").append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
+        }
+        return result.toString();
     }
 
     @Override

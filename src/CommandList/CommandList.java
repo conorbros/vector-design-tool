@@ -1,7 +1,6 @@
 package CommandList;
 
 import Commands.Command;
-import Commands.CommandException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,6 +44,18 @@ public class CommandList implements Iterable<Command> {
         return commands.get(index);
     }
 
+    public void removeCommand(Command cmd){
+        commands.remove(cmd);
+    }
+
+    public void removeAllAfter(Command cmd){
+        int position = commands.indexOf(cmd);
+        int count = commands.size()-1;
+        for(int i = count; i > position; i--){
+            commands.remove(i);
+        }
+    }
+
     /**
      * removes the last command from the CommandList object
      */
@@ -52,6 +63,10 @@ public class CommandList implements Iterable<Command> {
         if(commands.size() > 0){
             commands.remove(commands.size()-1);
         }
+    }
+
+    public Object[] toArray(){
+        return commands.toArray();
     }
 
     /**

@@ -52,6 +52,11 @@ public class Plot extends Command {
     }
 
     @Override
+    public String toString() {
+        return "PLOT " + (IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()));
+    }
+
+    @Override
     public void draw(Graphics graphics) {
         graphics.setColor(getPenColor());
         graphics.drawLine(x, y, x, y);

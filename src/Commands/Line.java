@@ -67,6 +67,11 @@ public class Line extends Command {
     }
 
     @Override
+    public String toString() {
+        return "LINE " + (IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()) + " " + IntToDecimalConvert(getXPoint()) + " " + IntToDecimalConvert(getYPoint()));
+    }
+
+    @Override
     public void draw(Graphics graphics) {
         if(y2 == null || x2 == null) return;
         graphics.setColor(getPenColor());

@@ -25,6 +25,11 @@ public class Ellipse extends Command {
     }
 
     @Override
+    public String toString() {
+        return "ELLIPSE " + IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()) + " " + IntToDecimalConvert(getXPoint()) + " " + IntToDecimalConvert(getYPoint());
+    }
+
+    @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandType.ELLIPSE, "cannot change coordinates after command finished");
         this.x2 = x;

@@ -25,6 +25,11 @@ public class Rectangle extends Command {
     }
 
     @Override
+    public String toString() {
+        return "RECTANGLE " + IntToDecimalConvert(x1) + " " + IntToDecimalConvert(y1) + " " + IntToDecimalConvert(x2) + " " + IntToDecimalConvert(y2);
+    }
+
+    @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandType.RECTANGLE, "cannot change coordinates after command finished");
         this.x2 = x;
