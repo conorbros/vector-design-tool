@@ -31,23 +31,19 @@ public class Polygon extends Command {
 
     @Override
     public String toVEC() {
-        int pointCount = xPoints.size();
+        StringBuilder result = new StringBuilder("POLYGON");
 
-        StringBuilder result = new StringBuilder("POLYGON ");
-        for(int i = 0; i < pointCount; i++){
-            result.append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
+        for(int i = 0; i < xPoints.size(); i++){
+            result.append(" ").append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
         }
         return result.toString();
     }
 
     @Override
     public String toString(){
-        ArrayList<Integer> xpos = xPoints;
-        ArrayList<Integer> ypos = yPoints;
-
         return "POLYGON" + " start x,y: " +
-                IntToDecimalConvert(xpos.get(0)) + ", " + IntToDecimalConvert(ypos.get(0)) +
-                " end x,y: " + IntToDecimalConvert(xpos.get(xpos.size()-1)) + ", " + IntToDecimalConvert(ypos.get(ypos.size()-1));
+                IntToDecimalConvert(xPoints.get(0)) + ", " + IntToDecimalConvert(yPoints.get(0)) +
+                " end x,y: " + IntToDecimalConvert(xPoints.get(xPoints.size()-1)) + ", " + IntToDecimalConvert(yPoints.get(yPoints.size()-1));
     }
 
     @Override
@@ -82,7 +78,7 @@ public class Polygon extends Command {
      * Returns an array of all the xPoints of the polygon
      * @return
      */
-    public ArrayList<Integer> getxPoints() {
+    public ArrayList<Integer> getXPoints() {
         return xPoints;
     }
 
@@ -90,7 +86,7 @@ public class Polygon extends Command {
      * Returns an array of all the yPoints of the polygon
      * @return
      */
-    public ArrayList<Integer> getyPoints() {
+    public ArrayList<Integer> getYPoints() {
         return yPoints;
     }
 

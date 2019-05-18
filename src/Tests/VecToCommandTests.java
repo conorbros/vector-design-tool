@@ -105,8 +105,8 @@ public class VecToCommandTests {
 
         boolean testResult = true;
         if(res.getCommandType() != exp.getCommandType()) testResult = false;
-        if(!((Polygon)res).getxPoints().equals(exp.getxPoints())) testResult = false;
-        if(!((Polygon)res).getyPoints().equals(exp.getyPoints())) testResult = false;
+        if(!((Polygon)res).getXPoints().equals(exp.getXPoints())) testResult = false;
+        if(!((Polygon)res).getYPoints().equals(exp.getYPoints())) testResult = false;
         if(res.getFillColor() != exp.getFillColor()) testResult = false;
         if(res.getPenColor() != exp.getPenColor()) testResult = false;
 
