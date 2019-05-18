@@ -4,6 +4,9 @@ import Commands.CommandType;
 import VecFile.VecFileException;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,9 +93,10 @@ public class Window extends JFrame implements ActionListener, Runnable {
         JMenuItem saveNewFile = new JMenuItem("Save As New", saveNewIcon);
         JMenuItem exitFile = new JMenuItem("Exit", exitIcon);
 
+        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        saveNewFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+        saveNewFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
         exitFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 
         newFile.addActionListener(e -> {
@@ -172,13 +176,13 @@ public class Window extends JFrame implements ActionListener, Runnable {
         JMenuItem ellipse = new JMenuItem("ELLIPSE", ellipseIcon);
         JMenuItem polygon = new JMenuItem("POLYGON", polygonIcon);
 
-        plot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+        plot.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
         line.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         rectangle.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         ellipse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
         polygon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
 
-        plot.setMnemonic('P');
+        plot.setMnemonic('T');
         line.setMnemonic('L');
         rectangle.setMnemonic('R');
         ellipse.setMnemonic('E');
@@ -208,10 +212,10 @@ public class Window extends JFrame implements ActionListener, Runnable {
         JMenuItem pen = new JMenuItem("Pen Color", penIcon);
         JMenuItem fill = new JMenuItem("Fill Color", fillIcon);
 
-        pen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+        pen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         fill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
 
-        pen.setMnemonic('C');
+        pen.setMnemonic('P');
         fill.setMnemonic('F');
 
         colorMenu.add(pen);
@@ -236,6 +240,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
         redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+        undoHistory.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
 
         historyMenu.add(undo);
         historyMenu.add(redo);
@@ -250,41 +255,60 @@ public class Window extends JFrame implements ActionListener, Runnable {
 
     private JPanel toolPanel(){
         JPanel toolPanel = createPanel(Color.LIGHT_GRAY);
-        toolPanel.setSize(new Dimension(30, 1000));
         toolPanel.setLayout(new BoxLayout(toolPanel, BoxLayout.Y_AXIS));
+        //toolPanel.setSize(new Dimension(30, 1000));
 
         ButtonGroup penColors = new ButtonGroup();
-        JLabel penLabel = new JLabel("Pen color:");
-        JRadioButton penBlack = createRadioButton("", Color.BLACK, e -> vecPanel.setPenColor(Color.BLACK));
+        JRadioButton penBlack = createRadioButton("                         ", Color.BLACK, e -> vecPanel.setPenColor(Color.BLACK));
         penBlack.setSelected(true);
-        JRadioButton penRed = createRadioButton("", Color.RED, e -> vecPanel.setPenColor(Color.RED));
-        JRadioButton penBlue = createRadioButton("", Color.BLUE, e -> vecPanel.setPenColor(Color.BLUE));
+        JRadioButton penRed = createRadioButton("                         ", Color.RED, e -> vecPanel.setPenColor(Color.RED));
+        JRadioButton penBlue = createRadioButton("                         ", Color.BLUE, e -> vecPanel.setPenColor(Color.BLUE));
         penColors.add(penBlack);
         penColors.add(penRed);
         penColors.add(penBlue);
 
-        toolPanel.add(penLabel);
-        toolPanel.add(penBlack);
-        toolPanel.add(penRed);
-        toolPanel.add(penBlue);
+        JPanel penPanel = createPanel(Color.LIGHT_GRAY);
+        BoxLayout penLayout = new BoxLayout(penPanel, BoxLayout.Y_AXIS);
+        penPanel.setLayout(penLayout);
+        TitledBorder penTitle = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Pen Colour");
+        penTitle.setTitleJustification(TitledBorder.LEFT);
+        penPanel.setBorder(penTitle);
+
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        penPanel.add(penBlack);
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        penPanel.add(penRed);
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        penPanel.add(penBlue);
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         ButtonGroup fillColors = new ButtonGroup();
-        JLabel fillLabel = new JLabel("Fill color:");
-        JRadioButton fillNull = createRadioButton("no fill", Color.LIGHT_GRAY, e -> vecPanel.setFillColor(null));
+        JRadioButton fillNull = createRadioButton("no fill               ", Color.LIGHT_GRAY, e -> vecPanel.setFillColor(null));
         fillNull.setSelected(true);
-        JRadioButton fillWhite = createRadioButton("", Color.WHITE, e -> vecPanel.setFillColor(Color.WHITE));
-        JRadioButton fillRed = createRadioButton("", Color.RED, e -> vecPanel.setFillColor(Color.RED));
-        JRadioButton fillBlue = createRadioButton("", Color.BLUE, e -> vecPanel.setFillColor(Color.BLUE));
+        JRadioButton fillWhite = createRadioButton("                         ", Color.WHITE, e -> vecPanel.setFillColor(Color.WHITE));
+        JRadioButton fillRed = createRadioButton("                         ", Color.RED, e -> vecPanel.setFillColor(Color.RED));
+        JRadioButton fillBlue = createRadioButton("                         ", Color.BLUE, e -> vecPanel.setFillColor(Color.BLUE));
         fillColors.add(fillNull);
         fillColors.add(fillWhite);
         fillColors.add(fillRed);
         fillColors.add(fillBlue);
 
-        toolPanel.add(fillLabel);
-        toolPanel.add(fillNull);
-        toolPanel.add(fillWhite);
-        toolPanel.add(fillRed);
-        toolPanel.add(fillBlue);
+        JPanel fillPanel = createPanel(Color.LIGHT_GRAY);
+        BoxLayout fillLayout = new BoxLayout(fillPanel, BoxLayout.Y_AXIS);
+        fillPanel.setLayout(fillLayout);
+        TitledBorder fillTitle = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Fill Colour");
+        fillTitle.setTitleJustification(TitledBorder.LEFT);
+        fillPanel.setBorder(fillTitle);
+
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillNull);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillWhite);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillRed);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillBlue);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
         ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
@@ -293,7 +317,6 @@ public class Window extends JFrame implements ActionListener, Runnable {
         ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
 
         ButtonGroup commands = new ButtonGroup();
-        JLabel commandsLabel = new JLabel("Commands:");
         JRadioButton plot = createRadioButton("PLOT", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.PLOT), plotIcon);
         plot.setSelected(true);
         JRadioButton line = createRadioButton("LINE", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.LINE), lineIcon);
@@ -306,12 +329,31 @@ public class Window extends JFrame implements ActionListener, Runnable {
         commands.add(ellipse);
         commands.add(polygon);
 
-        toolPanel.add(commandsLabel);
-        toolPanel.add(plot);
-        toolPanel.add(line);
-        toolPanel.add(rectangle);
-        toolPanel.add(ellipse);
-        toolPanel.add(polygon);
+        JPanel commandsPanel = createPanel(Color.LIGHT_GRAY);
+        BoxLayout commandsLayout = new BoxLayout(commandsPanel, BoxLayout.Y_AXIS);
+        commandsPanel.setLayout(commandsLayout);
+        TitledBorder commandsTitle = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Commands");
+        commandsTitle.setTitleJustification(TitledBorder.LEFT);
+        commandsPanel.setBorder(commandsTitle);
+
+        commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        commandsPanel.add(plot);
+        commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        commandsPanel.add(line);
+        commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        commandsPanel.add(rectangle);
+        commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        commandsPanel.add(ellipse);
+        commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        commandsPanel.add(polygon);
+        commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        toolPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        toolPanel.add(penPanel);
+        toolPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        toolPanel.add(fillPanel);
+        toolPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        toolPanel.add(commandsPanel);
 
         return toolPanel;
     }
