@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 import CommandList.CommandList;
 import VecFile.VecFileException;
@@ -29,14 +28,14 @@ public class VECPanel extends JPanel {
 
     private CommandList drawnCommands;
     private CommandList clearedCommands;
-    private File loadedFile;
+    private CurrentFile currentFile;
 
     public VECPanel(){
         penColor = Color.BLACK;
         fillColor = null;
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
-        loadedFile = null;
+        currentFile = new CurrentFile(null, true, false);
 
         setLayout(new BorderLayout());
         setSize(new Dimension(1000, 1000));
@@ -60,10 +59,10 @@ public class VECPanel extends JPanel {
     }
 
     public void saveBeforeClosing() throws FileNotFoundException, VecFileException {
-        if(drawnCommands.Count() != 0) {
+        if(currentFile.isFileDirty()) {
             int saveFileResult = JOptionPane.showConfirmDialog(this, "The current file has not been saved, would you like to save it?", "Current file not saved", JOptionPane.YES_NO_OPTION);
             if (saveFileResult == JOptionPane.YES_OPTION) {
-                if (loadedFile != null) {
+                if (!currentFile.isNewFile()) {
                     saveFile();
                 } else {
                     saveNewFile();
@@ -76,6 +75,7 @@ public class VECPanel extends JPanel {
         saveBeforeClosing();
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
+        currentFile = new CurrentFile(null, true, false);
         repaint();
     }
 
@@ -92,7 +92,7 @@ public class VECPanel extends JPanel {
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             File vecFile = chooser.getSelectedFile();
             LoadVecFile(vecFile, this);
-            loadedFile = vecFile;
+            currentFile = new CurrentFile(vecFile, false, false);
         }
     }
 
@@ -103,13 +103,14 @@ public class VECPanel extends JPanel {
     }
 
     public void saveFile() throws FileNotFoundException, VecFileException {
-        if(loadedFile == null){
+        if(currentFile.isNewFile()){
             JOptionPane.showMessageDialog(this,
-                    "You must save this file as a new file.",
+                    "This file was not import and you must save this file as a new file.",
                     "This file was not imported",
                     JOptionPane.ERROR_MESSAGE);
         }else {
-            CommandsToExistingVecFile(drawnCommands, loadedFile);
+            CommandsToExistingVecFile(drawnCommands, currentFile.getFileObj());
+            currentFile.setFileDirty(false);
         }
 
     }
@@ -121,11 +122,11 @@ public class VECPanel extends JPanel {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
 
-
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             String folderPath = String.valueOf(chooser.getSelectedFile());
             String fileName = getFileName();
-            loadedFile = CommandsToNewVecFile(drawnCommands, folderPath, fileName);
+            File file = CommandsToNewVecFile(drawnCommands, folderPath, fileName);
+            currentFile = new CurrentFile(file, false, false);
         }
 
     }
@@ -191,6 +192,7 @@ public class VECPanel extends JPanel {
         drawnCommands.addCommand(currentCommand);
         currentCommand.setCommandFinished();
         currentCommand = null;
+        currentFile.setFileDirty(true);
         repaint();
     }
 
@@ -201,6 +203,7 @@ public class VECPanel extends JPanel {
         if(drawnCommands.getLastCommand() != null){
             clearedCommands.addCommand(drawnCommands.getLastCommand());
             drawnCommands.removeLastCommand();
+            currentFile.setFileDirty(true);
             repaint();
         }
     }
@@ -208,12 +211,18 @@ public class VECPanel extends JPanel {
     public void undoSelectedCommand(Command cmd){
         clearedCommands.addCommand(cmd);
         drawnCommands.removeCommand(cmd);
+        currentFile.setFileDirty(true);
         repaint();
     }
 
+    /**
+     * Reverts the drawn commands back to the supplied command by removing them from the drawn commands list and adds them to the cleared commands list
+     * @param cmd the command that the file will be reverted to
+     */
     public void revertToSelectedCommand(Command cmd){
         clearedCommands.addAll(drawnCommands.getAllAfter(cmd));
         drawnCommands.removeAllAfter(cmd);
+        currentFile.setFileDirty(true);
         repaint();
     }
 
@@ -224,6 +233,7 @@ public class VECPanel extends JPanel {
         if(clearedCommands.getLastCommand() != null){
             drawnCommands.addCommand(clearedCommands.getLastCommand());
             clearedCommands.removeLastCommand();
+            currentFile.setFileDirty(true);
             repaint();
         }
     }
