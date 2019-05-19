@@ -35,7 +35,6 @@ public class VecToCommand {
                 commands.addCommand(convertToCommand(cmdTypeStr, cmd));
             }
         }
-
         return commands;
     }
 
@@ -68,7 +67,7 @@ public class VecToCommand {
             case "POLYGON":
                 return polygonHandler(inputs);
         }
-        return null;
+        throw new VecFileException("Invalid command in vec file", "There is an invalid command in your vec file", "Invalid vec file");
     }
 
     /**
@@ -80,8 +79,7 @@ public class VecToCommand {
         int x = IntConvert(inputs[1]);
         int y = IntConvert(inputs[2]);
 
-        Command plot = new Plot(x, y, penColor);
-        return plot;
+        return new Plot(x, y, penColor);
     }
 
     /**
@@ -95,8 +93,7 @@ public class VecToCommand {
         int x2 = IntConvert(inputs[3]);
         int y2 = IntConvert(inputs[4]);
 
-        Command line = new Line(x1, y1, x2, y2, penColor);
-        return line;
+        return new Line(x1, y1, x2, y2, penColor);
     }
 
     /**
@@ -110,8 +107,7 @@ public class VecToCommand {
         int x2 = IntConvert(inputs[3]);
         int y2 = IntConvert(inputs[4]);
 
-        Command rect = new Rectangle(x1, y1, x2, y2, penColor, fillColor);
-        return rect;
+        return new Rectangle(x1, y1, x2, y2, penColor, fillColor);
     }
 
     /**
@@ -125,8 +121,7 @@ public class VecToCommand {
         int x2 = IntConvert(inputs[3]);
         int y2 = IntConvert(inputs[4]);
 
-        Command ell = new Ellipse(x1, y1, x2, y2, penColor, fillColor);
-        return ell;
+        return new Ellipse(x1, y1, x2, y2, penColor, fillColor);
     }
 
     /**
@@ -142,8 +137,7 @@ public class VecToCommand {
             xPoints.add(IntConvert(inputs[i]));
             yPoints.add(IntConvert(inputs[i+1]));
         }
-        Command poly = new Polygon(xPoints, yPoints, penColor, fillColor);
-        return poly;
+        return new Polygon(xPoints, yPoints, penColor, fillColor);
     }
 
     /**
@@ -167,7 +161,6 @@ public class VecToCommand {
         }else{
             fillColor = Color.decode(inputs[1]);
         }
-
     }
 
     /**

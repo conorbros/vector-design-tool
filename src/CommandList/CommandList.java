@@ -44,6 +44,16 @@ public class CommandList implements Iterable<Command> {
         return commands.get(index);
     }
 
+    public CommandList getAllAfter(Command cmd){
+        CommandList cmdList = new CommandList();
+        int position = commands.indexOf(cmd);
+        int count = commands.size()-1;
+        for(int i = count; i > position; i--){
+            cmdList.addCommand(commands.get(i));
+        }
+        return cmdList;
+    }
+
     public void removeCommand(Command cmd){
         commands.remove(cmd);
     }
@@ -76,5 +86,11 @@ public class CommandList implements Iterable<Command> {
     @Override
     public Iterator<Command> iterator() {
         return commands.iterator();
+    }
+
+    public void addAll(CommandList commandList) {
+        for(Command cmd : commandList){
+            commands.add(cmd);
+        }
     }
 }

@@ -2,7 +2,6 @@ package VecFile;
 
 import CommandList.CommandList;
 import Commands.Command;
-import Commands.Polygon;
 import java.awt.*;
 import java.util.ArrayList;
 

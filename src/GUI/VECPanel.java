@@ -212,6 +212,7 @@ public class VECPanel extends JPanel {
     }
 
     public void revertToSelectedCommand(Command cmd){
+        clearedCommands.addAll(drawnCommands.getAllAfter(cmd));
         drawnCommands.removeAllAfter(cmd);
         repaint();
     }

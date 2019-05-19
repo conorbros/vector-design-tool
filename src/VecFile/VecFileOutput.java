@@ -42,7 +42,6 @@ public class VecFileOutput {
         String commandsOutput = null;
         commandsOutput = ConvertCommandListToVec(commands);
 
-
         PrintWriter out = new PrintWriter(file);
         out.println(commandsOutput);
         out.close();
