@@ -43,9 +43,7 @@ public class Window extends JFrame implements ActionListener, Runnable {
     public void actionPerformed(ActionEvent e) {
 
     }
-
-
-
+    
     @Override
     public void run() {
         createGUI();

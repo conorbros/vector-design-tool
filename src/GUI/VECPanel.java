@@ -38,12 +38,20 @@ public class VECPanel extends JPanel {
         currentFile = new CurrentFile(null, true, false);
 
         setLayout(new BorderLayout());
-        setSize(new Dimension(1000, 1000));
+        //setSize(new Dimension(1000, 1000));
         setBackground(Color.WHITE);
 
         MouseController mouseController = new MouseController();
         addMouseListener(mouseController);
         addMouseMotionListener(mouseController);
+    }
+
+    @Override
+    public Dimension getPreferredSize(){
+        Dimension d = this.getParent().getSize();
+        int newSize = d.width > d.height ? d.height : d.width;
+        newSize = newSize == 0 ? 100 : newSize;
+        return new Dimension(newSize, newSize);
     }
 
     public void paintComponent(Graphics graphics){
