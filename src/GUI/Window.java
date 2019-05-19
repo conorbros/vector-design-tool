@@ -4,21 +4,18 @@ import Commands.CommandType;
 import VecFile.VecFileException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 
 
-public class Window extends JFrame implements ActionListener, Runnable {
+public class Window extends JFrame implements ActionListener, Runnable{
     private static final int WIDTH = 1030;
     private static final int HEIGHT = 1000;
-    private static final int MIN_WIDTH = 1030;
-    private static final int MIN_HEIGHT = 1000;
+    private static final int MIN_WIDTH = 530;
+    private static final int MIN_HEIGHT = 550;
 
     private VECPanel vecPanel = new VECPanel();
 
@@ -55,10 +52,12 @@ public class Window extends JFrame implements ActionListener, Runnable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        add(vecPanel, BorderLayout.CENTER);
+        JPanel container = new JPanel(new BorderLayout());
+        container.add(vecPanel, BorderLayout.CENTER);
+
+        add(container, BorderLayout.CENTER);
         add(toolPanel(), BorderLayout.WEST);
         setJMenuBar(menuBar());
-
         repaint();
         setVisible(true);
     }
@@ -71,7 +70,6 @@ public class Window extends JFrame implements ActionListener, Runnable {
         menuBar.add(commmandMenu());
         menuBar.add(colorMenu());
         menuBar.add(historyMenu());
-        //more menu items to go here
 
         return menuBar;
     }
@@ -380,4 +378,6 @@ public class Window extends JFrame implements ActionListener, Runnable {
         btn.setIcon(icon);
         return btn;
     }
+
+
 }

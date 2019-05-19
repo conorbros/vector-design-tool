@@ -6,6 +6,8 @@ import Commands.Rectangle;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -19,13 +21,13 @@ import static VecFile.VecFileInput.LoadVecFile;
 import static VecFile.VecFileOutput.CommandsToExistingVecFile;
 import static VecFile.VecFileOutput.CommandsToNewVecFile;
 
-public class VECPanel extends JPanel {
+public class VECPanel extends JPanel{
 
     private CommandType selectedCommand;
     private Command currentCommand;
     private Color penColor;
     private Color fillColor;
-
+    private int screenSize;
     private CommandList drawnCommands;
     private CommandList clearedCommands;
     private CurrentFile currentFile;
@@ -38,20 +40,13 @@ public class VECPanel extends JPanel {
         currentFile = new CurrentFile(null, true, false);
 
         setLayout(new BorderLayout());
-        //setSize(new Dimension(1000, 1000));
+        setSize(new Dimension(1000, 1000));
         setBackground(Color.WHITE);
-
+        addComponentListener(new EventListener());
         MouseController mouseController = new MouseController();
         addMouseListener(mouseController);
         addMouseMotionListener(mouseController);
-    }
-
-    @Override
-    public Dimension getPreferredSize(){
-        Dimension d = this.getParent().getSize();
-        int newSize = d.width > d.height ? d.height : d.width;
-        newSize = newSize == 0 ? 100 : newSize;
-        return new Dimension(newSize, newSize);
+        screenSize = 1000;
     }
 
     public void paintComponent(Graphics graphics){
@@ -319,6 +314,37 @@ public class VECPanel extends JPanel {
                 currentCommand.addYPoint(e.getY());
             }
             repaint();
+        }
+    }
+
+    private class EventListener implements ComponentListener{
+
+        @Override
+        public void componentResized(ComponentEvent e) {
+            java.awt.Rectangle b = e.getComponent().getBounds();
+            int side;
+            if(b.width < b.height){
+                side = b.width;
+            }else{
+                side = b.height;
+            }
+            screenSize = side;
+            e.getComponent().setBounds(b.x, b.y, side, side);
+        }
+
+        @Override
+        public void componentMoved(ComponentEvent e) {
+
+        }
+
+        @Override
+        public void componentShown(ComponentEvent e) {
+
+        }
+
+        @Override
+        public void componentHidden(ComponentEvent e) {
+
         }
     }
 }
