@@ -46,7 +46,7 @@ public class VECPanel extends JPanel{
         MouseController mouseController = new MouseController();
         addMouseListener(mouseController);
         addMouseMotionListener(mouseController);
-        screenSize = 1000;
+        screenSize = 999;
     }
 
     public void paintComponent(Graphics graphics){
@@ -252,6 +252,7 @@ public class VECPanel extends JPanel{
     private class MouseController extends MouseAdapter{
 
         public void mousePressed(MouseEvent e){
+            System.out.println(e.getX() + " " + e.getY());
             switch(selectedCommand){
                 case PLOT:
                     currentCommand = new Plot(e.getX(), e.getY(), penColor, screenSize);
@@ -315,6 +316,7 @@ public class VECPanel extends JPanel{
             }
             repaint();
         }
+
     }
 
     private class EventListener implements ComponentListener{
@@ -328,7 +330,7 @@ public class VECPanel extends JPanel{
             }else{
                 side = b.height;
             }
-            screenSize = side;
+            screenSize = side-1;
             e.getComponent().setBounds(b.x, b.y, side, side);
             repaint();
         }

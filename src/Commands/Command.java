@@ -82,10 +82,10 @@ import java.awt.*;
      public double IntToDouble(int number){
          double result = (double)number / screenSize;
 
-         if(result > 1.0 || result < 0.0) try {
-             throw new VecFileException("Invalid coordinate.");
-         } catch (VecFileException e) {
-             e.printStackTrace();
+         if(result > 1.0){
+            result = 1.0;
+         }else if(result < 0.0){
+             result = 0.0;
          }
 
          return result;
