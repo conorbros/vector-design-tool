@@ -39,9 +39,7 @@ public class VecFileOutput {
      * @throws FileNotFoundException
      */
     public static void CommandsToExistingVecFile(CommandList commands, File file) throws FileNotFoundException, VecFileException {
-        String commandsOutput = null;
-        commandsOutput = ConvertCommandListToVec(commands);
-
+        String commandsOutput = ConvertCommandListToVec(commands);
         PrintWriter out = new PrintWriter(file);
         out.println(commandsOutput);
         out.close();

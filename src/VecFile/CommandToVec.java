@@ -29,7 +29,6 @@ public class CommandToVec {
             if(cmd.getCommandType() != LINE && cmd.getCommandType() != PLOT){
                 fillColorHandler(cmd);
             }
-
             VecCommands.add(cmd.toVEC());
         }
 
@@ -76,7 +75,6 @@ public class CommandToVec {
                 VecCommands.add("FILL OFF");
                 return;
             }
-
             fillColor = cmdColor;
             VecCommands.add("FILL " + getHTMLColorString(fillColor));
         }

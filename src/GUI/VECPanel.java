@@ -46,7 +46,7 @@ public class VECPanel extends JPanel{
         MouseController mouseController = new MouseController();
         addMouseListener(mouseController);
         addMouseMotionListener(mouseController);
-        screenSize = 999;
+        screenSize = 1000;
     }
 
     public void paintComponent(Graphics graphics){

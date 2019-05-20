@@ -8,7 +8,7 @@ import java.awt.*;
      private Color penColor;
      private Color fillColor;
      private CommandType commandType;
-     private int screenSize = 1000;
+     private int screenSize;
 
 
      public Command(){
@@ -82,6 +82,7 @@ import java.awt.*;
      public double IntToDouble(int number){
          double result = (double)number / screenSize;
 
+         //ensure coordinate does not go out of bounds
          if(result > 1.0){
             result = 1.0;
          }else if(result < 0.0){
