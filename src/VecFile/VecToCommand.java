@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class VecToCommand {
-    private static final int screenSize = 1000;
+    private static int screenSize;
     private static Color penColor;
     private static Color fillColor;
 
@@ -18,11 +18,12 @@ public class VecToCommand {
      * @param VecFileStr the vec command string to convert
      * @return a command list object converted from the vec command string
      */
-    public static CommandList ConvertVecStrToCommandList(String VecFileStr) throws VecFileException {
+    public static CommandList ConvertVecStrToCommandList(String VecFileStr, int screen) throws VecFileException {
         CommandList commands = new CommandList();
         String[] vecCommands = VecFileStr.split("\r\n");
         penColor = Color.BLACK;
         fillColor = null;
+        screenSize = screen;
 
         for(String cmd : vecCommands){
             String cmdTypeStr = getSubString(cmd);
@@ -76,10 +77,10 @@ public class VecToCommand {
      * @return a Plot command made from the string array
      */
     private static Command plotHandler(String[] inputs) throws VecFileException {
-        int x = IntConvert(inputs[1]);
-        int y = IntConvert(inputs[2]);
+        double x = ParseDouble(inputs[1]);
+        double y = ParseDouble(inputs[2]);
 
-        return new Plot(x, y, penColor);
+        return new Plot(x, y, penColor, screenSize);
     }
 
     /**
@@ -88,12 +89,12 @@ public class VecToCommand {
      * @return a Line command made from the string array
      */
     private static Command lineHandler(String[] inputs) throws VecFileException {
-        int x1 = IntConvert(inputs[1]);
-        int y1 = IntConvert(inputs[2]);
-        int x2 = IntConvert(inputs[3]);
-        int y2 = IntConvert(inputs[4]);
+        double x1 = ParseDouble(inputs[1]);
+        double y1 = ParseDouble(inputs[2]);
+        double x2 = ParseDouble(inputs[3]);
+        double y2 = ParseDouble(inputs[4]);
 
-        return new Line(x1, y1, x2, y2, penColor);
+        return new Line(x1, y1, x2, y2, penColor, screenSize);
     }
 
     /**
@@ -102,12 +103,12 @@ public class VecToCommand {
      * @return a Rectangle command made from the string array
      */
     private static Command rectangleHandler(String[] inputs) throws VecFileException {
-        int x1 = IntConvert(inputs[1]);
-        int y1 = IntConvert(inputs[2]);
-        int x2 = IntConvert(inputs[3]);
-        int y2 = IntConvert(inputs[4]);
+        double x1 = ParseDouble(inputs[1]);
+        double y1 = ParseDouble(inputs[2]);
+        double x2 = ParseDouble(inputs[3]);
+        double y2 = ParseDouble(inputs[4]);
 
-        return new Rectangle(x1, y1, x2, y2, penColor, fillColor);
+        return new Rectangle(x1, y1, x2, y2, penColor, fillColor, screenSize);
     }
 
     /**
@@ -116,12 +117,12 @@ public class VecToCommand {
      * @return an Ellipse command object
      */
     private static Command ellipseHandler(String[] inputs) throws VecFileException {
-        int x1 = IntConvert(inputs[1]);
-        int y1 = IntConvert(inputs[2]);
-        int x2 = IntConvert(inputs[3]);
-        int y2 = IntConvert(inputs[4]);
+        double x1 = ParseDouble(inputs[1]);
+        double y1 = ParseDouble(inputs[2]);
+        double x2 = ParseDouble(inputs[3]);
+        double y2 = ParseDouble(inputs[4]);
 
-        return new Ellipse(x1, y1, x2, y2, penColor, fillColor);
+        return new Ellipse(x1, y1, x2, y2, penColor, fillColor, screenSize);
     }
 
     /**
@@ -130,14 +131,14 @@ public class VecToCommand {
      * @return a Polygon command object
      */
     private static Command polygonHandler(String[] inputs) throws VecFileException {
-        ArrayList<Integer> xPoints = new ArrayList<>();
-        ArrayList<Integer> yPoints = new ArrayList<>();
+        ArrayList<Double> xPoints = new ArrayList<>();
+        ArrayList<Double> yPoints = new ArrayList<>();
 
         for (int i = 1; i < inputs.length; i+=2) {
-            xPoints.add(IntConvert(inputs[i]));
-            yPoints.add(IntConvert(inputs[i+1]));
+            xPoints.add(ParseDouble(inputs[i]));
+            yPoints.add(ParseDouble(inputs[i+1]));
         }
-        return new Polygon(xPoints, yPoints, penColor, fillColor);
+        return new Polygon(xPoints, yPoints, penColor, fillColor, screenSize);
     }
 
     /**
@@ -163,15 +164,11 @@ public class VecToCommand {
         }
     }
 
-    /**
-     * Converts a vec coordinate to one that can be displayed on the vecPanel
-     * @param value the vec coordinate, a string of a double between 0.0 and 1.0
-     * @return the inputted double converted to an int between 0 and 1000
-     */
-    private static int IntConvert(String value) throws VecFileException {
-        double dec = Double.parseDouble(value);
-        if(dec < 0 || dec > 1000) throw new VecFileException("Coordinate is outside of vecPanel bounds");
-        return (int) (dec * screenSize);
+
+    private static double ParseDouble(String value) throws VecFileException {
+        double dbl = Double.parseDouble(value);
+        if(dbl < 0 || dbl> 1000) throw new VecFileException("Coordinate is outside of vecPanel bounds");
+        return dbl;
     }
 }
 

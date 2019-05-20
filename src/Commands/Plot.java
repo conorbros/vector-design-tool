@@ -3,12 +3,18 @@ package Commands;
 import java.awt.*;
 
 public class Plot extends Command {
-    private Integer x, y;
+    private Double x, y;
 
-    public Plot(int x, int y, Color penColor) {
-        super(penColor, null, CommandType.PLOT);
+    public Plot(int x, int y, Color penColor, int screenSize) {
+        super(penColor, null, CommandType.PLOT, screenSize);
+        this.x = IntToDouble(x);
+        this.y =  IntToDouble(y);
+    }
+
+    public Plot(double x, double y, Color penColor, int screenSize) {
+        super(penColor, null, CommandType.PLOT, screenSize);
         this.x = x;
-        this.y =  y;
+        this.y = y;
     }
 
     @Override
@@ -23,12 +29,12 @@ public class Plot extends Command {
 
     @Override
     public int getStartX() {
-        return x;
+        return DoubleToInt(x);
     }
 
     @Override
     public int getStartY() {
-        return y;
+        return DoubleToInt(y);
     }
 
     @Override
@@ -53,13 +59,15 @@ public class Plot extends Command {
 
     @Override
     public String toVEC() {
-        return "PLOT " + (IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()));
+        return "PLOT " + (IntToDouble(getStartX()) + " " + IntToDouble(getStartY()));
     }
 
     @Override
-    public void draw(Graphics graphics) {
+    public void draw(Graphics graphics, int screenSize) {
+        setScreenSize(screenSize);
+
         graphics.setColor(getPenColor());
-        graphics.drawLine(x, y, x, y);
+        graphics.drawLine(getStartX(), getStartY(), getStartX(), getStartY());
     }
 
     @Override

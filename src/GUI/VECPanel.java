@@ -38,7 +38,7 @@ public class VECPanel extends JPanel{
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
         currentFile = new CurrentFile(null, true, false);
-
+        selectedCommand = CommandType.PLOT;
         setLayout(new BorderLayout());
         setSize(new Dimension(1000, 1000));
         setBackground(Color.WHITE);
@@ -53,11 +53,11 @@ public class VECPanel extends JPanel{
         super.paintComponent(graphics);
 
         for(Command cmd : drawnCommands){
-            cmd.draw(graphics);
+            cmd.draw(graphics, screenSize);
         }
 
         if (currentCommand != null){
-            currentCommand.draw(graphics);
+            currentCommand.draw(graphics, screenSize);
         }
     }
 
@@ -94,7 +94,7 @@ public class VECPanel extends JPanel{
 
         if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             File vecFile = chooser.getSelectedFile();
-            LoadVecFile(vecFile, this);
+            LoadVecFile(vecFile, this, screenSize);
             currentFile = new CurrentFile(vecFile, false, false);
         }
     }
@@ -254,17 +254,17 @@ public class VECPanel extends JPanel{
         public void mousePressed(MouseEvent e){
             switch(selectedCommand){
                 case PLOT:
-                    currentCommand = new Plot(e.getX(), e.getY(), penColor);
+                    currentCommand = new Plot(e.getX(), e.getY(), penColor, screenSize);
                     finishCommand();
                     break;
                 case LINE:
-                    currentCommand = new Line(e.getX(), e.getY(), penColor);
+                    currentCommand = new Line(e.getX(), e.getY(), penColor, screenSize);
                     break;
                 case RECTANGLE:
-                    currentCommand = new Rectangle(e.getX(), e.getY(), penColor, fillColor);
+                    currentCommand = new Rectangle(e.getX(), e.getY(), penColor, fillColor, screenSize);
                     break;
                 case ELLIPSE:
-                    currentCommand = new Ellipse(e.getX(), e.getY(), penColor, fillColor);
+                    currentCommand = new Ellipse(e.getX(), e.getY(), penColor, fillColor, screenSize);
                     break;
                 case POLYGON:
                     polygonHandler(e);
@@ -293,7 +293,7 @@ public class VECPanel extends JPanel{
                 //if polygon is finished will set the current command in the vec window finished
             }else{
                 //draw a new polygon if polygon is selected and there is not current command
-                currentCommand = new Polygon(e.getX(), e.getY(), penColor, fillColor);
+                currentCommand = new Polygon(e.getX(), e.getY(), penColor, fillColor, screenSize);
             }
         }
 
@@ -330,6 +330,7 @@ public class VECPanel extends JPanel{
             }
             screenSize = side;
             e.getComponent().setBounds(b.x, b.y, side, side);
+            repaint();
         }
 
         @Override

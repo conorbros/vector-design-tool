@@ -3,20 +3,20 @@ package Commands;
 import java.awt.*;
 
 public class Rectangle extends Command {
-    private Integer x1, y1, x2, y2;
+    private Double x1, y1, x2, y2;
     private boolean commandFinished;
 
-    public Rectangle(int x1, int y1, Color penColor, Color fillColor) {
-        super(penColor, fillColor, CommandType.RECTANGLE);
-        this.x1 = x1;
-        this.y1 = y1;
+    public Rectangle(int x1, int y1, Color penColor, Color fillColor, int screenSize) {
+        super(penColor, fillColor, CommandType.RECTANGLE, screenSize);
+        this.x1 = IntToDouble(x1);
+        this.y1 =  IntToDouble(y1);
         this.x2 = null;
         this.y2 = null;
         commandFinished = false;
     }
 
-    public Rectangle(int x1, int y1, int x2, int y2, Color penColor, Color fillColor){
-        super(penColor, fillColor, CommandType.RECTANGLE);
+    public Rectangle(double x1, double y1, double x2, double y2, Color penColor, Color fillColor, int screenSize){
+        super(penColor, fillColor, CommandType.RECTANGLE, screenSize);
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -24,53 +24,54 @@ public class Rectangle extends Command {
         commandFinished = true;
     }
 
-
     @Override
     public String toVEC() {
-        return "RECTANGLE " + IntToDecimalConvert(x1) + " " + IntToDecimalConvert(y1) + " " + IntToDecimalConvert(x2) + " " + IntToDecimalConvert(y2);
+        return "RECTANGLE " + x1 + " " + y1 + " " + x2 + " " + y2;
     }
 
     @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandType.RECTANGLE, "cannot change coordinates after command finished");
-        this.x2 = x;
+        this.x2 = IntToDouble(x);
     }
 
     @Override
     public void addYPoint(int y) {
         if(commandFinished) throw new CommandException(CommandType.RECTANGLE, "cannot change coordinates after command finished");
-        this.y2 = y;
+        this.y2 =  IntToDouble(y);
     }
 
     @Override
     public int getStartX() {
-        return x1;
+        return DoubleToInt(x1);
     }
 
     @Override
     public int getStartY() {
-        return y1;
+        return DoubleToInt(y1);
     }
 
     @Override
     public int getXPoint() {
-        return x2;
+        return DoubleToInt(x2);
     }
 
     @Override
     public int getYPoint() {
-        return y2;
+        return DoubleToInt(y2);
     }
 
     @Override
-    public void draw(Graphics graphics) {
+    public void draw(Graphics graphics, int screenSize) {
+        setScreenSize(screenSize);
+
         if(y2 == null || x2 == null) return;
         if(getFillColor() != null){
             graphics.setColor(getFillColor());
-            graphics.fillRect(x1, y1, x2-x1, y2-y1);
+            graphics.fillRect(getStartX(), getStartY(), getXPoint()-getStartX(), getYPoint()-getStartY());
         }
         graphics.setColor(getPenColor());
-        graphics.drawRect(x1, y1, x2-x1, y2-y1);
+        graphics.drawRect(getStartX(), getStartY(), getXPoint()-getStartX(), getYPoint()-getStartY());
     }
 
     @Override

@@ -16,10 +16,10 @@ public class VecFileInput {
      * @param vecFile the vec file to load
      * @param vecPanel the vec panel object to load the vec file into
      */
-    public static void LoadVecFile(File vecFile, VECPanel vecPanel){
+    public static void LoadVecFile(File vecFile, VECPanel vecPanel, int screenSize){
         try {
             String vecFileStr = readFile(vecFile);
-            CommandList commands = ConvertVecStrToCommandList(vecFileStr);
+            CommandList commands = ConvertVecStrToCommandList(vecFileStr, screenSize);
             vecPanel.loadCommandList(commands);
         } catch (IOException | VecFileException e) {
             e.printStackTrace();

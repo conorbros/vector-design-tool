@@ -8,7 +8,7 @@ import java.awt.*;
      private Color penColor;
      private Color fillColor;
      private CommandType commandType;
-     private static final int screenSize = 1000;
+     private int screenSize = 1000;
 
 
      public Command(){
@@ -21,12 +21,16 @@ import java.awt.*;
       * @param fillColor the fill color of the command (if any)
       * @param commandType the type of command
       */
-    public Command(Color penColor, Color fillColor, CommandType commandType){
+    public Command(Color penColor, Color fillColor, CommandType commandType, int screenSize){
         this.penColor = penColor;
         this.fillColor = fillColor;
         this.commandType = commandType;
+        this.screenSize = screenSize;
     }
 
+    public void setScreenSize(int screenSize){
+        this.screenSize = screenSize;
+    }
      /**
       *
       * @return the command type of the object
@@ -75,7 +79,7 @@ import java.awt.*;
       * @param number The coordinate to convert
       * @return a double between 0.0 and 1.0
       */
-     public double IntToDecimalConvert(int number){
+     public double IntToDouble(int number){
          double result = (double)number / screenSize;
 
          if(result > 1.0 || result < 0.0) try {
@@ -85,6 +89,10 @@ import java.awt.*;
          }
 
          return result;
+     }
+
+     public int DoubleToInt(double d){
+         return (int) (d * screenSize);
      }
 
      /**
@@ -114,7 +122,7 @@ import java.awt.*;
       * draws the command as it currently is on the graphics componenet provided
       * @param graphics
       */
-     public abstract void draw(Graphics graphics);
+     public abstract void draw(Graphics graphics, int screenSize);
 
      /**
       * returns whether the command has finished being drawn or not

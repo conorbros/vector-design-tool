@@ -3,20 +3,20 @@ package Commands;
 import java.awt.*;
 
 public class Line extends Command {
-    private Integer x1, y1, x2, y2;
+    private Double x1, y1, x2, y2;
     private boolean commandFinished;
 
-    public Line(int x, int y, Color penColor) {
-        super(penColor, null, CommandType.LINE);
-        this.x1 = x;
-        this.y1 = y;
+    public Line(int x, int y, Color penColor, int screenSize) {
+        super(penColor, null, CommandType.LINE, screenSize);
+        this.x1 = IntToDouble(x);
+        this.y1 =  IntToDouble(y);
         this.x2 = null;
         this.y2 = null;
         commandFinished = false;
     }
 
-    public Line(int x1, int y1, int x2, int y2, Color penColor){
-        super(penColor, null, CommandType.LINE);
+    public Line(double x1, double y1, double x2, double y2, Color penColor, int screenSize){
+        super(penColor, null, CommandType.LINE, screenSize);
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -27,33 +27,33 @@ public class Line extends Command {
     @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandType.LINE, "cannot change coordinates after command finished");
-        this.x2 = x;
+        this.x2 = IntToDouble(x);
     }
 
     @Override
     public void addYPoint(int y) {
         if(commandFinished) throw new CommandException(CommandType.LINE, "cannot change coordinates after command finished");
-        this.y2 = y;
+        this.y2 = IntToDouble(y);
     }
 
     @Override
     public int getStartX() {
-        return x1;
+        return DoubleToInt(x1);
     }
 
     @Override
     public int getStartY() {
-        return y1;
+        return DoubleToInt(y1);
     }
 
     @Override
     public int getXPoint() {
-        return x2;
+        return DoubleToInt(x2);
     }
 
     @Override
     public int getYPoint() {
-        return y2;
+        return DoubleToInt(y2);
     }
 
     @Override
@@ -68,14 +68,16 @@ public class Line extends Command {
 
     @Override
     public String toVEC() {
-        return "LINE " + (IntToDecimalConvert(getStartX()) + " " + IntToDecimalConvert(getStartY()) + " " + IntToDecimalConvert(getXPoint()) + " " + IntToDecimalConvert(getYPoint()));
+        return "LINE " + (IntToDouble(getStartX()) + " " + IntToDouble(getStartY()) + " " + IntToDouble(getXPoint()) + " " + IntToDouble(getYPoint()));
     }
 
     @Override
-    public void draw(Graphics graphics) {
+    public void draw(Graphics graphics, int screenSize) {
+        setScreenSize(screenSize);
+
         if(y2 == null || x2 == null) return;
         graphics.setColor(getPenColor());
-        graphics.drawLine(x1, y1, x2, y2);
+        graphics.drawLine(getStartX(), getStartY(), getXPoint(), getYPoint());
     }
 
     @Override

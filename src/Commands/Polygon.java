@@ -1,29 +1,28 @@
 package Commands;
-import VecFile.VecFileException;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Polygon extends Command {
-    private int startX, startY;
-    private ArrayList<Integer> xPoints;
-    private ArrayList<Integer> yPoints;
+    private Double startX, startY;
+    private ArrayList<Double> xPoints;
+    private ArrayList<Double> yPoints;
     private boolean commandFinished;
 
-    public Polygon(int startX, int startY, Color penColor, Color fillColor){
-        super(penColor, fillColor, CommandType.POLYGON);
-        this.startX = startX;
-        this.startY = startY;
+    public Polygon(int startX, int startY, Color penColor, Color fillColor, int screenSize){
+        super(penColor, fillColor, CommandType.POLYGON, screenSize);
+        this.startX = IntToDouble(startX);
+        this.startY = IntToDouble(startY);
         xPoints = new ArrayList<>();
         yPoints = new ArrayList<>();
-        xPoints.add(startX);
-        yPoints.add(startY);
+        xPoints.add(this.startX);
+        yPoints.add(this.startY);
         commandFinished = false;
     }
 
-    public Polygon(ArrayList<Integer> xPoints, ArrayList<Integer> yPoints, Color penColor, Color fillColor){
-        super(penColor, fillColor, CommandType.POLYGON);
+    public Polygon(ArrayList<Double> xPoints, ArrayList<Double> yPoints, Color penColor, Color fillColor, int screenSize){
+        super(penColor, fillColor, CommandType.POLYGON, screenSize);
         this.xPoints = xPoints;
         this.yPoints = yPoints;
         commandFinished = true;
@@ -34,7 +33,7 @@ public class Polygon extends Command {
         StringBuilder result = new StringBuilder("POLYGON");
 
         for(int i = 0; i < xPoints.size(); i++){
-            result.append(" ").append(IntToDecimalConvert(xPoints.get(i))).append(" ").append(IntToDecimalConvert(yPoints.get(i)));
+            result.append(" ").append(xPoints.get(i)).append(" ").append(yPoints.get(i));
         }
         return result.toString();
     }
@@ -42,43 +41,43 @@ public class Polygon extends Command {
     @Override
     public String toString(){
         return "POLYGON" + " start x,y: " +
-                IntToDecimalConvert(xPoints.get(0)) + ", " + IntToDecimalConvert(yPoints.get(0)) +
-                " end x,y: " + IntToDecimalConvert(xPoints.get(xPoints.size()-1)) + ", " + IntToDecimalConvert(yPoints.get(yPoints.size()-1));
+                xPoints.get(0) + ", " + yPoints.get(0) +
+                " end x,y: " + xPoints.get(xPoints.size()-1) + ", " + yPoints.get(yPoints.size()-1);
     }
 
     @Override
     public void addXPoint(int x) {
         if(commandFinished) throw new CommandException(CommandType.POLYGON, "cannot add more x points after command finished");
-        xPoints.add(x);
+        xPoints.add(IntToDouble(x));
     }
 
     @Override
     public void addYPoint(int y) {
         if(commandFinished) throw new CommandException(CommandType.POLYGON, "cannot add more y points after the command has finished");
-        yPoints.add(y);
+        yPoints.add(IntToDouble(y));
     }
 
     @Override
     public int getStartX() {
-        return startX;
+        return DoubleToInt(startX);
     }
 
     @Override
     public int getStartY() {
-        return startY;
+        return DoubleToInt(startY);
     }
 
     @Override
     public int getXPoint() {
         //returns the last x point added to the polygon
-        return xPoints.get(xPoints.size()-1);
+        return DoubleToInt(xPoints.get(xPoints.size()-1));
     }
 
     /**
      * Returns an array of all the xPoints of the polygon
      * @return
      */
-    public ArrayList<Integer> getXPoints() {
+    public ArrayList<Double> getXPoints() {
         return xPoints;
     }
 
@@ -86,18 +85,20 @@ public class Polygon extends Command {
      * Returns an array of all the yPoints of the polygon
      * @return
      */
-    public ArrayList<Integer> getYPoints() {
+    public ArrayList<Double> getYPoints() {
         return yPoints;
     }
 
     @Override
     public int getYPoint() {
         //returns the last y point added to the polygon
-        return yPoints.get(yPoints.size()-1);
+        return DoubleToInt(yPoints.get(yPoints.size()-1));
     }
 
     @Override
-    public void draw(Graphics graphics) {
+    public void draw(Graphics graphics, int screenSize) {
+        setScreenSize(screenSize);
+
         int[] x_points = arrayListToIntArray(xPoints);
         int[] y_points = arrayListToIntArray(yPoints);
         if(x_points.length != y_points.length) {
@@ -142,12 +143,12 @@ public class Polygon extends Command {
      * @param arrayList the ArrayList to convert
      * @return an int array of the elements of the supplied ArrayList
      */
-    private int[] arrayListToIntArray(ArrayList<Integer> arrayList){
+    private int[] arrayListToIntArray(ArrayList<Double> arrayList){
         int[] array = new int[arrayList.size()];
-        Iterator<Integer> iterator = arrayList.iterator();
+        Iterator<Double> iterator = arrayList.iterator();
 
         for (int i = 0; i < array.length; i++){
-            array[i] = iterator.next();
+            array[i] = DoubleToInt(iterator.next());
         }
         return array;
     }
@@ -159,8 +160,8 @@ public class Polygon extends Command {
 
     @Override
     public void setCommandFinished() {
-        addXPoint(startX);
-        addYPoint(startY);
+        xPoints.add(startX);
+        yPoints.add(startY);
         commandFinished = true;
     }
 }
