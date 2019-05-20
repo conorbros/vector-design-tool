@@ -77,11 +77,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu fileMenu() {
         JMenu fileMenu = new JMenu("File");
 
-        ImageIcon newIcon = new ImageIcon(getClass().getResource("new.png"));
-        ImageIcon openIcon = new ImageIcon(getClass().getResource("open.png"));
-        ImageIcon saveIcon = new ImageIcon(getClass().getResource("save.png"));
-        ImageIcon saveNewIcon = new ImageIcon(getClass().getResource("saveNew.png"));
-        ImageIcon exitIcon = new ImageIcon(getClass().getResource("exit.png"));
+        ImageIcon newIcon = new ImageIcon(getClass().getResource("icons/new.png"));
+        ImageIcon openIcon = new ImageIcon(getClass().getResource("icons/open.png"));
+        ImageIcon saveIcon = new ImageIcon(getClass().getResource("icons/save.png"));
+        ImageIcon saveNewIcon = new ImageIcon(getClass().getResource("icons/saveNew.png"));
+        ImageIcon exitIcon = new ImageIcon(getClass().getResource("icons/exit.png"));
 
         JMenuItem newFile = new JMenuItem("New", newIcon);
         JMenuItem openFile = new JMenuItem("Open", openIcon);
@@ -160,11 +160,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
 
-        ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
-        ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
-        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("rectangle.png"));
-        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("ellipse.png"));
-        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
+        ImageIcon plotIcon = new ImageIcon(getClass().getResource("icons/plot.png"));
+        ImageIcon lineIcon = new ImageIcon(getClass().getResource("icons/line.png"));
+        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("icons/rectangle.png"));
+        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("icons/ellipse.png"));
+        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("icons/polygon.png"));
 
         JMenuItem plot = new JMenuItem("PLOT", plotIcon);
         JMenuItem line = new JMenuItem("LINE", lineIcon);
@@ -202,8 +202,8 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu colorMenu(){
         JMenu colorMenu = new JMenu("Colors");
 
-        ImageIcon penIcon = new ImageIcon(getClass().getResource("pen.png"));
-        ImageIcon fillIcon = new ImageIcon(getClass().getResource("fill.png"));
+        ImageIcon penIcon = new ImageIcon(getClass().getResource("icons/pen.png"));
+        ImageIcon fillIcon = new ImageIcon(getClass().getResource("icons/fill.png"));
 
         JMenuItem pen = new JMenuItem("Pen Color", penIcon);
         JMenuItem fill = new JMenuItem("Fill Color", fillIcon);
@@ -226,9 +226,9 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu historyMenu(){
         JMenu historyMenu = new JMenu("History");
 
-        ImageIcon undoIcon = new ImageIcon(getClass().getResource("undo.png"));
-        ImageIcon redoIcon = new ImageIcon(getClass().getResource("redo.png"));
-        ImageIcon undoHistIcon = new ImageIcon(getClass().getResource("undoHist.png"));
+        ImageIcon undoIcon = new ImageIcon(getClass().getResource("icons/undo.png"));
+        ImageIcon redoIcon = new ImageIcon(getClass().getResource("icons/redo.png"));
+        ImageIcon undoHistIcon = new ImageIcon(getClass().getResource("icons/undoHist.png"));
 
         JMenuItem undo = new JMenuItem("undo", undoIcon);
         JMenuItem redo = new JMenuItem("redo", redoIcon);
@@ -306,11 +306,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
         fillPanel.add(fillBlue);
         fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
-        ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
-        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("rectangle.png"));
-        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("ellipse.png"));
-        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
+        ImageIcon plotIcon = new ImageIcon(getClass().getResource("icons/plot.png"));
+        ImageIcon lineIcon = new ImageIcon(getClass().getResource("icons/line.png"));
+        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("icons/rectangle.png"));
+        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("icons/ellipse.png"));
+        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("icons/polygon.png"));
 
         ButtonGroup commands = new ButtonGroup();
         JRadioButton plot = createRadioButton("PLOT", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.PLOT), plotIcon);
