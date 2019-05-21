@@ -23,7 +23,7 @@ class EllipseTests {
     @Test
     void testCompleteConstructor(){
         ell = new Ellipse(0.0, 0.0, 1.0, 1.0, Color.BLACK, null, size);
-        assertEquals(1000, ell.getStartX());
+        assertEquals(0, ell.getStartX());
     }
 
     @Test

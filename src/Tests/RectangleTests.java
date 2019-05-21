@@ -9,24 +9,31 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RectangleTests {
+class RectangleTests {
     private Rectangle rec;
+    private int size = 1000;
 
     @BeforeEach
-    public void beforeEach(){
+    void beforeEach(){
         rec = null;
-        rec = new Rectangle(0, 0, Color.BLACK, Color.WHITE);
+        rec = new Rectangle(0, 0, Color.BLACK, Color.WHITE, size);
     }
 
     @Test
-    public void addXPoint(){
+    void testCompletedConstructor(){
+        rec = new Rectangle(0.0, 0.0, 1.0, 1.0, Color.BLACK, null, size);
+        assertTrue(rec.isCommandFinished());
+    }
+
+    @Test
+    void addXPoint(){
         rec.addXPoint(1);
         assertEquals(0, rec.getStartX());
         assertEquals(1, rec.getXPoint());
     }
 
     @Test
-    public void addXPointException(){
+    void addXPointException(){
         rec.addXPoint(1);
         rec.addYPoint(1);
         rec.setCommandFinished();
@@ -34,14 +41,14 @@ public class RectangleTests {
     }
 
     @Test
-    public void addYPoint(){
+    void addYPoint(){
         rec.addYPoint(4);
         assertEquals(0, rec.getStartY());
         assertEquals(4, rec.getYPoint());
     }
 
     @Test
-    public void addYPointException(){
+    void addYPointException(){
         rec.addXPoint(1);
         rec.addYPoint(1);
         rec.setCommandFinished();
@@ -49,24 +56,12 @@ public class RectangleTests {
     }
 
     @Test
-    public void testSetPenColor(){
-        rec.setPenColor(Color.WHITE);
-        assertEquals(Color.WHITE, rec.getPenColor());
-    }
-
-    @Test
-    public void testSetFillColor(){
-        rec.setFillColor(Color.WHITE);
-        assertEquals(Color.WHITE, rec.getFillColor());
-    }
-
-    @Test
-    public void testGetCommandType(){
+    void testGetCommandType(){
         assertEquals(CommandType.RECTANGLE, rec.getCommandType());
     }
 
     @Test
-    public void testCommandFinished(){
+    void testCommandFinished(){
         assertEquals(false, rec.isCommandFinished());
         rec.addYPoint(1);
         rec.addXPoint(1);
@@ -75,8 +70,7 @@ public class RectangleTests {
     }
 
     @Test
-    public void testCommandFinishedException(){
+    void testCommandFinishedException(){
         assertThrows(CommandException.class, () -> rec.setCommandFinished(), "RECTANGLE command cannot be set finished until all coordinates supplied.");
     }
-
 }

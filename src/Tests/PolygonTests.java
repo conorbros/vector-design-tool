@@ -1,5 +1,8 @@
 package Tests;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import Commands.Polygon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,17 +10,35 @@ import Commands.CommandType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PolygonTests {
+class PolygonTests {
     private Polygon poly;
+    private int size = 1000;
 
     @BeforeEach
-    public void beforeEach(){
+    void beforeEach(){
         poly = null;
-        poly = new Polygon(1, 1, Color.BLACK, Color.BLACK);
+        poly = new Polygon(1, 1, Color.BLACK, Color.BLACK, size);
     }
 
     @Test
-    public void testPenColor(){
+    void testCompletedConstructor(){
+        Double[] xpos = {0.0, 1.0, 0.5, 0.0};
+        Double[] ypos = {0.0, 1.0, 0.5, 0.0};
+        ArrayList<Double> xPoints = new ArrayList<>(Arrays.asList(xpos));
+        ArrayList<Double> yPoints = new ArrayList<>(Arrays.asList(ypos));
+
+        poly = new Polygon(xPoints, yPoints, Color.BLACK, Color.WHITE, size);
+
+        boolean testResult = true;
+        if(poly.getCommandType() != CommandType.POLYGON) testResult = false;
+        if(poly.getFillColor() != Color.WHITE) testResult = false;
+        if(poly.getPenColor() != Color.BLACK) testResult = false;
+
+        assertTrue(testResult);
+    }
+
+    @Test
+    void testPenColor(){
         assertEquals(Color.BLACK, poly.getPenColor());
     }
 
@@ -26,25 +47,12 @@ public class PolygonTests {
     }
 
     @Test
-    public void getCommandType(){
+    void getCommandType(){
         assertEquals(CommandType.POLYGON, poly.getCommandType());
     }
 
     @Test
-    public void isCommandFinished(){
-        poly.addXPoint(2);
-        poly.addYPoint(2);
-        assertFalse(poly.isCommandFinished());
-
-        poly.addXPoint(0);
-        poly.addXPoint(0);
-        poly.addXPoint(1);
-        poly.addYPoint(1);
-        assertTrue(poly.isCommandFinished());
-    }
-
-    @Test
-    public void setCommandFinished(){
+    void setCommandFinished(){
         poly.addXPoint(1);
         poly.addYPoint(5);
 
