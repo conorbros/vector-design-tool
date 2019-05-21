@@ -6,10 +6,17 @@ import java.util.Iterator;
 
 public class Polygon extends Command {
     private Double startX, startY;
-    private ArrayList<Double> xPoints;
-    private ArrayList<Double> yPoints;
+    private ArrayList<Double> xPoints, yPoints;
     private boolean commandFinished;
 
+    /**
+     * Constructs a Polygon Object, drawn from the VECPanel
+     * @param startX The start x coordinate
+     * @param startY The start y coordinate
+     * @param penColor The Pen Color of the Polygon
+     * @param fillColor The Fill Color of the Polygon
+     * @param screenSize The screenSize of the VECPanel
+     */
     public Polygon(int startX, int startY, Color penColor, Color fillColor, int screenSize){
         super(penColor, fillColor, CommandType.POLYGON, screenSize);
         this.startX = IntToDouble(startX);
@@ -21,6 +28,14 @@ public class Polygon extends Command {
         commandFinished = false;
     }
 
+    /**
+     * Constructs a Polygon object, imported from a VEC command
+     * @param xPoints The x coordinates of the polygon
+     * @param yPoints The y coordinates of the polygon
+     * @param penColor The Pen Color of the Polygon
+     * @param fillColor The Fill Color of the Polygon
+     * @param screenSize The screenSize of the VECPanel that the polygon will be drawn on
+     */
     public Polygon(ArrayList<Double> xPoints, ArrayList<Double> yPoints, Color penColor, Color fillColor, int screenSize){
         super(penColor, fillColor, CommandType.POLYGON, screenSize);
         this.xPoints = xPoints;
@@ -73,22 +88,6 @@ public class Polygon extends Command {
         return DoubleToInt(xPoints.get(xPoints.size()-1));
     }
 
-    /**
-     * Returns an array of all the xPoints of the polygon
-     * @return
-     */
-    public ArrayList<Double> getXPoints() {
-        return xPoints;
-    }
-
-    /**
-     * Returns an array of all the yPoints of the polygon
-     * @return
-     */
-    public ArrayList<Double> getYPoints() {
-        return yPoints;
-    }
-
     @Override
     public int getYPoint() {
         //returns the last y point added to the polygon
@@ -139,7 +138,7 @@ public class Polygon extends Command {
     }
 
     /**
-     * helper method to convert an ArrayList of integer to an array of primitive ints
+     * helper method to convert an ArrayList of Double to an array of primitive ints
      * @param arrayList the ArrayList to convert
      * @return an int array of the elements of the supplied ArrayList
      */

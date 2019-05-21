@@ -6,6 +6,14 @@ public class Rectangle extends Command {
     private Double x1, y1, x2, y2;
     private boolean commandFinished;
 
+    /**
+     * Constructs a Rectangle object, drawn from the VECPanel
+     * @param x1 The start x coordinate
+     * @param y1 The start y coordinate
+     * @param penColor The Pen Color of the Rectangle
+     * @param fillColor The Fill Color of the Rectangle
+     * @param screenSize The screenSize of the VECPanel
+     */
     public Rectangle(int x1, int y1, Color penColor, Color fillColor, int screenSize) {
         super(penColor, fillColor, CommandType.RECTANGLE, screenSize);
         this.x1 = IntToDouble(x1);
@@ -15,6 +23,16 @@ public class Rectangle extends Command {
         commandFinished = false;
     }
 
+    /**
+     * Constructs a Rectangle object, imported from a VEC command
+     * @param x1 The start x coordinate
+     * @param y1 The start y coordinate
+     * @param x2 The end x coordinate
+     * @param y2 The end y coordinate
+     * @param penColor The Pen Color of the Rectangle
+     * @param fillColor The Fill Color of the Rectangle
+     * @param screenSize The screenSize of the VECPanel that the Rectangle will be drawn on
+     */
     public Rectangle(double x1, double y1, double x2, double y2, Color penColor, Color fillColor, int screenSize){
         super(penColor, fillColor, CommandType.RECTANGLE, screenSize);
         this.x1 = x1;

@@ -6,6 +6,14 @@ public class Ellipse extends Command {
     private Double x1, y1, x2, y2;
     private boolean commandFinished;
 
+    /**
+     * Constructs a new Ellipse object, created from the VECPanel, with graphics coordinates
+     * @param x1 The start x coordinate drawn
+     * @param y1 The start y coordinate drawn
+     * @param penColor The Pen Color of the Ellipse
+     * @param fillColor The Fill Color of the Ellipse
+     * @param screenSize The current screenSize of the VECPanel
+     */
     public Ellipse(int x1, int y1, Color penColor, Color fillColor, int screenSize) {
         super(penColor, fillColor, CommandType.ELLIPSE, screenSize);
         this.x1 = IntToDouble(x1);
@@ -14,7 +22,17 @@ public class Ellipse extends Command {
         this.y2 = null;
         commandFinished = false;
     }
-    //TODO: change this constructor, and other shape constructors
+
+    /**
+     * Constructs a new Ellipse Object, imported from an existing VEC file
+     * @param x1 The VEC start x coordinate
+     * @param y1 The VEC start y coordinate
+     * @param x2 The VEC end x coordinate
+     * @param y2 The VEC end y coordinate
+     * @param penColor The Pen Color of the Ellipse object
+     * @param fillColor The Fill Color of the Ellipse object
+     * @param screenSize The screenSize of the VEC Panel it will be drawn on
+     */
     public Ellipse(double x1, double y1, double x2, double y2, Color penColor, Color fillColor, int screenSize){
         super(penColor, fillColor, CommandType.ELLIPSE, screenSize);
         this.x1 = x1;

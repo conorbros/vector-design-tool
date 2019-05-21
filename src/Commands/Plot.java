@@ -5,12 +5,26 @@ import java.awt.*;
 public class Plot extends Command {
     private Double x, y;
 
+    /**
+     * Constructs a Plot object, drawn from the VECPanel
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param penColor The Pen Color of the Plot
+     * @param screenSize The screenSize of the VECPanel
+     */
     public Plot(int x, int y, Color penColor, int screenSize) {
         super(penColor, null, CommandType.PLOT, screenSize);
         this.x = IntToDouble(x);
         this.y =  IntToDouble(y);
     }
 
+    /**
+     * Constructs a Plot object, imported from a VEC command
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param penColor The Pen Color of the Plot
+     * @param screenSize THe screenSize of the VECPanel
+     */
     public Plot(double x, double y, Color penColor, int screenSize) {
         super(penColor, null, CommandType.PLOT, screenSize);
         this.x = x;
@@ -50,11 +64,6 @@ public class Plot extends Command {
     @Override
     public Color getFillColor(){
         throw new CommandException(CommandType.LINE, "cannot have a fill color");
-    }
-
-    @Override
-    public void setFillColor(Color fillColor) {
-        throw new CommandException(CommandType.PLOT, "cannot have a fill color");
     }
 
     @Override

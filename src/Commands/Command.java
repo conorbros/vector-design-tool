@@ -1,7 +1,5 @@
 package Commands;
 
-import VecFile.VecFileException;
-
 import java.awt.*;
 
  abstract public class Command {
@@ -9,11 +7,6 @@ import java.awt.*;
      private Color fillColor;
      private CommandType commandType;
      private int screenSize;
-
-
-     public Command(){
-
-     }
 
      /**
       * Generic command constructor
@@ -28,11 +21,16 @@ import java.awt.*;
         this.screenSize = screenSize;
     }
 
-    public void setScreenSize(int screenSize){
+     /**
+      * Sets the current screen size of the VECPanel
+      * @param screenSize the screen size of the VECPanel
+      */
+    void setScreenSize(int screenSize){
         this.screenSize = screenSize;
     }
+
      /**
-      *
+      * Returns the CommandType enum of the object
       * @return the command type of the object
       */
     public CommandType getCommandType(){
@@ -41,35 +39,30 @@ import java.awt.*;
 
      /**
       * gets the pen color of the object
-      * @return
+      * @return Color object of the Pen Color of the Command Object
       */
      public Color getPenColor() {
          return penColor;
      }
 
      /**
-      * sets the pen color of the command object
-      * @param penColor
-      */
-     public void setPenColor(Color penColor) {
-         this.penColor = penColor;
-     }
-
-     /**
       * gets the fill color of the object
-      * @return
+      * @return Color object of the Fill Color of the Command Object
       */
      public Color getFillColor() {
          return fillColor;
      }
 
-     public void setFillColor(Color fillColor) {
-         this.fillColor = fillColor;
-     }
-
-
+     /**
+      * Converts the Command Object to a VEC file ready string
+      * @return A string of the Command Object converted to a VEC command
+      */
      public abstract String toVEC();
 
+     /**
+      * Converts the Command Object to a string for display
+      * @return A string of the Command Object
+      */
      public String toString(){
          return toVEC();
      }
@@ -79,7 +72,7 @@ import java.awt.*;
       * @param number The coordinate to convert
       * @return a double between 0.0 and 1.0
       */
-     public double IntToDouble(int number){
+     double IntToDouble(int number){
          double result = (double)number / screenSize;
 
          //ensure coordinate does not go out of bounds
@@ -92,7 +85,12 @@ import java.awt.*;
          return result;
      }
 
-     public int DoubleToInt(double d){
+     /**
+      * Converts the VEC coordinate to a int coordinate to display on the graphics panel
+      * @param d The VEC coordinate to convert
+      * @return Int of the coordinate
+      */
+     int DoubleToInt(double d){
          return (int) (d * screenSize);
      }
 
@@ -108,9 +106,8 @@ import java.awt.*;
      public abstract void addYPoint(int y);
 
      /**
-      * Getter methods
+      * Getter methods for drawing coordinates
       */
-
      public abstract int getStartX();
 
      public abstract int getStartY();
@@ -120,14 +117,15 @@ import java.awt.*;
      public abstract int getYPoint();
 
      /**
-      * draws the command as it currently is on the graphics componenet provided
-      * @param graphics
+      * Draws the command on the supplied Graphics objects, and applies the screenSize of the VECPanel
+      * @param graphics The Graphics object the command will be drawn on
+      * @param screenSize The screenSize of the VECPanel
       */
      public abstract void draw(Graphics graphics, int screenSize);
 
      /**
       * returns whether the command has finished being drawn or not
-      * @return
+      * @return Boolean whether the command is finished or not
       */
      public abstract boolean isCommandFinished();
 
