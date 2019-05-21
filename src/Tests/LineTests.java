@@ -9,24 +9,31 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LineTests {
+class LineTests {
     private Line line;
+    private int size = 1000;
 
     @BeforeEach
-    public void beforeEach(){
+    void beforeEach(){
         line = null;
-        line = new Line(0, 0, Color.BLACK);
+        line = new Line(0, 0, Color.BLACK, size);
     }
 
     @Test
-    public void testSetX(){
+    void testCompleteConstructor(){
+        line = new Line(0,0,1.0,1.0, Color.BLACK, size);
+        assertEquals(0, line.getStartX());
+    }
+
+    @Test
+    void testSetX(){
         line.addXPoint(1);
         assertEquals(0, line.getStartX());
         assertEquals(1, line.getXPoint());
     }
 
     @Test
-    public void addXPointException(){
+    void addXPointException(){
         line.addXPoint(1);
         line.addYPoint(1);
         line.setCommandFinished();
@@ -34,14 +41,14 @@ public class LineTests {
     }
 
     @Test
-    public void testSetY(){
+    void testSetY(){
         line.addYPoint(4);
         assertEquals(0, line.getStartY());
         assertEquals(4, line.getYPoint());
     }
 
     @Test
-    public void addYPointException(){
+    void addYPointException(){
         line.addXPoint(1);
         line.addYPoint(1);
         line.setCommandFinished();
@@ -49,28 +56,16 @@ public class LineTests {
     }
 
     @Test
-    public void testSetPenColor(){
-        line.setPenColor(Color.WHITE);
-        assertEquals(Color.WHITE, line.getPenColor());
-    }
-
-    @Test
-    public void testFillColor() {
-        assertThrows(CommandException.class, () -> line.setFillColor(Color.WHITE), "LINE cannot have a fill color");
-        assertThrows(CommandException.class, () -> line.getFillColor(), "LINE cannot have a fill color");
-    }
-
-    @Test
-    public void testCommandFinished() {
-        assertEquals(false, line.isCommandFinished());
+    void testCommandFinished() {
+        assertFalse(line.isCommandFinished());
         line.addXPoint(1);
         line.addYPoint(1);
         line.setCommandFinished();
-        assertEquals(true, line.isCommandFinished());
+        assertTrue(line.isCommandFinished());
     }
 
     @Test
-    public void testSetCommandFinishedException() {
+    void testSetCommandFinishedException() {
         assertThrows(CommandException.class, () -> line.setCommandFinished(), "LINE cannot be set finished until all coordinates supplied.");
     }
 

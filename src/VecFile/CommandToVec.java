@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static Commands.CommandType.LINE;
 import static Commands.CommandType.PLOT;
 
-class CommandToVec {
+public class CommandToVec {
     private static Color penColor, fillColor;
     private static ArrayList<String> VecCommands;
 
@@ -17,7 +17,7 @@ class CommandToVec {
      * @param commandList the command list to be converted
      * @return a string of the commands in the command list as vec file ready commands
      */
-    static String ConvertCommandListToVec(CommandList commandList){
+    public static String ConvertCommandListToVec(CommandList commandList){
         VecCommands = new ArrayList<>();
         penColor = Color.BLACK;
         fillColor = null;

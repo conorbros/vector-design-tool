@@ -5,29 +5,29 @@ import Commands.Ellipse;
 import Commands.Line;
 import Commands.Plot;
 import Commands.Rectangle;
-import VecFile.VecFileException;
-import org.junit.jupiter.api.BeforeEach;
+import VecFile.CommandToVec;
 import org.junit.jupiter.api.Test;
 import java.awt.*;
-import static VecFile.CommandToVec.ConvertCommandListToVec;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommandToVecTests {
     CommandList commands = new CommandList();
+    private int size = 1000;
 
     void initCommands(){
-        commands.addCommand(new Plot(1000, 1000, Color.BLACK));
-        commands.addCommand(new Line(500, 500, 1000, 1000, Color.RED));
+        commands.addCommand(new Plot(1000, 1000, Color.BLACK, size));
+        commands.addCommand(new Line(500, 500, 1000, 1000, Color.RED, size));
         commands.addCommand(new Rectangle(0, 0,1000 , 1000,
-                Color.BLACK, Color.WHITE));
-        commands.addCommand(new Ellipse(0, 0, 500, 500, Color.WHITE, null));
-        commands.addCommand(new Ellipse(0, 0, 500, 500, Color.RED, Color.BLACK));
+                Color.BLACK, Color.WHITE, size));
+        commands.addCommand(new Ellipse(0, 0, 500, 500, Color.WHITE, null, size));
+        commands.addCommand(new Ellipse(0, 0, 500, 500, Color.RED, Color.BLACK, size));
     }
 
     @Test
-    public void testCommands() throws VecFileException {
+    public void testCommands(){
         initCommands();
-        String result = ConvertCommandListToVec(commands);
+        String result = CommandToVec.ConvertCommandListToVec(commands);
 
         System.out.println(result);
         String expected = "PLOT 1.0 1.0\r\n";

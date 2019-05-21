@@ -1,9 +1,7 @@
 package CommandList;
 
 import Commands.Command;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 public class CommandList implements Iterable<Command> {
     private ArrayList<Command> commands;

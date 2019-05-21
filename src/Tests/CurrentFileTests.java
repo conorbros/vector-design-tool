@@ -5,10 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.spi.CurrencyNameProvider;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CurrentFileTests {
+class CurrentFileTests {
     private CurrentFile currentFile;
     private File file = new File("../test.txt");
 
@@ -32,9 +33,8 @@ public class CurrentFileTests {
 
     @Test
     void isNewFile(){
-        assertTrue(currentFile.isNewFile());
-        currentFile.setNewFile(false);
+        CurrentFile newFile = new CurrentFile(file, false, false);
+        assertTrue(newFile.isNewFile());
         assertFalse(currentFile.isNewFile());
     }
-
 }

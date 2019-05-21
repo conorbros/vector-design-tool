@@ -8,28 +8,41 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class EllipseTests {
-
+class EllipseTests {
     private Ellipse ell;
+    private int size = 1000;
 
     @BeforeEach
-    public void beforeEach(){
+    void beforeEach(){
         ell= null;
-        ell= new Ellipse(0, 0, Color.BLACK, Color.WHITE);
+        ell= new Ellipse(0, 0, Color.BLACK, Color.WHITE, size);
     }
 
     @Test
-    public void addXPoint(){
+    void testCompleteConstructor(){
+        ell = new Ellipse(0.0, 0.0, 1.0, 1.0, Color.BLACK, null, size);
+        assertEquals(1000, ell.getStartX());
+    }
+
+    @Test
+    void testToVEC(){
+        ell = new Ellipse(0.0, 0.0, 1.0, 1.0, Color.BLACK, null, size);
+        String expected = "ELLIPSE 0.0 0.0 1.0 1.0";
+        assertEquals(expected, ell.toVEC());
+    }
+
+
+    @Test
+    void addXPoint(){
         ell.addXPoint(1);
         assertEquals(0, ell.getStartX());
         assertEquals(1, ell.getXPoint());
     }
 
     @Test
-    public void addXPointException(){
+    void addXPointException(){
         ell.addXPoint(1);
         ell.addYPoint(1);
         ell.setCommandFinished();
@@ -37,14 +50,14 @@ public class EllipseTests {
     }
 
     @Test
-    public void addYPoint(){
+    void addYPoint(){
         ell.addYPoint(4);
         assertEquals(0, ell.getStartY());
         assertEquals(4, ell.getYPoint());
     }
 
     @Test
-    public void addYPointException(){
+    void addYPointException(){
         ell.addXPoint(1);
         ell.addYPoint(1);
         ell.setCommandFinished();
@@ -52,33 +65,21 @@ public class EllipseTests {
     }
 
     @Test
-    public void testSetPenColor(){
-        ell.setPenColor(Color.WHITE);
-        assertEquals(Color.WHITE, ell.getPenColor());
-    }
-
-    @Test
-    public void testSetFillColor(){
-        ell.setFillColor(Color.WHITE);
-        assertEquals(Color.WHITE, ell.getFillColor());
-    }
-
-    @Test
-    public void testGetCommandType(){
+    void testGetCommandType(){
         assertEquals(CommandType.ELLIPSE, ell.getCommandType());
     }
 
     @Test
-    public void testCommandFinished(){
-        assertEquals(false, ell.isCommandFinished());
+    void testCommandFinished(){
+        assertFalse(ell.isCommandFinished());
         ell.addYPoint(1);
         ell.addXPoint(1);
         ell.setCommandFinished();
-        assertEquals(true, ell.isCommandFinished());
+        assertTrue(ell.isCommandFinished());
     }
 
     @Test
-    public void testCommandFinishedException(){
+    void testCommandFinishedException(){
         assertThrows(CommandException.class, () -> ell.setCommandFinished(), "ELLIPSE command cannot be set finished until all coordinates supplied.");
     }
 }
