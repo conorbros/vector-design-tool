@@ -40,6 +40,8 @@ public class Polygon extends Command {
         super(penColor, fillColor, CommandType.POLYGON, screenSize);
         this.xPoints = xPoints;
         this.yPoints = yPoints;
+        this.startX = xPoints.get(0);
+        this.startY = yPoints.get(0);
         commandFinished = true;
     }
 

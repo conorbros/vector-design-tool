@@ -8,7 +8,7 @@ import Commands.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
 
-class VecToCommand {
+public class VecToCommand {
     private static int screenSize;
     private static Color penColor, fillColor;
 
@@ -17,7 +17,7 @@ class VecToCommand {
      * @param VecFileStr the VEC command string to convert
      * @return a CommandList object converted from the VEC command string
      */
-    static CommandList ConvertVecStrToCommandList(String VecFileStr, int screenSz) throws VecFileException {
+    public static CommandList ConvertVecStrToCommandList(String VecFileStr, int screenSz) throws VecFileException {
         CommandList commands = new CommandList();
         String[] vecCommands = VecFileStr.split("\r\n");
 
