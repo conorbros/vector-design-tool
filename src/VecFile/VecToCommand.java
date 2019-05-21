@@ -8,22 +8,24 @@ import Commands.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class VecToCommand {
+class VecToCommand {
     private static int screenSize;
-    private static Color penColor;
-    private static Color fillColor;
+    private static Color penColor, fillColor;
 
     /**
-     * Converts a vec command string to a command list object
-     * @param VecFileStr the vec command string to convert
-     * @return a command list object converted from the vec command string
+     * Converts a vec command string to a CommandList object
+     * @param VecFileStr the VEC command string to convert
+     * @return a CommandList object converted from the VEC command string
      */
-    public static CommandList ConvertVecStrToCommandList(String VecFileStr, int screen) throws VecFileException {
+    static CommandList ConvertVecStrToCommandList(String VecFileStr, int screenSz) throws VecFileException {
         CommandList commands = new CommandList();
         String[] vecCommands = VecFileStr.split("\r\n");
+
+        // default pen and fill color
         penColor = Color.BLACK;
         fillColor = null;
-        screenSize = screen;
+
+        screenSize = screenSz;
 
         for(String cmd : vecCommands){
             String cmdTypeStr = getSubString(cmd);
@@ -164,10 +166,17 @@ public class VecToCommand {
         }
     }
 
-
+    /**
+     * Parses a double from a VEC command string substring
+     * @param value The string value to be parsed
+     * @return A double parsed from the string
+     * @throws VecFileException Thrown if the coordinate is outside the bounds of VEC coordinates
+     */
     private static double ParseDouble(String value) throws VecFileException {
         double dbl = Double.parseDouble(value);
-        if(dbl < 0 || dbl> 1000) throw new VecFileException("Coordinate is outside of vecPanel bounds");
+        if(dbl < 0.0 || dbl > 1.0) {
+            throw new VecFileException("Coordinate is outside of vecPanel bounds");
+        }
         return dbl;
     }
 }

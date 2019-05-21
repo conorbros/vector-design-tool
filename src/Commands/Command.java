@@ -3,8 +3,7 @@ package Commands;
 import java.awt.*;
 
  abstract public class Command {
-     private Color penColor;
-     private Color fillColor;
+     private Color penColor, fillColor;
      private CommandType commandType;
      private int screenSize;
 

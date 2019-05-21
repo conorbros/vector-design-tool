@@ -5,11 +5,21 @@ import java.awt.*;
 
 public class VecFileException extends Exception {
 
-    public VecFileException(String message){
+    /**
+     * Throws a new VECFileException
+     * @param message The message to display for the exception
+     */
+    VecFileException(String message){
         super(message);
     }
 
-    public VecFileException(String message, String dialogMessage, String dialogTitle){
+    /**
+     * Throws a new VECFileException
+     * @param message The message to display for the exception
+     * @param dialogMessage The dialog message to display to the user
+     * @param dialogTitle The dialog title to display to the user
+     */
+    VecFileException(String message, String dialogMessage, String dialogTitle){
         super(message);
         JOptionPane.showMessageDialog(new JFrame(), dialogMessage, dialogTitle, JOptionPane.ERROR_MESSAGE);
     }

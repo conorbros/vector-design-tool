@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import static Commands.CommandType.LINE;
 import static Commands.CommandType.PLOT;
 
-public class CommandToVec {
-    private static Color penColor;
-    private static Color fillColor;
+class CommandToVec {
+    private static Color penColor, fillColor;
     private static ArrayList<String> VecCommands;
 
     /**
@@ -18,14 +17,13 @@ public class CommandToVec {
      * @param commandList the command list to be converted
      * @return a string of the commands in the command list as vec file ready commands
      */
-    public static String ConvertCommandListToVec(CommandList commandList) throws VecFileException {
+    static String ConvertCommandListToVec(CommandList commandList){
         VecCommands = new ArrayList<>();
         penColor = Color.BLACK;
         fillColor = null;
 
         for(Command cmd : commandList){
             penColorHandler(cmd);
-
             if(cmd.getCommandType() != LINE && cmd.getCommandType() != PLOT){
                 fillColorHandler(cmd);
             }
@@ -36,9 +34,9 @@ public class CommandToVec {
     }
 
     /**
-     * Converts an arraylist of type String to one single string
-     * @param commands the Arraylist
-     * @return a string of all the strings in the commandlist
+     * Converts an ArrayList of type String to one single string
+     * @param commands the ArrayList
+     * @return a string of all the strings in the CommandList
      */
     private static String convertToString(ArrayList<String> commands) {
         StringBuilder stringBuilder = new StringBuilder();

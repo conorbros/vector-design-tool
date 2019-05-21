@@ -37,7 +37,7 @@ public class VecFileInput {
 
         try (Scanner scanner = new Scanner(file)) {
             while(scanner.hasNextLine()) {
-                fileContents.append(scanner.nextLine() + System.lineSeparator());
+                fileContents.append(scanner.nextLine()).append(System.lineSeparator());
             }
             return fileContents.toString();
         }

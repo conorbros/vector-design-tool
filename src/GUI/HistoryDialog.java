@@ -1,8 +1,5 @@
 package GUI;
 
-import CommandList.CommandList;
-import Commands.Command;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,17 +17,27 @@ public class HistoryDialog {
     private ActionListener cancelEvent;
     private JDialog dialog;
 
-    public HistoryDialog(String message, JList listToDisplay){
+    //TODO remove this contructor and replace constructor in VECPanel with the one below
+    HistoryDialog(String message, JList listToDisplay){
         list = listToDisplay;
         label = new JLabel(message);
         createAndDisplayOptionPane();
     }
 
-    public HistoryDialog(String title, String message, JList listToDisplay){
+    /**
+     * Constructs a new History Dialog
+     * @param title The title of the dialog window
+     * @param message The message of the dialog window
+     * @param listToDisplay The list to display in the dialog window
+     */
+    HistoryDialog(String title, String message, JList listToDisplay){
         this(message, listToDisplay);
         dialog.setTitle(title);
     }
 
+    /**
+     * Creates and displays the option buttons for the dialog window
+     */
     private void createAndDisplayOptionPane(){
         setupButtons();
         JPanel pane = layoutComponents();
@@ -39,6 +46,9 @@ public class HistoryDialog {
         dialog = optionPane.createDialog("undo History");
     }
 
+    /**
+     * Sets up the option buttons for dialog window
+     */
     private void setupButtons(){
         revertButton = new JButton("Revert file to selected command");
         revertButton.addActionListener(this::handleRevertButtonClick);
@@ -50,6 +60,10 @@ public class HistoryDialog {
         cancelButton.addActionListener(this::handleCancelButtonClick);
     }
 
+    /**
+     * Lays out the components on the panel
+     * @return A JPanel with the components
+     */
     private JPanel layoutComponents(){
         centerListElements();
         JPanel panel = new JPanel(new BorderLayout(5,5));
@@ -58,16 +72,19 @@ public class HistoryDialog {
         return panel;
     }
 
+    /**
+     * Centers the list elements in the history list
+     */
     private void centerListElements(){
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) list.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
-    public void setOnRevert(ActionListener event){
+    void setOnRevert(ActionListener event){
         revertEvent = event;
     }
 
-    public void setOnOk(ActionListener event){
+    void setOnOk(ActionListener event){
         okEvent = event;
     }
 
@@ -75,7 +92,7 @@ public class HistoryDialog {
         cancelEvent  = event;
     }
 
-    public void handleRevertButtonClick(ActionEvent e) {
+    private void handleRevertButtonClick(ActionEvent e) {
         if(revertEvent != null){
             revertEvent.actionPerformed(e);
         }
@@ -96,7 +113,7 @@ public class HistoryDialog {
         hide();
     }
 
-    public void show(){
+    void show(){
         dialog.setVisible(true);
     }
 
@@ -104,7 +121,11 @@ public class HistoryDialog {
         dialog.setVisible(false);
     }
 
-    public Object getSelectedItem(){
+    /**
+     * Returns the selected list item
+     * @return An object of the selected list item
+     */
+    Object getSelectedItem(){
         return list.getSelectedValue();
     }
 }
