@@ -16,12 +16,12 @@ public class CommandToVecTests {
     private int size = 1000;
 
     void initCommands(){
-        commands.addCommand(new Plot(1000, 1000, Color.BLACK, size));
-        commands.addCommand(new Line(500, 500, 1000, 1000, Color.RED, size));
-        commands.addCommand(new Rectangle(0, 0,1000 , 1000,
+        commands.addCommand(new Plot(1.0, 1.0, Color.BLACK, size));
+        commands.addCommand(new Line(0.5, 0.5, 1.0, 1.0, Color.RED, size));
+        commands.addCommand(new Rectangle(0.0, 0.0,1.0, 1.0,
                 Color.BLACK, Color.WHITE, size));
-        commands.addCommand(new Ellipse(0, 0, 500, 500, Color.WHITE, null, size));
-        commands.addCommand(new Ellipse(0, 0, 500, 500, Color.RED, Color.BLACK, size));
+        commands.addCommand(new Ellipse(0.0, 0.0, 0.5, 0.5, Color.WHITE, null, size));
+        commands.addCommand(new Ellipse(0.0, 0.0, 0.5, 0.5, Color.RED, Color.BLACK, size));
     }
 
     @Test
