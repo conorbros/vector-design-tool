@@ -15,7 +15,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private static final int WIDTH = 1030;
     private static final int HEIGHT = 1000;
     private static final int MIN_WIDTH = 530;
-    private static final int MIN_HEIGHT = 550;
+    private static final int MIN_HEIGHT = 870;
 
     private VECPanel vecPanel = new VECPanel();
 
@@ -77,11 +77,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu fileMenu() {
         JMenu fileMenu = new JMenu("File");
 
-        ImageIcon newIcon = new ImageIcon(getClass().getResource("new.png"));
-        ImageIcon openIcon = new ImageIcon(getClass().getResource("open.png"));
-        ImageIcon saveIcon = new ImageIcon(getClass().getResource("save.png"));
-        ImageIcon saveNewIcon = new ImageIcon(getClass().getResource("saveNew.png"));
-        ImageIcon exitIcon = new ImageIcon(getClass().getResource("exit.png"));
+        ImageIcon newIcon = new ImageIcon(getClass().getResource("icons/new.png"));
+        ImageIcon openIcon = new ImageIcon(getClass().getResource("icons/open.png"));
+        ImageIcon saveIcon = new ImageIcon(getClass().getResource("icons/save.png"));
+        ImageIcon saveNewIcon = new ImageIcon(getClass().getResource("icons/saveNew.png"));
+        ImageIcon exitIcon = new ImageIcon(getClass().getResource("icons/exit.png"));
 
         JMenuItem newFile = new JMenuItem("New", newIcon);
         JMenuItem openFile = new JMenuItem("Open", openIcon);
@@ -160,11 +160,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu commmandMenu(){
         JMenu commandMenu = new JMenu("Commands");
 
-        ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
-        ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
-        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("rectangle.png"));
-        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("ellipse.png"));
-        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
+        ImageIcon plotIcon = new ImageIcon(getClass().getResource("icons/plot.png"));
+        ImageIcon lineIcon = new ImageIcon(getClass().getResource("icons/line.png"));
+        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("icons/rectangle.png"));
+        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("icons/ellipse.png"));
+        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("icons/polygon.png"));
 
         JMenuItem plot = new JMenuItem("PLOT", plotIcon);
         JMenuItem line = new JMenuItem("LINE", lineIcon);
@@ -202,8 +202,8 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu colorMenu(){
         JMenu colorMenu = new JMenu("Colors");
 
-        ImageIcon penIcon = new ImageIcon(getClass().getResource("pen.png"));
-        ImageIcon fillIcon = new ImageIcon(getClass().getResource("fill.png"));
+        ImageIcon penIcon = new ImageIcon(getClass().getResource("icons/pen.png"));
+        ImageIcon fillIcon = new ImageIcon(getClass().getResource("icons/fill.png"));
 
         JMenuItem pen = new JMenuItem("Pen Color", penIcon);
         JMenuItem fill = new JMenuItem("Fill Color", fillIcon);
@@ -226,9 +226,9 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu historyMenu(){
         JMenu historyMenu = new JMenu("History");
 
-        ImageIcon undoIcon = new ImageIcon(getClass().getResource("undo.png"));
-        ImageIcon redoIcon = new ImageIcon(getClass().getResource("redo.png"));
-        ImageIcon undoHistIcon = new ImageIcon(getClass().getResource("undoHist.png"));
+        ImageIcon undoIcon = new ImageIcon(getClass().getResource("icons/undo.png"));
+        ImageIcon redoIcon = new ImageIcon(getClass().getResource("icons/redo.png"));
+        ImageIcon undoHistIcon = new ImageIcon(getClass().getResource("icons/undoHist.png"));
 
         JMenuItem undo = new JMenuItem("undo", undoIcon);
         JMenuItem redo = new JMenuItem("redo", redoIcon);
@@ -252,15 +252,24 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JPanel toolPanel(){
         JPanel toolPanel = createPanel(Color.LIGHT_GRAY);
         toolPanel.setLayout(new BoxLayout(toolPanel, BoxLayout.Y_AXIS));
-        //toolPanel.setSize(new Dimension(30, 1000));
+
+        ImageIcon penIcon = new ImageIcon(getClass().getResource("icons/pen.png"));
+        ImageIcon fillIcon = new ImageIcon(getClass().getResource("icons/fill.png"));
 
         ButtonGroup penColors = new ButtonGroup();
-        JRadioButton penBlack = createRadioButton("                         ", Color.BLACK, e -> vecPanel.setPenColor(Color.BLACK));
+        JRadioButton penBlack = createRadioButton("                         ", Color.BLACK, e -> vecPanel.setPenColor(Color.BLACK), penIcon);
         penBlack.setSelected(true);
-        JRadioButton penRed = createRadioButton("                         ", Color.RED, e -> vecPanel.setPenColor(Color.RED));
-        JRadioButton penBlue = createRadioButton("                         ", Color.BLUE, e -> vecPanel.setPenColor(Color.BLUE));
+        JRadioButton penRed = createRadioButton("                         ", Color.RED, e -> vecPanel.setPenColor(Color.RED), penIcon);
+        JRadioButton penOrange = createRadioButton("                         ", Color.ORANGE, e -> vecPanel.setPenColor(Color.ORANGE), penIcon);
+        JRadioButton penYellow = createRadioButton("                         ", Color.YELLOW, e -> vecPanel.setPenColor(Color.YELLOW), penIcon);
+        JRadioButton penGreen = createRadioButton("                         ", Color.GREEN, e -> vecPanel.setPenColor(Color.GREEN), penIcon);
+        JRadioButton penBlue = createRadioButton("                         ", Color.BLUE, e -> vecPanel.setPenColor(Color.BLUE), penIcon);
+
         penColors.add(penBlack);
         penColors.add(penRed);
+        penColors.add(penOrange);
+        penColors.add(penYellow);
+        penColors.add(penGreen);
         penColors.add(penBlue);
 
         JPanel penPanel = createPanel(Color.LIGHT_GRAY);
@@ -275,18 +284,31 @@ public class Window extends JFrame implements ActionListener, Runnable{
         penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         penPanel.add(penRed);
         penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        penPanel.add(penOrange);
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        penPanel.add(penYellow);
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        penPanel.add(penGreen);
+        penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         penPanel.add(penBlue);
         penPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         ButtonGroup fillColors = new ButtonGroup();
-        JRadioButton fillNull = createRadioButton("no fill               ", Color.LIGHT_GRAY, e -> vecPanel.setFillColor(null));
+        JRadioButton fillNull = createRadioButton("no fill               ", Color.LIGHT_GRAY, e -> vecPanel.setFillColor(null), fillIcon);
         fillNull.setSelected(true);
-        JRadioButton fillWhite = createRadioButton("                         ", Color.WHITE, e -> vecPanel.setFillColor(Color.WHITE));
-        JRadioButton fillRed = createRadioButton("                         ", Color.RED, e -> vecPanel.setFillColor(Color.RED));
-        JRadioButton fillBlue = createRadioButton("                         ", Color.BLUE, e -> vecPanel.setFillColor(Color.BLUE));
+        JRadioButton fillWhite = createRadioButton("                         ", Color.WHITE, e -> vecPanel.setFillColor(Color.WHITE), fillIcon);
+        JRadioButton fillRed = createRadioButton("                         ", Color.RED, e -> vecPanel.setFillColor(Color.RED), fillIcon);
+        JRadioButton fillOrange = createRadioButton("                         ", Color.ORANGE, e -> vecPanel.setFillColor(Color.ORANGE), fillIcon);
+        JRadioButton fillYellow = createRadioButton("                         ", Color.YELLOW, e -> vecPanel.setFillColor(Color.YELLOW), fillIcon);
+        JRadioButton fillGreen = createRadioButton("                         ", Color.GREEN, e -> vecPanel.setFillColor(Color.GREEN), fillIcon);
+        JRadioButton fillBlue = createRadioButton("                         ", Color.BLUE, e -> vecPanel.setFillColor(Color.BLUE), fillIcon);
+
         fillColors.add(fillNull);
         fillColors.add(fillWhite);
         fillColors.add(fillRed);
+        fillColors.add(fillOrange);
+        fillColors.add(fillYellow);
+        fillColors.add(fillGreen);
         fillColors.add(fillBlue);
 
         JPanel fillPanel = createPanel(Color.LIGHT_GRAY);
@@ -303,14 +325,20 @@ public class Window extends JFrame implements ActionListener, Runnable{
         fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         fillPanel.add(fillRed);
         fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillOrange);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillYellow);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        fillPanel.add(fillGreen);
+        fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         fillPanel.add(fillBlue);
         fillPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        ImageIcon plotIcon = new ImageIcon(getClass().getResource("plot.png"));
-        ImageIcon lineIcon = new ImageIcon(getClass().getResource("line.png"));
-        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("rectangle.png"));
-        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("ellipse.png"));
-        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("polygon.png"));
+        ImageIcon plotIcon = new ImageIcon(getClass().getResource("icons/plot.png"));
+        ImageIcon lineIcon = new ImageIcon(getClass().getResource("icons/line.png"));
+        ImageIcon rectangleIcon = new ImageIcon(getClass().getResource("icons/rectangle.png"));
+        ImageIcon ellipseIcon = new ImageIcon(getClass().getResource("icons/ellipse.png"));
+        ImageIcon polygonIcon = new ImageIcon(getClass().getResource("icons/polygon.png"));
 
         ButtonGroup commands = new ButtonGroup();
         JRadioButton plot = createRadioButton("PLOT", Color.LIGHT_GRAY, e -> vecPanel.setSelectedCommand(CommandType.PLOT), plotIcon);
@@ -344,11 +372,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
         commandsPanel.add(polygon);
         commandsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        toolPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        toolPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         toolPanel.add(penPanel);
-        toolPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        toolPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         toolPanel.add(fillPanel);
-        toolPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        toolPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         toolPanel.add(commandsPanel);
 
         return toolPanel;
@@ -360,15 +388,6 @@ public class Window extends JFrame implements ActionListener, Runnable{
         return pnl;
     }
 
-    private JRadioButton createRadioButton(String text, Color color, ActionListener actionListener){
-        JRadioButton btn = new JRadioButton();
-        btn.setBackground(color);
-        btn.setText(text);
-        btn.setSize(20,10);
-        btn.addActionListener(actionListener);
-        return btn;
-    }
-
     private JRadioButton createRadioButton(String text, Color color, ActionListener actionListener, Icon icon){
         JRadioButton btn = new JRadioButton();
         btn.setBackground(color);
@@ -378,6 +397,5 @@ public class Window extends JFrame implements ActionListener, Runnable{
         btn.setIcon(icon);
         return btn;
     }
-
 
 }
