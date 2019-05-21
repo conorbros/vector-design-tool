@@ -88,12 +88,6 @@ class CommandListTests {
     }
 
     @Test
-    void testIterator(){
-        ArrayList<Command> cmds = new ArrayList<>();
-        assertEquals(cmds.iterator(), list.iterator());
-    }
-
-    @Test
     void testAddAll(){
         CommandList newList = new CommandList();
         addCommandsToList(newList, 30);

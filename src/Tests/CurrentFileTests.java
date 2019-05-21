@@ -34,7 +34,7 @@ class CurrentFileTests {
     @Test
     void isNewFile(){
         CurrentFile newFile = new CurrentFile(file, false, false);
-        assertTrue(newFile.isNewFile());
-        assertFalse(currentFile.isNewFile());
+        assertFalse(newFile.isNewFile());
+        assertTrue(currentFile.isNewFile());
     }
 }
