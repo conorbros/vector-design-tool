@@ -2,7 +2,7 @@ package GUI;
 
 import java.io.File;
 
-class CurrentFile{
+public class CurrentFile{
     private boolean isFileDirty;
     private boolean isNewFile;
     private File file;
@@ -13,7 +13,7 @@ class CurrentFile{
      * @param isNewFile Whether the file is a new file or an imported file
      * @param isFileDirty Whether the file has been changed since it has last been saved
      */
-    CurrentFile(File file, boolean isNewFile, boolean isFileDirty){
+    public CurrentFile(File file, boolean isNewFile, boolean isFileDirty){
         this.file = file;
         this.isNewFile = isNewFile;
         this.isFileDirty = isFileDirty;
@@ -23,7 +23,7 @@ class CurrentFile{
      * The File object of the CurrentFile
      * @return A File Object of the CurrentFile
      */
-    File getFileObj(){
+    public File getFileObj(){
         return file;
     }
 
@@ -31,7 +31,7 @@ class CurrentFile{
      * Returns whether the file has been changed since its last saved
      * @return True if changed, false if not
      */
-    boolean isFileDirty() {
+    public boolean isFileDirty() {
         return isFileDirty;
     }
 
@@ -39,7 +39,7 @@ class CurrentFile{
      * Sets whether the file is dirty or not
      * @param fileDirty Boolean whether the file is dirty or not
      */
-    void setFileDirty(boolean fileDirty) {
+    public void setFileDirty(boolean fileDirty) {
         this.isFileDirty = fileDirty;
     }
 
@@ -47,8 +47,7 @@ class CurrentFile{
      * Returns whether the file was imported or is a new file
      * @return True if new file, false if imported
      */
-    boolean isNewFile() {
+    public boolean isNewFile() {
         return isNewFile;
     }
-
 }

@@ -6,6 +6,8 @@ import VecFile.VecFileException;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
@@ -16,6 +18,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private static final int HEIGHT = 1000;
     private static final int MIN_WIDTH = 530;
     private static final int MIN_HEIGHT = 870;
+    private MenuHandler menuHandler = new MenuHandler();
 
     private VECPanel vecPanel = new VECPanel();
 
@@ -147,7 +150,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
         fileMenu.add(saveFile);
         fileMenu.add(saveNewFile);
         fileMenu.add(exitFile);
-
+        fileMenu.addMenuListener(menuHandler);
         return fileMenu;
     }
 
@@ -195,7 +198,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
         rectangle.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.RECTANGLE));
         ellipse.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.ELLIPSE));
         polygon.addActionListener(e -> vecPanel.setSelectedCommand(CommandType.POLYGON));
-
+        commandMenu.addMenuListener(menuHandler);
         return commandMenu;
     }
 
@@ -219,7 +222,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
 
         pen.addActionListener(e -> vecPanel.setPenColor(JColorChooser.showDialog(null, "Choose a color", null)));
         fill.addActionListener(e -> vecPanel.setFillColor(JColorChooser.showDialog(null, "Choose a color", null)));
-
+        colorMenu.addMenuListener(menuHandler);
         return colorMenu;
     }
 
@@ -245,7 +248,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
         undo.addActionListener(e -> vecPanel.undoCommand());
         redo.addActionListener(e -> vecPanel.redoCommand());
         undoHistory.addActionListener(e -> vecPanel.openUndoHistory());
-
+        historyMenu.addMenuListener(menuHandler);
         return historyMenu;
     }
 
@@ -398,4 +401,21 @@ public class Window extends JFrame implements ActionListener, Runnable{
         return btn;
     }
 
+    private class MenuHandler implements MenuListener{
+
+        @Override
+        public void menuSelected(MenuEvent e) {
+        }
+
+        @Override
+        public void menuDeselected(MenuEvent e) {
+            revalidate();
+            vecPanel.revalidate();
+        }
+
+        @Override
+        public void menuCanceled(MenuEvent e) {
+
+        }
+    }
 }
