@@ -1,6 +1,7 @@
 package GUI;
 
-import Commands.CommandType;
+import Enums.CommandType;
+import Enums.ImageType;
 import VecFile.VecFileException;
 
 import javax.swing.*;

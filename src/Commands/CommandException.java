@@ -1,5 +1,7 @@
 package Commands;
 
+import Enums.CommandType;
+
 public class CommandException extends RuntimeException {
 
     /**

@@ -1,4 +1,4 @@
-package GUI;
+package Enums;
 
 public enum ImageType {
     PNG,

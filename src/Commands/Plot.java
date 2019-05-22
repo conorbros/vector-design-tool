@@ -1,5 +1,7 @@
 package Commands;
 
+import Enums.CommandType;
+
 import java.awt.*;
 
 public class Plot extends Command {

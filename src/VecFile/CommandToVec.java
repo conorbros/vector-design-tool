@@ -5,8 +5,8 @@ import Commands.Command;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static Commands.CommandType.LINE;
-import static Commands.CommandType.PLOT;
+import static Enums.CommandType.LINE;
+import static Enums.CommandType.PLOT;
 
 public class CommandToVec {
     private static Color penColor, fillColor;

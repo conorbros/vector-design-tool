@@ -1,7 +1,7 @@
 package Tests;
 
 import Commands.CommandException;
-import Commands.CommandType;
+import Enums.CommandType;
 import Commands.Plot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

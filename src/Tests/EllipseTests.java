@@ -1,6 +1,6 @@
 package Tests;
 
-import Commands.CommandType;
+import Enums.CommandType;
 import Commands.CommandException;
 import Commands.Ellipse;
 import org.junit.jupiter.api.BeforeEach;

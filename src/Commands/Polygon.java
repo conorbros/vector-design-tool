@@ -1,5 +1,7 @@
 package Commands;
 
+import Enums.CommandType;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import CommandList.CommandList;
+import Enums.CommandType;
+import Enums.ImageType;
 import VecFile.VecFileException;
 
 import static VecFile.VecFileInput.LoadVecFile;

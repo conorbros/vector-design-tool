@@ -2,7 +2,7 @@ package Tests;
 
 import java.awt.*;
 
-import Commands.CommandType;
+import Enums.CommandType;
 import Commands.CommandException;
 import Commands.Rectangle;
 import org.junit.jupiter.api.BeforeEach;

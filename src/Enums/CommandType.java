@@ -1,4 +1,4 @@
-package Commands;
+package Enums;
 
 public enum CommandType {
         PLOT,
