@@ -107,10 +107,7 @@ public class VECPanel extends JPanel{
 
     public void saveFile() throws FileNotFoundException, VecFileException {
         if(currentFile.isNewFile()){
-            JOptionPane.showMessageDialog(this,
-                    "This file was not import and you must save this file as a new file.",
-                    "This file was not imported",
-                    JOptionPane.ERROR_MESSAGE);
+            saveNewFile();
         }else {
             CommandsToExistingVecFile(drawnCommands, currentFile.getFileObj());
             currentFile.setFileDirty(false);
@@ -119,19 +116,38 @@ public class VECPanel extends JPanel{
     }
 
     public void saveNewFile() throws FileNotFoundException {
+        String folderPath;
+        String fileName;
+
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
         chooser.setDialogTitle("Select a directory to save the file in");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
 
-        if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
-            String folderPath = String.valueOf(chooser.getSelectedFile());
-            String fileName = getFileName();
-            File file = CommandsToNewVecFile(drawnCommands, folderPath, fileName);
-            currentFile = new CurrentFile(file, false, false);
-        }
+        if(chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) return;
 
+        do{
+            folderPath = String.valueOf(chooser.getSelectedFile());
+            fileName = getFileName();
+        }while (!canWriteFile(folderPath, fileName));
+
+        File file = CommandsToNewVecFile(drawnCommands, folderPath, fileName);
+        currentFile = new CurrentFile(file, false, false);
+    }
+
+    private boolean canWriteFile(String folderpath, String fileName){
+        File file = new File(folderpath, fileName + ".vec");
+
+        if(file.exists()){
+            int result = JOptionPane.showConfirmDialog(this,
+                    "That file already exists, would you like to overwrite it",
+                    "File already exists",
+                    JOptionPane.YES_NO_OPTION);
+
+            return result == JOptionPane.YES_OPTION;
+        }
+        return true;
     }
 
     private String getFileName(){
@@ -252,7 +268,6 @@ public class VECPanel extends JPanel{
     private class MouseController extends MouseAdapter{
 
         public void mousePressed(MouseEvent e){
-            System.out.println(e.getX() + " " + e.getY());
             switch(selectedCommand){
                 case PLOT:
                     currentCommand = new Plot(e.getX(), e.getY(), penColor, screenSize);
