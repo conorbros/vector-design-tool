@@ -29,6 +29,19 @@ public class Window extends JFrame implements ActionListener, Runnable{
     protected Window(String title) throws HeadlessException{
         super(title);
         createGUI();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                try {
+                    vecPanel.saveBeforeClosing();
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (VecFileException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     private static class WindowHolder {
