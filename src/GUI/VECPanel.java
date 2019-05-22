@@ -304,8 +304,17 @@ public class VECPanel extends JPanel{
 
             //create a new polygon if currentCommand is null
             if(currentCommand != null && !currentCommand.isCommandFinished()) {
-                currentCommand.addXPoint(e.getX());
-                currentCommand.addYPoint(e.getY());
+
+                int startX = currentCommand.getStartX();
+                int startY = currentCommand.getStartY();
+                double distance = Math.hypot((double)startX - (double)e.getX(), (double)startY - (double)e.getY());
+
+                if(distance < 10 && distance > -10){
+                    finishCommand();
+                }else{
+                    currentCommand.addXPoint(e.getX());
+                    currentCommand.addYPoint(e.getY());
+                }
                 //if polygon is finished will set the current command in the vec window finished
             }else{
                 //draw a new polygon if polygon is selected and there is not current command
