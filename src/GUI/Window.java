@@ -86,6 +86,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
         menuBar.add(commmandMenu());
         menuBar.add(colorMenu());
         menuBar.add(historyMenu());
+        menuBar.add(imageExportMenu());
 
         return menuBar;
     }
@@ -261,8 +262,30 @@ public class Window extends JFrame implements ActionListener, Runnable{
         undo.addActionListener(e -> vecPanel.undoCommand());
         redo.addActionListener(e -> vecPanel.redoCommand());
         undoHistory.addActionListener(e -> vecPanel.openUndoHistory());
+
         historyMenu.addMenuListener(menuHandler);
         return historyMenu;
+    }
+
+
+
+    private JMenu imageExportMenu(){
+        JMenu imageExportMenu = new JMenu("Export");
+
+        JMenuItem png = new JMenuItem("Export to PNG");
+        JMenuItem jpeg = new JMenuItem("Export To JPEG");
+        JMenuItem bmp = new JMenuItem("Export to BMP");
+
+        imageExportMenu.add(png);
+        imageExportMenu.add(jpeg);
+        imageExportMenu.add(bmp);
+
+        png.addActionListener(e -> vecPanel.exportImage(ImageType.PNG));
+        jpeg.addActionListener(e -> vecPanel.exportImage(ImageType.JPEG));
+        bmp.addActionListener(e -> vecPanel.exportImage(ImageType.BMP));
+
+        imageExportMenu.addMenuListener(menuHandler);
+        return imageExportMenu;
     }
 
     private JPanel toolPanel(){

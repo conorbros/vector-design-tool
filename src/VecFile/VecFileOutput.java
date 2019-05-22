@@ -11,14 +11,13 @@ public class VecFileOutput {
      * Converts and puts a CommandList object into a new vec file
      * @param commands the CommandList object to write to the vec file
      * @param path the path to write the file to
-     * @param fileName the name of the new file
      * @throws FileNotFoundException thrown if the file is not found
      */
-    public static File CommandsToNewVecFile(CommandList commands, String path, String fileName) throws FileNotFoundException {
+    public static File CommandsToNewVecFile(CommandList commands, String path) throws FileNotFoundException {
         String commandsOutput;
         commandsOutput = ConvertCommandListToVec(commands);
 
-        File file = new File(path + "/" + fileName + ".vec");
+        File file = new File(path);
         file.getParentFile().mkdirs();
         PrintWriter out = new PrintWriter(file);
 

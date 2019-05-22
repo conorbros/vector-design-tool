@@ -3,6 +3,8 @@ package GUI;
 import Commands.*;
 import Commands.Polygon;
 import Commands.Rectangle;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -10,6 +12,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,6 +34,8 @@ public class VECPanel extends JPanel{
     private CommandList drawnCommands;
     private CommandList clearedCommands;
     private CurrentFile currentFile;
+    private BufferedImage image;
+    private Graphics graphics;
 
     public VECPanel(){
         penColor = Color.BLACK;
@@ -72,6 +77,7 @@ public class VECPanel extends JPanel{
                 }
             }
         }
+        revalidate();
     }
 
     public void newFile() throws FileNotFoundException, VecFileException {
@@ -80,6 +86,7 @@ public class VECPanel extends JPanel{
         clearedCommands = new CommandList();
         currentFile = new CurrentFile(null, true, false);
         repaint();
+        revalidate();
     }
 
     public void openFile() throws FileNotFoundException, VecFileException {
@@ -97,6 +104,7 @@ public class VECPanel extends JPanel{
             LoadVecFile(vecFile, this, screenSize);
             currentFile = new CurrentFile(vecFile, false, false);
         }
+        revalidate();
     }
 
     public void loadCommandList(CommandList commands){
@@ -116,28 +124,37 @@ public class VECPanel extends JPanel{
     }
 
     public void saveNewFile() throws FileNotFoundException {
+        String path = directoryChooser("Select a directory to save the file in", ".vec");
+
+        if(path.equals("")) return;
+
+        File file = CommandsToNewVecFile(drawnCommands, path);
+        currentFile = new CurrentFile(file, false, false);
+    }
+
+    private String directoryChooser(String message, String fileEx){
         String folderPath;
         String fileName;
 
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
-        chooser.setDialogTitle("Select a directory to save the file in");
+        chooser.setDialogTitle(message);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
 
-        if(chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) return;
+        if(chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) return "";
 
         do{
             folderPath = String.valueOf(chooser.getSelectedFile());
             fileName = getFileName();
-        }while (!canWriteFile(folderPath, fileName));
+        }while (!canWriteFile(folderPath, fileName, fileEx));
 
-        File file = CommandsToNewVecFile(drawnCommands, folderPath, fileName);
-        currentFile = new CurrentFile(file, false, false);
+        revalidate();
+        return folderPath + "\\" + fileName + fileEx;
     }
 
-    private boolean canWriteFile(String folderpath, String fileName){
-        File file = new File(folderpath, fileName + ".vec");
+    private boolean canWriteFile(String folderPath, String fileName, String fileEx){
+        File file = new File(folderPath, fileName + fileEx);
 
         if(file.exists()){
             int result = JOptionPane.showConfirmDialog(this,
@@ -155,7 +172,7 @@ public class VECPanel extends JPanel{
         boolean inputValid = false;
 
         do{
-            fileName = JOptionPane.showInputDialog("Type a name for your file:");
+            fileName = JOptionPane.showInputDialog(this, "Type a name for your file");
 
             if(isFilenameValid(fileName)){
                 inputValid = true;
@@ -259,10 +276,36 @@ public class VECPanel extends JPanel{
 
     public void openUndoHistory() {
         JList undoHistoryList = new JList(drawnCommands.toArray());
-        HistoryDialog undoDialog = new HistoryDialog("Select a command to undo:", undoHistoryList);
+        HistoryDialog undoDialog = new HistoryDialog("Commands are shown in ascending order. Select a command to undo:", undoHistoryList);
         undoDialog.setOnOk(e -> undoSelectedCommand(((Command)undoDialog.getSelectedItem())));
         undoDialog.setOnRevert(e -> revertToSelectedCommand(((Command)undoDialog.getSelectedItem())));
         undoDialog.show();
+    }
+
+    public void exportImage(ImageType imageType) {
+        String fileEx = "";
+
+        switch(imageType){
+            case PNG:
+                fileEx = "png";
+                break;
+            case JPEG:
+                fileEx = "jpeg";
+                break;
+            case BMP:
+                fileEx = "bmp";
+        }
+        String path = directoryChooser("Select a folder to export the file to", "." + fileEx);
+        image = new BufferedImage(screenSize, screenSize, BufferedImage.TYPE_INT_RGB);
+        graphics = image.getGraphics();
+        paintComponent(graphics);
+        graphics.dispose();
+        try {
+            ImageIO.write(image, fileEx, new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        revalidate();
     }
 
     private class MouseController extends MouseAdapter{

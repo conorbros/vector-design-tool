@@ -17,22 +17,15 @@ public class HistoryDialog {
     private ActionListener cancelEvent;
     private JDialog dialog;
 
-    //TODO remove this contructor and replace constructor in VECPanel with the one below
+    /**
+     * Constructs a new History Dialog
+     * @param message The message of the dialog window
+     * @param listToDisplay The list to display in the dialog window
+     */
     HistoryDialog(String message, JList listToDisplay){
         list = listToDisplay;
         label = new JLabel(message);
         createAndDisplayOptionPane();
-    }
-
-    /**
-     * Constructs a new History Dialog
-     * @param title The title of the dialog window
-     * @param message The message of the dialog window
-     * @param listToDisplay The list to display in the dialog window
-     */
-    HistoryDialog(String title, String message, JList listToDisplay){
-        this(message, listToDisplay);
-        dialog.setTitle(title);
     }
 
     /**
