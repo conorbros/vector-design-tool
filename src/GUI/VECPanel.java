@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -36,8 +36,6 @@ public class VECPanel extends JPanel{
     private CommandList drawnCommands;
     private CommandList clearedCommands;
     private CurrentFile currentFile;
-    private BufferedImage image;
-    private Graphics graphics;
 
     public VECPanel(){
         penColor = Color.BLACK;
@@ -68,7 +66,7 @@ public class VECPanel extends JPanel{
         }
     }
 
-    public void saveBeforeClosing() throws FileNotFoundException, VecFileException {
+    void saveBeforeClosing() throws FileNotFoundException, VecFileException {
         if(currentFile.isFileDirty()) {
             int saveFileResult = JOptionPane.showConfirmDialog(this, "The current file has not been saved, would you like to save it?", "Current file not saved", JOptionPane.YES_NO_OPTION);
             if (saveFileResult == JOptionPane.YES_OPTION) {
@@ -82,7 +80,7 @@ public class VECPanel extends JPanel{
         revalidate();
     }
 
-    public void newFile() throws FileNotFoundException, VecFileException {
+    void newFile() throws FileNotFoundException, VecFileException {
         saveBeforeClosing();
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
@@ -91,7 +89,7 @@ public class VECPanel extends JPanel{
         revalidate();
     }
 
-    public void openFile() throws FileNotFoundException, VecFileException {
+    void openFile() throws FileNotFoundException, VecFileException {
         saveBeforeClosing();
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
@@ -115,7 +113,7 @@ public class VECPanel extends JPanel{
         repaint();
     }
 
-    public void saveFile() throws FileNotFoundException, VecFileException {
+    void saveFile() throws FileNotFoundException, VecFileException {
         if(currentFile.isNewFile()){
             saveNewFile();
         }else {
@@ -125,7 +123,7 @@ public class VECPanel extends JPanel{
 
     }
 
-    public void saveNewFile() throws FileNotFoundException {
+    void saveNewFile() throws FileNotFoundException {
         String path = directoryChooser("Select a directory to save the file in", ".vec");
 
         if(path.equals("")) return;
@@ -203,7 +201,7 @@ public class VECPanel extends JPanel{
      * sets the selectedCommand
      * @param selectedCommand the CommandType to set the selected command to
      */
-    public void setSelectedCommand(CommandType selectedCommand) {
+    void setSelectedCommand(CommandType selectedCommand) {
         this.selectedCommand = selectedCommand;
     }
 
@@ -211,7 +209,7 @@ public class VECPanel extends JPanel{
      * sets the penColor
      * @param penColor the Color to set the penColor to
      */
-    public void setPenColor(Color penColor){
+    void setPenColor(Color penColor){
         this.penColor = penColor;
     }
 
@@ -219,7 +217,7 @@ public class VECPanel extends JPanel{
      * sets the fillColor
      * @param fillColor the Color to set the fillColor
      */
-    public void setFillColor(Color fillColor){
+    void setFillColor(Color fillColor){
         this.fillColor = fillColor;
     }
 
@@ -237,7 +235,7 @@ public class VECPanel extends JPanel{
     /**
      * undoes the last drawn command by removing it from the drawnCommands and adding to the clearedCommands
      */
-    public void undoCommand(){
+    void undoCommand(){
         if(drawnCommands.getLastCommand() != null){
             clearedCommands.addCommand(drawnCommands.getLastCommand());
             drawnCommands.removeLastCommand();
@@ -246,7 +244,7 @@ public class VECPanel extends JPanel{
         }
     }
 
-    public void undoSelectedCommand(Command cmd){
+    private void undoSelectedCommand(Command cmd){
         clearedCommands.addCommand(cmd);
         drawnCommands.removeCommand(cmd);
         currentFile.setFileDirty(true);
@@ -257,7 +255,7 @@ public class VECPanel extends JPanel{
      * Reverts the drawn commands back to the supplied command by removing them from the drawn commands list and adds them to the cleared commands list
      * @param cmd the command that the file will be reverted to
      */
-    public void revertToSelectedCommand(Command cmd){
+    private void revertToSelectedCommand(Command cmd){
         clearedCommands.addAll(drawnCommands.getAllAfter(cmd));
         drawnCommands.removeAllAfter(cmd);
         currentFile.setFileDirty(true);
@@ -267,7 +265,7 @@ public class VECPanel extends JPanel{
     /**
      * redoes the last undone command by removing it from the clearedCommands and adding to the drawnCommands
      */
-    public void redoCommand(){
+    void redoCommand(){
         if(clearedCommands.getLastCommand() != null){
             drawnCommands.addCommand(clearedCommands.getLastCommand());
             clearedCommands.removeLastCommand();
@@ -276,7 +274,7 @@ public class VECPanel extends JPanel{
         }
     }
 
-    public void openUndoHistory() {
+    void openUndoHistory() {
         JList undoHistoryList = new JList(drawnCommands.toArray());
         HistoryDialog undoDialog = new HistoryDialog("Commands are shown in ascending order. Select a command to undo:", undoHistoryList);
         undoDialog.setOnOk(e -> undoSelectedCommand(((Command)undoDialog.getSelectedItem())));
@@ -284,7 +282,9 @@ public class VECPanel extends JPanel{
         undoDialog.show();
     }
 
-    public void exportImage(ImageType imageType) {
+    void exportImage(ImageType imageType) {
+        BufferedImage image;
+        Graphics graphics;
         String fileEx = "";
 
         switch(imageType){
@@ -298,7 +298,9 @@ public class VECPanel extends JPanel{
                 fileEx = "bmp";
         }
         String path = directoryChooser("Select a folder to export the file to", "." + fileEx);
-        image = new BufferedImage(screenSize, screenSize, BufferedImage.TYPE_INT_RGB);
+        int size = getImageDimension();
+        if (size == -1) return;
+        image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         graphics = image.getGraphics();
         paintComponent(graphics);
         graphics.dispose();
@@ -308,6 +310,37 @@ public class VECPanel extends JPanel{
             e.printStackTrace();
         }
         revalidate();
+    }
+
+    private int getImageDimension(){
+        Object[] options = {"Custom dimension", "Use current window dimension", "Cancel"};
+        JPanel pnl = new JPanel();
+        pnl.add(new JLabel("Enter the dimension you would like for the export image or export the image as the current window size."));
+        JTextField textField = new JTextField(10);
+        pnl.add(textField);
+
+        boolean invalidInput = false;
+        do{
+            int result = JOptionPane.showOptionDialog(null, pnl, "Enter a Number",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, options, null);
+
+            if(result == JOptionPane.YES_OPTION){
+                int input = Integer.parseInt(textField.getText());
+                if(input < 0 || input > 1000){
+                    JOptionPane.showMessageDialog(this, "Invalid dimension.");
+                    invalidInput = true;
+                }else{
+                    return input;
+                }
+            }else if(result == JOptionPane.NO_OPTION){
+                return screenSize;
+            }else if(result == JOptionPane.CANCEL_OPTION){
+                return -1;
+            }
+        }while(invalidInput);
+
+        return -1;
     }
 
     private class MouseController extends MouseAdapter{
