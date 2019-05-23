@@ -38,8 +38,6 @@ public class Window extends JFrame implements ActionListener, Runnable{
                     vecPanel.saveBeforeClosing();
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
-                } catch (VecFileException ex) {
-                    ex.printStackTrace();
                 }
             }
         });
@@ -118,16 +116,12 @@ public class Window extends JFrame implements ActionListener, Runnable{
                 vecPanel.newFile();
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
-            } catch (VecFileException ex) {
-                ex.printStackTrace();
             }
         });
         openFile.addActionListener(e -> {
             try {
                 vecPanel.openFile();
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (VecFileException ex) {
                 ex.printStackTrace();
             }
         });
@@ -136,8 +130,6 @@ public class Window extends JFrame implements ActionListener, Runnable{
             try {
                 vecPanel.saveFile();
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (VecFileException ex) {
                 ex.printStackTrace();
             }
         });
@@ -153,9 +145,7 @@ public class Window extends JFrame implements ActionListener, Runnable{
         exitFile.addActionListener(e -> {
             try {
                 exitProgram();
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (VecFileException ex) {
+            } catch (FileNotFoundException | VecFileException ex) {
                 ex.printStackTrace();
             }
         });
@@ -267,8 +257,6 @@ public class Window extends JFrame implements ActionListener, Runnable{
         historyMenu.addMenuListener(menuHandler);
         return historyMenu;
     }
-
-
 
     private JMenu imageExportMenu(){
         JMenu imageExportMenu = new JMenu("Export");

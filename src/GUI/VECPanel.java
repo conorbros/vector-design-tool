@@ -44,9 +44,11 @@ public class VECPanel extends JPanel{
         clearedCommands = new CommandList();
         currentFile = new CurrentFile(null, true, false);
         selectedCommand = CommandType.PLOT;
+
         setLayout(new BorderLayout());
         setSize(new Dimension(1000, 1000));
         setBackground(Color.WHITE);
+
         addComponentListener(new EventListener());
         MouseController mouseController = new MouseController();
         addMouseListener(mouseController);
@@ -66,7 +68,7 @@ public class VECPanel extends JPanel{
         }
     }
 
-    void saveBeforeClosing() throws FileNotFoundException, VecFileException {
+    void saveBeforeClosing() throws FileNotFoundException{
         if(currentFile.isFileDirty()) {
             int saveFileResult = JOptionPane.showConfirmDialog(this, "The current file has not been saved, would you like to save it?", "Current file not saved", JOptionPane.YES_NO_OPTION);
             if (saveFileResult == JOptionPane.YES_OPTION) {
@@ -80,7 +82,7 @@ public class VECPanel extends JPanel{
         revalidate();
     }
 
-    void newFile() throws FileNotFoundException, VecFileException {
+    void newFile() throws FileNotFoundException{
         saveBeforeClosing();
         drawnCommands = new CommandList();
         clearedCommands = new CommandList();
@@ -89,7 +91,7 @@ public class VECPanel extends JPanel{
         revalidate();
     }
 
-    void openFile() throws FileNotFoundException, VecFileException {
+    void openFile() throws FileNotFoundException{
         saveBeforeClosing();
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("../"));
@@ -113,19 +115,17 @@ public class VECPanel extends JPanel{
         repaint();
     }
 
-    void saveFile() throws FileNotFoundException, VecFileException {
+    void saveFile() throws FileNotFoundException{
         if(currentFile.isNewFile()){
             saveNewFile();
         }else {
             CommandsToExistingVecFile(drawnCommands, currentFile.getFileObj());
             currentFile.setFileDirty(false);
         }
-
     }
 
     void saveNewFile() throws FileNotFoundException {
         String path = directoryChooser("Select a directory to save the file in", ".vec");
-
         if(path.equals("")) return;
 
         File file = CommandsToNewVecFile(drawnCommands, path);
@@ -173,7 +173,6 @@ public class VECPanel extends JPanel{
 
         do{
             fileName = JOptionPane.showInputDialog(this, "Type a name for your file");
-
             if(isFilenameValid(fileName)){
                 inputValid = true;
             }else{
@@ -183,7 +182,6 @@ public class VECPanel extends JPanel{
                         JOptionPane.ERROR_MESSAGE);
             }
         }while(!inputValid);
-
         return fileName;
     }
 
@@ -418,7 +416,6 @@ public class VECPanel extends JPanel{
             }
             repaint();
         }
-
     }
 
     private class EventListener implements ComponentListener{

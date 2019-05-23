@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 public class HistoryDialog {
     private JList list;
     private JLabel label;
-    private JOptionPane optionPane;
     private JButton revertButton;
     private JButton selectedCmdButton;
     private JButton cancelButton;
@@ -34,7 +33,7 @@ public class HistoryDialog {
     private void createAndDisplayOptionPane(){
         setupButtons();
         JPanel pane = layoutComponents();
-        optionPane = new JOptionPane(pane);
+        JOptionPane optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[] {revertButton, selectedCmdButton, cancelButton});
         dialog = optionPane.createDialog("undo History");
     }
