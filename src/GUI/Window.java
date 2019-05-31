@@ -261,9 +261,11 @@ public class Window extends JFrame implements ActionListener, Runnable{
     private JMenu imageExportMenu(){
         JMenu imageExportMenu = new JMenu("Export");
 
-        JMenuItem png = new JMenuItem("Export to PNG");
-        JMenuItem jpeg = new JMenuItem("Export To JPEG");
-        JMenuItem bmp = new JMenuItem("Export to BMP");
+        ImageIcon exportIcon = new ImageIcon(getClass().getResource("icons/export.png"));
+
+        JMenuItem png = new JMenuItem("Export to PNG", exportIcon);
+        JMenuItem jpeg = new JMenuItem("Export To JPEG", exportIcon);
+        JMenuItem bmp = new JMenuItem("Export to BMP", exportIcon);
 
         imageExportMenu.add(png);
         imageExportMenu.add(jpeg);
